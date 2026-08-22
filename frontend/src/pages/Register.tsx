@@ -11,7 +11,7 @@ const registerSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
   email: z.string().email("Please enter a valid email address."),
   phone: z.string().min(10, "Phone number must be at least 10 digits."),
-  role: z.enum(["admin", "lab"]),
+  role: z.enum(["admin", "doctor", "nurse", "receptionist", "lab"]),
   password: z.string().min(6, "Password must be at least 6 characters."),
 });
 
@@ -30,7 +30,11 @@ export function Register() {
 
   const onSubmit = (data: RegisterFormValues) => {
     login(data.role); 
-    navigate("/dashboard");
+    if (data.role === 'lab') navigate("/lab");
+    else if (data.role === 'doctor') navigate("/doctor");
+    else if (data.role === 'nurse') navigate("/nurse");
+    else if (data.role === 'receptionist') navigate("/receptionist");
+    else navigate("/dashboard");
   }
 
   return (
@@ -119,7 +123,10 @@ export function Register() {
                 {...register("role")}
                 className={`w-full pl-12 pr-4 py-3.5 bg-white border ${errors.role ? 'border-red-500 focus:ring-red-500/10' : 'border-gray-200 focus:border-primary focus:ring-primary/10'} rounded-2xl outline-none focus:ring-4 transition-all text-sm font-medium appearance-none`}
               >
-                <option value="admin">Hospital</option>
+                <option value="admin">Hospital Admin</option>
+                <option value="doctor">Doctor</option>
+                <option value="nurse">Nurse</option>
+                <option value="receptionist">Receptionist</option>
                 <option value="lab">Lab</option>
               </select>
             </div>
