@@ -1,4 +1,4 @@
-import { Clock, Users, ChevronRight, Activity, Calendar, RotateCw, CheckCircle2, Video, Stethoscope, Play } from "lucide-react"
+import { Video, Stethoscope } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { cn } from "@/lib/utils"
 

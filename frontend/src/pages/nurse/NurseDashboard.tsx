@@ -1,5 +1,5 @@
 import { motion } from "framer-motion"
-import { Home, MapPin, Phone, CheckCircle, Clock, Bell, Play, ChevronRight } from "lucide-react"
+import { MapPin, CheckCircle, Clock, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useNavigate } from "react-router-dom"
 

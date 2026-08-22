@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion"
-import { X, Video, Mic, Wifi, CheckCircle2, AlertTriangle, FileText, Activity } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { X, Video, Mic, Wifi, CheckCircle2, FileText, Activity } from "lucide-react"
+import {} from "@/lib/utils"
 import { useState } from "react"
 
 export function VideoDetailModal({ isOpen, onClose, appointment }: { isOpen: boolean, onClose: () => void, appointment: any }) {

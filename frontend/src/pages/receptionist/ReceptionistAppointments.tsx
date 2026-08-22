@@ -1,4 +1,4 @@
-import { Search, Filter, Calendar, ChevronLeft, ChevronRight, User } from "lucide-react"
+import { Search, Filter, Calendar } from "lucide-react"
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Skeleton } from "@/components/ui/Skeleton"
@@ -38,7 +38,7 @@ export function ReceptionistAppointments() {
     { id: 5, token: "OP-106", patientName: "Vikram Patel", time: "11:00 AM", department: "General Medicine", doctor: "Dr. Jane Smith", status: "Completed" },
   ];
 
-  const [appointmentsList, setAppointmentsList] = useState(initialAppointments);
+  const [appointmentsList] = useState(initialAppointments);
 
   useEffect(() => {
     setIsLoading(true);

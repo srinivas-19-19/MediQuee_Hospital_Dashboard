@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion"
-import { X, FlaskConical, ClipboardList, Package, Home, Upload, ChevronRight } from "lucide-react"
+import { X, FlaskConical, Package, Upload, ChevronRight } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 
 interface LabQuickAddMenuProps {

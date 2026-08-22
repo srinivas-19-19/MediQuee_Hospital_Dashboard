@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from "react-router-dom"
-import { LayoutGrid, Calendar, IndianRupee, User, Plus, Clock, Home, Users, Stethoscope, Video, CalendarClock } from "lucide-react"
+import { LayoutGrid, Calendar, IndianRupee, User, Plus, Home, Users, Stethoscope, Video, CalendarClock } from "lucide-react"
 import { useAuth } from "@/context/AuthContext"
 import { cn } from "@/lib/utils"
 

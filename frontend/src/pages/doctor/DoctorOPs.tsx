@@ -1,4 +1,4 @@
-import { Search, Filter, Calendar, ChevronDown, ArrowLeft, Plus, Play, FileText, CheckCircle2, Clock } from "lucide-react"
+import { Search, Filter, Calendar, ArrowLeft, Play, FileText } from "lucide-react"
 import { useState, useEffect } from "react"
 import { useAuth } from "@/context/AuthContext"
 import { motion, AnimatePresence } from "framer-motion"

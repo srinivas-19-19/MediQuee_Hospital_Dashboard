@@ -1,4 +1,4 @@
-import { Bell, MapPin, ChevronDown, LogOut } from "lucide-react"
+import { Bell, MapPin, ChevronDown } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 
 export function LabHeader() {

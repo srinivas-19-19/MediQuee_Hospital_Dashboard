@@ -1,7 +1,7 @@
-import { Save, Clock, Calendar, CheckCircle2, Video, Stethoscope, ArrowLeft } from "lucide-react"
+import { Save, Calendar, CheckCircle2, Video, Stethoscope, ArrowLeft } from "lucide-react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { cn } from "@/lib/utils"
+import {} from "@/lib/utils"
 
 interface DayAvailability {
   day: string;

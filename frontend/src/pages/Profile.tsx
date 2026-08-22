@@ -48,7 +48,7 @@ export function Profile() {
     { icon: History, label: "Consultation History", path: "/profile/history" },
   ] : [];
 
-  const operationLinks = (role === 'admin' || role === 'superadmin') ? [
+  const operationLinks = ((role as string) === 'admin' || (role as string) === 'superadmin') ? [
     { icon: Users, label: "Staff Management", path: "/profile/staff" },
     { icon: LayoutGrid, label: "Departments", path: "/profile/departments" },
     { icon: Key, label: "Permissions", path: "/profile/permissions" },

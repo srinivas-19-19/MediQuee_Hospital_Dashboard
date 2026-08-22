@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Clock, ArrowLeft, Mic, CheckCircle2, Search, Filter } from 'lucide-react';
+import { Clock, ArrowLeft, Mic, CheckCircle2, Search, Filter } from 'lucide-react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useQueueStateMachine } from '../../services/useQueueStateMachine';
 import { type QueueStatus } from '../../services/receptionistApi';

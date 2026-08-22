@@ -1,7 +1,7 @@
-import { Bell, LogOut, CheckCircle2 } from "lucide-react"
+import { Bell } from "lucide-react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { useAuth } from "@/context/AuthContext"
-import { useState } from "react"
+import {} from "react"
 import { cn } from "@/lib/utils"
 
 export function Header() {

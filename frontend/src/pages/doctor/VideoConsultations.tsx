@@ -1,4 +1,4 @@
-import { Search, Filter, Calendar, ChevronDown, ArrowLeft, Video, FileText, Settings, Play } from "lucide-react"
+import { Search, Filter, Calendar, ArrowLeft, Video, FileText } from "lucide-react"
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Skeleton } from "@/components/ui/Skeleton"
@@ -36,7 +36,7 @@ export function VideoConsultations() {
     { id: 4, mqId: "2004", patientName: "Pooja Reddy", time: "09:00", period: "AM", type: "Follow Up", status: "COMPLETED", avatar: "P" },
   ];
 
-  const [videoList, setVideoList] = useState(initialVideoList);
+  const [videoList] = useState(initialVideoList);
 
   useEffect(() => {
     setIsLoading(true);

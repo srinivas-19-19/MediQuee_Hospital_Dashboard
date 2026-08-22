@@ -1,10 +1,10 @@
 import { useState } from "react"
-import { Calendar as CalendarIcon, MapPin, Clock, ChevronLeft, ChevronRight } from "lucide-react"
+import { Calendar as MapPin, ChevronLeft, ChevronRight } from "lucide-react"
 import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 
 export function NurseCalendar() {
-  const [currentDate, setCurrentDate] = useState(new Date('2026-05-14'));
+  const [_setCurrentDate] = useState(new Date('2026-05-14'));
   const [view, setView] = useState<'day' | 'week'>('day');
 
   const upcomingVisits = [
