@@ -10,14 +10,14 @@ const services = ['All', 'Blood', 'Urine', 'Pathology', 'Imaging']
 const dates = ['Today', '14 Aug', '13 Aug', '12 Aug', '11 Aug', '10 Aug']
 
 const allOrders = [
-  { id: 'MQ-10284', patient: 'Ramesh Kumar', test: 'CBC + Lipid Profile', sample: 'Blood', time: '10:30 AM', amount: '₹850', status: 'processing' as const, service: 'Blood', type: 'In-Person' },
-  { id: 'MQ-10285', patient: 'Priya Sharma', test: 'Thyroid Profile', sample: 'Blood', time: '11:15 AM', amount: '₹650', status: 'ready' as const, service: 'Blood', type: 'In-Person' },
-  { id: 'MQ-10286', patient: 'Mohammed Ali', test: 'Urine Routine', sample: 'Urine', time: '12:00 PM', amount: '₹200', status: 'pending' as const, service: 'Urine', type: 'In-Person' },
-  { id: 'MQ-10287', patient: 'Lakshmi Devi', test: 'HbA1c', sample: 'Blood', time: '1:30 PM', amount: '₹450', status: 'collected' as const, service: 'Blood', type: 'In-Person' },
-  { id: 'MQ-10288', patient: 'Vijay Rajan', test: 'X-Ray Chest', sample: 'Imaging', time: '2:00 PM', amount: '₹350', status: 'pending' as const, service: 'Imaging', type: 'In-Person' },
-  { id: 'MQ-10289', patient: 'Sunita Patel', test: 'Liver Function Test', sample: 'Blood', time: '3:00 PM', amount: '₹750', status: 'delivered' as const, service: 'Blood', type: 'In-Person' },
-  { id: 'MQ-10290', patient: 'Arjun Mehta', test: 'Urine Culture', sample: 'Urine', time: '4:30 PM', amount: '₹300', status: 'processing' as const, service: 'Urine', type: 'In-Person' },
-  { id: 'MQ-10291', patient: 'Kavya Nair', test: 'CBC', sample: 'Blood', time: '9:00 AM', amount: '₹300 + ₹100', status: 'collected' as const, service: 'Blood', type: 'Home Collection' },
+  { id: 'MQ-10284', patient: 'Ramesh Kumar', test: 'CBC + Lipid Profile', sample: 'Blood', time: '10:30 AM', amount: '₹850', status: 'processing' as const, service: 'Blood', type: 'In-Person', icon: '/png/025-pcr-test.png' },
+  { id: 'MQ-10285', patient: 'Priya Sharma', test: 'Thyroid Profile', sample: 'Blood', time: '11:15 AM', amount: '₹650', status: 'ready' as const, service: 'Blood', type: 'In-Person', icon: '/png/093-dna.png' },
+  { id: 'MQ-10286', patient: 'Mohammed Ali', test: 'Urine Routine', sample: 'Urine', time: '12:00 PM', amount: '₹200', status: 'pending' as const, service: 'Urine', type: 'In-Person', icon: '/png/004-infection.png' },
+  { id: 'MQ-10287', patient: 'Lakshmi Devi', test: 'HbA1c', sample: 'Blood', time: '1:30 PM', amount: '₹450', status: 'collected' as const, service: 'Blood', type: 'In-Person', icon: '/png/013-medical.png' },
+  { id: 'MQ-10288', patient: 'Vijay Rajan', test: 'X-Ray Chest', sample: 'Imaging', time: '2:00 PM', amount: '₹350', status: 'pending' as const, service: 'Imaging', type: 'In-Person', icon: '/png/008-lungs.png' },
+  { id: 'MQ-10289', patient: 'Sunita Patel', test: 'Liver Function Test', sample: 'Blood', time: '3:00 PM', amount: '₹750', status: 'delivered' as const, service: 'Blood', type: 'In-Person', icon: '/png/011-liver.png' },
+  { id: 'MQ-10290', patient: 'Arjun Mehta', test: 'Urine Culture', sample: 'Urine', time: '4:30 PM', amount: '₹300', status: 'processing' as const, service: 'Urine', type: 'In-Person', icon: '/png/050-bacteria.png' },
+  { id: 'MQ-10291', patient: 'Kavya Nair', test: 'CBC', sample: 'Blood', time: '9:00 AM', amount: '₹300 + ₹100', status: 'collected' as const, service: 'Blood', type: 'Home Collection', icon: '/png/025-pcr-test.png' },
 ]
 
 export function LabOrders() {
@@ -138,8 +138,12 @@ export function LabOrders() {
                   onClick={() => navigate(`/lab/order/${order.id}`)}
                   className="w-full bg-white rounded-2xl p-4 border border-gray-100 shadow-sm flex items-center gap-3 active:scale-[0.98] transition-all hover:border-primary/20 hover:shadow-md text-left"
                 >
-                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center shrink-0">
-                    <User className="w-5 h-5 md:w-6 md:h-6 text-primary" strokeWidth={1.5} />
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary/5 border border-primary/10 flex items-center justify-center shrink-0 overflow-hidden">
+                    {order.icon ? (
+                      <img src={order.icon} alt={order.test} className="w-6 h-6 md:w-7 md:h-7 object-contain drop-shadow-sm" />
+                    ) : (
+                      <User className="w-5 h-5 md:w-6 md:h-6 text-primary" strokeWidth={1.5} />
+                    )}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between gap-2">

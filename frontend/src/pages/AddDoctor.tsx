@@ -23,6 +23,18 @@ const doctorSchema = z.object({
 
 type DoctorFormValues = z.infer<typeof doctorSchema>;
 
+const specializations = [
+  { name: "Cardiology", icon: "/png/010-heart.png" },
+  { name: "Neurology", icon: "/png/074-brain.png" },
+  { name: "Pulmonology", icon: "/png/008-lungs.png" },
+  { name: "Nephrology", icon: "/png/006-kidney.png" },
+  { name: "Ophthalmology", icon: "/png/069-eye.png" },
+  { name: "Gastroenterology", icon: "/png/065-stomach.png" },
+  { name: "Hepatology", icon: "/png/011-liver.png" },
+  { name: "Dermatology", icon: "/png/020-rash.png" },
+  { name: "General Physician", icon: "/png/013-medical.png" },
+];
+
 export function AddDoctor() {
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -30,10 +42,12 @@ export function AddDoctor() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showExitConfirm, setShowExitConfirm] = useState(false);
 
-  const { register, handleSubmit, trigger, getValues, formState: { errors, isDirty } } = useForm<DoctorFormValues>({
+  const { register, handleSubmit, trigger, getValues, setValue, watch, formState: { errors, isDirty } } = useForm<DoctorFormValues>({
     resolver: zodResolver(doctorSchema),
     mode: "onChange",
   });
+  
+  const selectedSpec = watch("specialization");
 
   const nextStep = async () => {
     let fieldsToValidate: any[] = [];
@@ -170,17 +184,27 @@ export function AddDoctor() {
             {/* Step 2: Professional Info */}
             {step === 2 && (
               <motion.div key="step2" initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 10 }} className="flex flex-col gap-5">
-                <div className="flex flex-col gap-1.5">
+                <div className="flex flex-col gap-3">
                   <label className="text-[13px] font-semibold text-[#172033]">Specialization <span className="text-destructive">*</span></label>
-                  <input 
-                    {...register("specialization")}
-                    type="text" 
-                    placeholder="e.g. Cardiologist" 
-                    className={cn(
-                      "px-4 py-3 bg-white border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
-                      errors.specialization ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-gray-200/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
-                    )}
-                  />
+                  <div className="grid grid-cols-3 gap-3">
+                    {specializations.map((spec) => (
+                      <div 
+                        key={spec.name}
+                        onClick={() => {
+                          setValue("specialization", spec.name, { shouldValidate: true });
+                        }}
+                        className={cn(
+                          "flex flex-col items-center justify-center p-3 gap-2 rounded-xl border-2 transition-all cursor-pointer interactive-element",
+                          selectedSpec === spec.name ? "border-primary bg-primary/5" : "border-gray-100 hover:border-primary/40 bg-white"
+                        )}
+                      >
+                        <img src={spec.icon} alt={spec.name} className="w-10 h-10 object-contain drop-shadow-sm" />
+                        <span className="text-[11px] font-semibold text-center text-[#172033] leading-tight">{spec.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                  {/* Hidden input to keep form integration intact */}
+                  <input type="hidden" {...register("specialization")} />
                   {errors.specialization && <span className="text-destructive text-[12px] font-medium mt-0.5">{errors.specialization.message}</span>}
                 </div>
 

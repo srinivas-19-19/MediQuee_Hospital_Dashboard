@@ -14,13 +14,13 @@ const summaryStats = [
 const filters = ['All', 'Pending', 'Ready', 'Delivered']
 
 const allReports = [
-  { id: 'MQ-10285', patient: 'Priya Sharma', test: 'Thyroid Profile', date: '14 Aug', status: 'ready' as const, type: 'In-Person' },
-  { id: 'MQ-10283', patient: 'Arun Krishnan', test: 'CBC + ESR', date: '13 Aug', status: 'delivered' as const, type: 'In-Person' },
-  { id: 'MQ-10282', patient: 'Sneha Gupta', test: 'Lipid Profile', date: '13 Aug', status: 'ready' as const, type: 'In-Person' },
-  { id: 'MQ-10284', patient: 'Ramesh Kumar', test: 'CBC + Lipid Profile', date: '14 Aug', status: 'pending' as const, type: 'In-Person' },
-  { id: 'MQ-10281', patient: 'Farida Begum', test: 'Kidney Function', date: '12 Aug', status: 'delivered' as const, type: 'In-Person' },
-  { id: 'MQ-10280', patient: 'Ravi Verma', test: 'HbA1c', date: '12 Aug', status: 'ready' as const, type: 'Home Collection' },
-  { id: 'MQ-10279', patient: 'Meera Pillai', test: 'Thyroid TSH', date: '11 Aug', status: 'pending' as const, type: 'Home Collection' },
+  { id: 'MQ-10285', patient: 'Priya Sharma', test: 'Thyroid Profile', date: '14 Aug', status: 'ready' as const, type: 'In-Person', icon: '/png/093-dna.png' },
+  { id: 'MQ-10283', patient: 'Arun Krishnan', test: 'CBC + ESR', date: '13 Aug', status: 'delivered' as const, type: 'In-Person', icon: '/png/025-pcr-test.png' },
+  { id: 'MQ-10282', patient: 'Sneha Gupta', test: 'Lipid Profile', date: '13 Aug', status: 'ready' as const, type: 'In-Person', icon: '/png/015-body-scan.png' },
+  { id: 'MQ-10284', patient: 'Ramesh Kumar', test: 'CBC + Lipid Profile', date: '14 Aug', status: 'pending' as const, type: 'In-Person', icon: '/png/013-medical.png' },
+  { id: 'MQ-10281', patient: 'Farida Begum', test: 'Kidney Function', date: '12 Aug', status: 'delivered' as const, type: 'In-Person', icon: '/png/006-kidney.png' },
+  { id: 'MQ-10280', patient: 'Ravi Verma', test: 'HbA1c', date: '12 Aug', status: 'ready' as const, type: 'Home Collection', icon: '/png/050-bacteria.png' },
+  { id: 'MQ-10279', patient: 'Meera Pillai', test: 'Thyroid TSH', date: '11 Aug', status: 'pending' as const, type: 'Home Collection', icon: '/png/093-dna.png' },
 ]
 
 const filterMap: Record<string, string> = { 'Pending': 'pending', 'Ready': 'ready', 'Delivered': 'delivered' }
@@ -121,8 +121,12 @@ export function LabReports() {
                     transition={{ delay: i * 0.04 }}
                     className="bg-white rounded-2xl p-4 md:p-5 border border-gray-100 shadow-sm flex items-center gap-3 md:gap-4 hover:border-primary/20 hover:shadow-md transition-all"
                   >
-                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center shrink-0">
-                      <User className="w-5 h-5 md:w-6 md:h-6 text-primary" strokeWidth={1.5} />
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary/5 border border-primary/10 flex items-center justify-center shrink-0 overflow-hidden">
+                      {report.icon ? (
+                        <img src={report.icon} alt={report.test} className="w-6 h-6 md:w-7 md:h-7 object-contain drop-shadow-sm" />
+                      ) : (
+                        <User className="w-5 h-5 md:w-6 md:h-6 text-primary" strokeWidth={1.5} />
+                      )}
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-[14px] md:text-[15px] font-semibold text-[#172033] truncate">{report.patient}</p>

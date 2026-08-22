@@ -5,13 +5,13 @@ import { useNavigate } from "react-router-dom"
 import { cn } from "@/lib/utils"
 
 const initialTests = [
-  { id: 't1', name: 'Complete Blood Count (CBC)', category: 'Blood', sample: 'Blood', price: 300, tat: '4 hrs', status: true },
-  { id: 't2', name: 'Lipid Profile', category: 'Blood', sample: 'Blood', price: 550, tat: '6 hrs', status: true },
-  { id: 't3', name: 'Thyroid Profile (T3,T4,TSH)', category: 'Blood', sample: 'Blood', price: 650, tat: '24 hrs', status: true },
-  { id: 't4', name: 'HbA1c', category: 'Blood', sample: 'Blood', price: 450, tat: '24 hrs', status: true },
-  { id: 't5', name: 'Liver Function Test', category: 'Blood', sample: 'Blood', price: 750, tat: '6 hrs', status: true },
-  { id: 't6', name: 'Urine Routine Examination', category: 'Urine', sample: 'Urine', price: 200, tat: '2 hrs', status: false },
-  { id: 't7', name: 'X-Ray Chest PA View', category: 'Imaging', sample: 'Imaging', price: 350, tat: '1 hr', status: true },
+  { id: 't1', name: 'Complete Blood Count (CBC)', category: 'Blood', sample: 'Blood', price: 300, tat: '4 hrs', status: true, icon: '/png/025-pcr-test.png' },
+  { id: 't2', name: 'Lipid Profile', category: 'Blood', sample: 'Blood', price: 550, tat: '6 hrs', status: true, icon: '/png/015-body-scan.png' },
+  { id: 't3', name: 'Thyroid Profile (T3,T4,TSH)', category: 'Blood', sample: 'Blood', price: 650, tat: '24 hrs', status: true, icon: '/png/093-dna.png' },
+  { id: 't4', name: 'HbA1c', category: 'Blood', sample: 'Blood', price: 450, tat: '24 hrs', status: true, icon: '/png/050-bacteria.png' },
+  { id: 't5', name: 'Liver Function Test', category: 'Blood', sample: 'Blood', price: 750, tat: '6 hrs', status: true, icon: '/png/011-liver.png' },
+  { id: 't6', name: 'Urine Routine Examination', category: 'Urine', sample: 'Urine', price: 200, tat: '2 hrs', status: false, icon: '/png/004-infection.png' },
+  { id: 't7', name: 'X-Ray Chest PA View', category: 'Imaging', sample: 'Imaging', price: 350, tat: '1 hr', status: true, icon: '/png/008-lungs.png' },
 ]
 
 const categoryColors: Record<string, string> = {
@@ -76,8 +76,12 @@ export function TestCatalog() {
                 >
                   <div className="flex items-start justify-between gap-2 md:gap-4">
                     <div className="flex items-center gap-3 md:gap-4 flex-1 min-w-0">
-                      <div className="w-9 h-9 md:w-12 md:h-12 bg-blue-50 rounded-xl flex items-center justify-center shrink-0">
-                        <FlaskConical className="w-4 h-4 md:w-6 md:h-6 text-primary" strokeWidth={1.5} />
+                      <div className="w-9 h-9 md:w-12 md:h-12 bg-primary/5 rounded-xl border border-primary/10 flex items-center justify-center shrink-0 overflow-hidden">
+                        {test.icon ? (
+                          <img src={test.icon} alt={test.name} className="w-6 h-6 md:w-7 md:h-7 object-contain drop-shadow-sm" />
+                        ) : (
+                          <FlaskConical className="w-4 h-4 md:w-6 md:h-6 text-primary" strokeWidth={1.5} />
+                        )}
                       </div>
                       <div className="min-w-0">
                         <p className="text-[14px] md:text-[16px] font-semibold text-[#172033] leading-snug truncate">{test.name}</p>
