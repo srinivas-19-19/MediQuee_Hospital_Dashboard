@@ -13,14 +13,16 @@ const summaryStats = [
 
 const filters = ['All', 'Pending', 'Ready', 'Delivered']
 
+const basePath = import.meta.env.BASE_URL;
+
 const allReports = [
-  { id: 'MQ-10285', patient: 'Priya Sharma', test: 'Thyroid Profile', date: '14 Aug', status: 'ready' as const, type: 'In-Person', icon: '/png/093-dna.png' },
-  { id: 'MQ-10283', patient: 'Arun Krishnan', test: 'CBC + ESR', date: '13 Aug', status: 'delivered' as const, type: 'In-Person', icon: '/png/025-pcr-test.png' },
-  { id: 'MQ-10282', patient: 'Sneha Gupta', test: 'Lipid Profile', date: '13 Aug', status: 'ready' as const, type: 'In-Person', icon: '/png/015-body-scan.png' },
-  { id: 'MQ-10284', patient: 'Ramesh Kumar', test: 'CBC + Lipid Profile', date: '14 Aug', status: 'pending' as const, type: 'In-Person', icon: '/png/013-medical.png' },
-  { id: 'MQ-10281', patient: 'Farida Begum', test: 'Kidney Function', date: '12 Aug', status: 'delivered' as const, type: 'In-Person', icon: '/png/006-kidney.png' },
-  { id: 'MQ-10280', patient: 'Ravi Verma', test: 'HbA1c', date: '12 Aug', status: 'ready' as const, type: 'Home Collection', icon: '/png/050-bacteria.png' },
-  { id: 'MQ-10279', patient: 'Meera Pillai', test: 'Thyroid TSH', date: '11 Aug', status: 'pending' as const, type: 'Home Collection', icon: '/png/093-dna.png' },
+  { id: 'MQ-10285', patient: 'Priya Sharma', test: 'Thyroid Profile', date: '14 Aug', status: 'ready' as const, type: 'In-Person', icon: `${basePath}png/093-dna.png` },
+  { id: 'MQ-10283', patient: 'Arun Krishnan', test: 'CBC + ESR', date: '13 Aug', status: 'delivered' as const, type: 'In-Person', icon: `${basePath}png/025-pcr-test.png` },
+  { id: 'MQ-10282', patient: 'Sneha Gupta', test: 'Lipid Profile', date: '13 Aug', status: 'ready' as const, type: 'In-Person', icon: `${basePath}png/015-body-scan.png` },
+  { id: 'MQ-10284', patient: 'Ramesh Kumar', test: 'CBC + Lipid Profile', date: '14 Aug', status: 'pending' as const, type: 'In-Person', icon: `${basePath}png/013-medical.png` },
+  { id: 'MQ-10281', patient: 'Farida Begum', test: 'Kidney Function', date: '12 Aug', status: 'delivered' as const, type: 'In-Person', icon: `${basePath}png/006-kidney.png` },
+  { id: 'MQ-10280', patient: 'Ravi Verma', test: 'HbA1c', date: '12 Aug', status: 'ready' as const, type: 'Home Collection', icon: `${basePath}png/050-bacteria.png` },
+  { id: 'MQ-10279', patient: 'Meera Pillai', test: 'Thyroid TSH', date: '11 Aug', status: 'pending' as const, type: 'Home Collection', icon: `${basePath}png/093-dna.png` },
 ]
 
 const filterMap: Record<string, string> = { 'Pending': 'pending', 'Ready': 'ready', 'Delivered': 'delivered' }

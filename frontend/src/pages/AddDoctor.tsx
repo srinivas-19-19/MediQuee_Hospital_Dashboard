@@ -23,16 +23,18 @@ const doctorSchema = z.object({
 
 type DoctorFormValues = z.infer<typeof doctorSchema>;
 
+const basePath = import.meta.env.BASE_URL;
+
 const specializations = [
-  { name: "Cardiology", icon: "/png/010-heart.png" },
-  { name: "Neurology", icon: "/png/074-brain.png" },
-  { name: "Pulmonology", icon: "/png/008-lungs.png" },
-  { name: "Nephrology", icon: "/png/006-kidney.png" },
-  { name: "Ophthalmology", icon: "/png/069-eye.png" },
-  { name: "Gastroenterology", icon: "/png/065-stomach.png" },
-  { name: "Hepatology", icon: "/png/011-liver.png" },
-  { name: "Dermatology", icon: "/png/020-rash.png" },
-  { name: "General Physician", icon: "/png/013-medical.png" },
+  { name: "Cardiology", icon: `${basePath}png/010-heart.png` },
+  { name: "Neurology", icon: `${basePath}png/074-brain.png` },
+  { name: "Pulmonology", icon: `${basePath}png/008-lungs.png` },
+  { name: "Nephrology", icon: `${basePath}png/006-kidney.png` },
+  { name: "Ophthalmology", icon: `${basePath}png/069-eye.png` },
+  { name: "Gastroenterology", icon: `${basePath}png/065-stomach.png` },
+  { name: "Hepatology", icon: `${basePath}png/011-liver.png` },
+  { name: "Dermatology", icon: `${basePath}png/020-rash.png` },
+  { name: "General Physician", icon: `${basePath}png/013-medical.png` },
 ];
 
 export function AddDoctor() {

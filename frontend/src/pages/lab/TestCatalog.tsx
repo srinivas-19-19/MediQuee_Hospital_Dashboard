@@ -4,14 +4,16 @@ import { ArrowLeft, Search, FlaskConical, Edit2, ToggleLeft, ToggleRight, Plus }
 import { useNavigate } from "react-router-dom"
 import { cn } from "@/lib/utils"
 
+const basePath = import.meta.env.BASE_URL;
+
 const initialTests = [
-  { id: 't1', name: 'Complete Blood Count (CBC)', category: 'Blood', sample: 'Blood', price: 300, tat: '4 hrs', status: true, icon: '/png/025-pcr-test.png' },
-  { id: 't2', name: 'Lipid Profile', category: 'Blood', sample: 'Blood', price: 550, tat: '6 hrs', status: true, icon: '/png/015-body-scan.png' },
-  { id: 't3', name: 'Thyroid Profile (T3,T4,TSH)', category: 'Blood', sample: 'Blood', price: 650, tat: '24 hrs', status: true, icon: '/png/093-dna.png' },
-  { id: 't4', name: 'HbA1c', category: 'Blood', sample: 'Blood', price: 450, tat: '24 hrs', status: true, icon: '/png/050-bacteria.png' },
-  { id: 't5', name: 'Liver Function Test', category: 'Blood', sample: 'Blood', price: 750, tat: '6 hrs', status: true, icon: '/png/011-liver.png' },
-  { id: 't6', name: 'Urine Routine Examination', category: 'Urine', sample: 'Urine', price: 200, tat: '2 hrs', status: false, icon: '/png/004-infection.png' },
-  { id: 't7', name: 'X-Ray Chest PA View', category: 'Imaging', sample: 'Imaging', price: 350, tat: '1 hr', status: true, icon: '/png/008-lungs.png' },
+  { id: 't1', name: 'Complete Blood Count (CBC)', category: 'Blood', sample: 'Blood', price: 300, tat: '4 hrs', status: true, icon: `${basePath}png/025-pcr-test.png` },
+  { id: 't2', name: 'Lipid Profile', category: 'Blood', sample: 'Blood', price: 550, tat: '6 hrs', status: true, icon: `${basePath}png/015-body-scan.png` },
+  { id: 't3', name: 'Thyroid Profile (T3,T4,TSH)', category: 'Blood', sample: 'Blood', price: 650, tat: '24 hrs', status: true, icon: `${basePath}png/093-dna.png` },
+  { id: 't4', name: 'HbA1c', category: 'Blood', sample: 'Blood', price: 450, tat: '24 hrs', status: true, icon: `${basePath}png/050-bacteria.png` },
+  { id: 't5', name: 'Liver Function Test', category: 'Blood', sample: 'Blood', price: 750, tat: '6 hrs', status: true, icon: `${basePath}png/011-liver.png` },
+  { id: 't6', name: 'Urine Routine Examination', category: 'Urine', sample: 'Urine', price: 200, tat: '2 hrs', status: false, icon: `${basePath}png/004-infection.png` },
+  { id: 't7', name: 'X-Ray Chest PA View', category: 'Imaging', sample: 'Imaging', price: 350, tat: '1 hr', status: true, icon: `${basePath}png/008-lungs.png` },
 ]
 
 const categoryColors: Record<string, string> = {

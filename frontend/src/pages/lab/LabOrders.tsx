@@ -9,15 +9,17 @@ const services = ['All', 'Blood', 'Urine', 'Pathology', 'Imaging']
 
 const dates = ['Today', '14 Aug', '13 Aug', '12 Aug', '11 Aug', '10 Aug']
 
+const basePath = import.meta.env.BASE_URL;
+
 const allOrders = [
-  { id: 'MQ-10284', patient: 'Ramesh Kumar', test: 'CBC + Lipid Profile', sample: 'Blood', time: '10:30 AM', amount: '₹850', status: 'processing' as const, service: 'Blood', type: 'In-Person', icon: '/png/025-pcr-test.png' },
-  { id: 'MQ-10285', patient: 'Priya Sharma', test: 'Thyroid Profile', sample: 'Blood', time: '11:15 AM', amount: '₹650', status: 'ready' as const, service: 'Blood', type: 'In-Person', icon: '/png/093-dna.png' },
-  { id: 'MQ-10286', patient: 'Mohammed Ali', test: 'Urine Routine', sample: 'Urine', time: '12:00 PM', amount: '₹200', status: 'pending' as const, service: 'Urine', type: 'In-Person', icon: '/png/004-infection.png' },
-  { id: 'MQ-10287', patient: 'Lakshmi Devi', test: 'HbA1c', sample: 'Blood', time: '1:30 PM', amount: '₹450', status: 'collected' as const, service: 'Blood', type: 'In-Person', icon: '/png/013-medical.png' },
-  { id: 'MQ-10288', patient: 'Vijay Rajan', test: 'X-Ray Chest', sample: 'Imaging', time: '2:00 PM', amount: '₹350', status: 'pending' as const, service: 'Imaging', type: 'In-Person', icon: '/png/008-lungs.png' },
-  { id: 'MQ-10289', patient: 'Sunita Patel', test: 'Liver Function Test', sample: 'Blood', time: '3:00 PM', amount: '₹750', status: 'delivered' as const, service: 'Blood', type: 'In-Person', icon: '/png/011-liver.png' },
-  { id: 'MQ-10290', patient: 'Arjun Mehta', test: 'Urine Culture', sample: 'Urine', time: '4:30 PM', amount: '₹300', status: 'processing' as const, service: 'Urine', type: 'In-Person', icon: '/png/050-bacteria.png' },
-  { id: 'MQ-10291', patient: 'Kavya Nair', test: 'CBC', sample: 'Blood', time: '9:00 AM', amount: '₹300 + ₹100', status: 'collected' as const, service: 'Blood', type: 'Home Collection', icon: '/png/025-pcr-test.png' },
+  { id: 'MQ-10284', patient: 'Ramesh Kumar', test: 'CBC + Lipid Profile', sample: 'Blood', time: '10:30 AM', amount: '₹850', status: 'processing' as const, service: 'Blood', type: 'In-Person', icon: `${basePath}png/025-pcr-test.png` },
+  { id: 'MQ-10285', patient: 'Priya Sharma', test: 'Thyroid Profile', sample: 'Blood', time: '11:15 AM', amount: '₹650', status: 'ready' as const, service: 'Blood', type: 'In-Person', icon: `${basePath}png/093-dna.png` },
+  { id: 'MQ-10286', patient: 'Mohammed Ali', test: 'Urine Routine', sample: 'Urine', time: '12:00 PM', amount: '₹200', status: 'pending' as const, service: 'Urine', type: 'In-Person', icon: `${basePath}png/004-infection.png` },
+  { id: 'MQ-10287', patient: 'Lakshmi Devi', test: 'HbA1c', sample: 'Blood', time: '1:30 PM', amount: '₹450', status: 'collected' as const, service: 'Blood', type: 'In-Person', icon: `${basePath}png/013-medical.png` },
+  { id: 'MQ-10288', patient: 'Vijay Rajan', test: 'X-Ray Chest', sample: 'Imaging', time: '2:00 PM', amount: '₹350', status: 'pending' as const, service: 'Imaging', type: 'In-Person', icon: `${basePath}png/008-lungs.png` },
+  { id: 'MQ-10289', patient: 'Sunita Patel', test: 'Liver Function Test', sample: 'Blood', time: '3:00 PM', amount: '₹750', status: 'delivered' as const, service: 'Blood', type: 'In-Person', icon: `${basePath}png/011-liver.png` },
+  { id: 'MQ-10290', patient: 'Arjun Mehta', test: 'Urine Culture', sample: 'Urine', time: '4:30 PM', amount: '₹300', status: 'processing' as const, service: 'Urine', type: 'In-Person', icon: `${basePath}png/050-bacteria.png` },
+  { id: 'MQ-10291', patient: 'Kavya Nair', test: 'CBC', sample: 'Blood', time: '9:00 AM', amount: '₹300 + ₹100', status: 'collected' as const, service: 'Blood', type: 'Home Collection', icon: `${basePath}png/025-pcr-test.png` },
 ]
 
 export function LabOrders() {
