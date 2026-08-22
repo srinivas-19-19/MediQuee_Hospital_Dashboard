@@ -4,7 +4,7 @@ import path from "path"
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/MediQuee_Hospital/',
+  base: '/MediQuee_Hospital_Dashboard/',
   plugins: [react()],
   resolve: {
     alias: {
