@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Search, X, ChevronRight, Activity } from 'lucide-react';
+import { Search, X, Activity } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ConditionLabel, getConditionIconPath } from './ConditionLabel';
+import { getConditionIconPath } from './ConditionLabel';
 
-const basePath = import.meta.env.BASE_URL;
+
 
 // Mock list of specializations
 export const allSpecializations = [

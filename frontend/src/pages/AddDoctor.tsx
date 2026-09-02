@@ -24,7 +24,7 @@ const doctorSchema = z.object({
 
 type DoctorFormValues = z.infer<typeof doctorSchema>;
 
-const basePath = import.meta.env.BASE_URL;
+
 
 export function AddDoctor() {
   const navigate = useNavigate();

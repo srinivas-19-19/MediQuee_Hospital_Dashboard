@@ -10,7 +10,6 @@ const services = ['All', 'Blood', 'Urine', 'Pathology', 'Imaging']
 
 const dates = ['Today', '14 Aug', '13 Aug', '12 Aug', '11 Aug', '10 Aug']
 
-const basePath = import.meta.env.BASE_URL;
 
 const allOrders = [
   { id: 'MQ-10284', patient: 'Ramesh Kumar', test: 'CBC + Lipid Profile', sample: 'Blood', time: '10:30 AM', amount: '₹850', status: 'processing' as const, service: 'Blood', type: 'In-Person' },
