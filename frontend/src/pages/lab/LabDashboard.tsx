@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom"
 import { AreaChart, Area, Tooltip, ResponsiveContainer } from "recharts"
 import { LabKpiCard, StatusBadge } from "@/components/lab/LabUI"
 import { cn } from "@/lib/utils"
+import { ConditionLabel } from "@/components/shared/ConditionLabel"
 
 const revenueData = {
   today: [
@@ -148,7 +149,7 @@ export function LabDashboard() {
                 {/* Info */}
                 <div className="flex-1 min-w-0">
                   <p className="text-[14px] md:text-[15px] font-semibold text-[#172033] truncate">{order.patient}</p>
-                  <p className="text-[12px] md:text-[13px] text-[#667085] truncate">{order.test}</p>
+                  <ConditionLabel name={order.test} textClassName="text-[12px] md:text-[13px] text-[#667085]" iconClassName="w-4 h-4" />
                   <p className="text-[11px] md:text-[12px] text-[#98A2B3] mt-0.5">{order.sample} · {order.time}</p>
                 </div>
                 <StatusBadge status={order.status} />

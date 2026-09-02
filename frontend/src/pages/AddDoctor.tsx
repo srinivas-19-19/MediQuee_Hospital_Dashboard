@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useNavigate } from "react-router-dom"
 import { useToast } from "@/context/ToastContext"
 import { ConfirmationSheet } from "@/components/ui/ConfirmationSheet"
+import { ConditionSelector } from "@/components/shared/ConditionSelector"
 
 const doctorSchema = z.object({
   fullName: z.string().min(2, "Name must be at least 2 characters"),
@@ -24,18 +25,6 @@ const doctorSchema = z.object({
 type DoctorFormValues = z.infer<typeof doctorSchema>;
 
 const basePath = import.meta.env.BASE_URL;
-
-const specializations = [
-  { name: "Cardiology", icon: `${basePath}png/010-heart.png` },
-  { name: "Neurology", icon: `${basePath}png/074-brain.png` },
-  { name: "Pulmonology", icon: `${basePath}png/008-lungs.png` },
-  { name: "Nephrology", icon: `${basePath}png/006-kidney.png` },
-  { name: "Ophthalmology", icon: `${basePath}png/069-eye.png` },
-  { name: "Gastroenterology", icon: `${basePath}png/065-stomach.png` },
-  { name: "Hepatology", icon: `${basePath}png/011-liver.png` },
-  { name: "Dermatology", icon: `${basePath}png/020-rash.png` },
-  { name: "General Physician", icon: `${basePath}png/013-medical.png` },
-];
 
 export function AddDoctor() {
   const navigate = useNavigate();
@@ -188,23 +177,12 @@ export function AddDoctor() {
               <motion.div key="step2" initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 10 }} className="flex flex-col gap-5">
                 <div className="flex flex-col gap-3">
                   <label className="text-[13px] font-semibold text-[#172033]">Specialization <span className="text-destructive">*</span></label>
-                  <div className="grid grid-cols-3 gap-3">
-                    {specializations.map((spec) => (
-                      <div 
-                        key={spec.name}
-                        onClick={() => {
-                          setValue("specialization", spec.name, { shouldValidate: true });
-                        }}
-                        className={cn(
-                          "flex flex-col items-center justify-center p-3 gap-2 rounded-xl border-2 transition-all cursor-pointer interactive-element",
-                          selectedSpec === spec.name ? "border-primary bg-primary/5" : "border-gray-100 hover:border-primary/40 bg-white"
-                        )}
-                      >
-                        <img src={spec.icon} alt={spec.name} className="w-10 h-10 object-contain drop-shadow-sm" />
-                        <span className="text-[11px] font-semibold text-center text-[#172033] leading-tight">{spec.name}</span>
-                      </div>
-                    ))}
-                  </div>
+                  <ConditionSelector 
+                    type="specialization" 
+                    value={selectedSpec} 
+                    onChange={(val) => setValue("specialization", val, { shouldValidate: true })} 
+                    error={!!errors.specialization}
+                  />
                   {/* Hidden input to keep form integration intact */}
                   <input type="hidden" {...register("specialization")} />
                   {errors.specialization && <span className="text-destructive text-[12px] font-medium mt-0.5">{errors.specialization.message}</span>}

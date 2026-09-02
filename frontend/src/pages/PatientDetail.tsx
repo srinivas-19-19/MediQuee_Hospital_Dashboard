@@ -2,6 +2,7 @@ import { ArrowLeft, User, Phone, Calendar, Activity, Clock, FileCheck, Download 
 import { useNavigate, useParams } from "react-router-dom"
 import { motion } from "framer-motion"
 import { useState } from "react"
+import { ConditionLabel } from "@/components/shared/ConditionLabel"
 
 export function PatientDetail() {
   const navigate = useNavigate();
@@ -129,7 +130,7 @@ export function PatientDetail() {
                   <Clock className="w-5 h-5" />
                 </div>
                 <div className="flex-1">
-                  <h4 className="font-bold text-gray-800">{visit.diagnosis}</h4>
+                  <ConditionLabel name={visit.diagnosis} textClassName="font-bold text-gray-800 text-base" />
                   <div className="flex items-center justify-between mt-1">
                     <span className="text-sm text-gray-500">{visit.doctor}</span>
                     <span className="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">
@@ -151,7 +152,7 @@ export function PatientDetail() {
                   <FileCheck className="w-6 h-6" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h4 className="font-bold text-gray-800 truncate">{report.name}</h4>
+                  <ConditionLabel name={report.name} textClassName="font-bold text-gray-800 text-base truncate" />
                   <p className="text-xs text-gray-500 mt-1">{report.date} • {report.size}</p>
                 </div>
                 <button className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-600 hover:bg-gray-100 transition-colors shrink-0">

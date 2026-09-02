@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useToast } from "@/context/ToastContext"
 import { ConfirmationSheet } from "@/components/ui/ConfirmationSheet"
 import { cn } from "@/lib/utils"
+import { ConditionSelector } from "@/components/shared/ConditionSelector"
 
 const testSchema = z.object({
   name: z.string().min(2, "Test name is required"),
@@ -34,10 +35,13 @@ export function AddTest() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showExitConfirm, setShowExitConfirm] = useState(false)
 
-  const { register, handleSubmit, formState: { errors, isDirty } } = useForm<TestFormValues>({
+  const { register, handleSubmit, setValue, watch, formState: { errors, isDirty } } = useForm<TestFormValues>({
     resolver: zodResolver(testSchema),
-    defaultValues: { status: 'active' }
+    defaultValues: { status: 'active' },
+    mode: "onChange"
   })
+  
+  const selectedName = watch("name");
 
   const onSubmit = async (_data: TestFormValues) => {
     setIsSubmitting(true)
@@ -66,7 +70,14 @@ export function AddTest() {
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5 md:gap-6">
           <div className="flex flex-col gap-1.5 md:gap-2">
             <label className="text-[13px] md:text-[14px] font-semibold text-[#172033]">Test Name <span className="text-destructive">*</span></label>
-            <input {...register("name")} type="text" placeholder="e.g. Complete Blood Count" className={inputClass(!!errors.name)} />
+            <ConditionSelector 
+              type="test" 
+              value={selectedName} 
+              onChange={(val) => setValue("name", val, { shouldValidate: true })} 
+              error={!!errors.name} 
+            />
+            {/* Hidden input to keep form integration intact */}
+            <input type="hidden" {...register("name")} />
             {errors.name && <span className="text-destructive text-[12px] font-medium">{errors.name.message}</span>}
           </div>
 

@@ -5,14 +5,6 @@ import { useNavigate } from 'react-router-dom';
 
 const slides = [
   {
-    id: 1,
-    title: 'Learn more about MediQuee',
-    description: 'Discover how our platform can streamline your hospital operations and improve patient care.',
-    buttonText: 'Learn More',
-    image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2053&auto=format&fit=crop',
-    path: '/about'
-  },
-  {
     id: 2,
     title: 'Host Community Medical Camps',
     description: "Expand your hospital's reach. Let MediQuee manage the logistics. Schedule a camp today.",
@@ -27,6 +19,14 @@ const slides = [
     buttonText: 'Book Marketing',
     image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop',
     path: '/book-marketing'
+  },
+  {
+    id: 1,
+    title: 'Learn more about MediQuee',
+    description: 'Discover how our platform can streamline your hospital operations and improve patient care.',
+    buttonText: 'Learn More',
+    image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2053&auto=format&fit=crop',
+    path: '/about'
   }
 ];
 

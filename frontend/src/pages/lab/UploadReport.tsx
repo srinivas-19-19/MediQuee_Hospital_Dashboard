@@ -4,6 +4,7 @@ import { ArrowLeft, Search, CheckCircle2, Upload, X, FileText, Image, File, Load
 import { useNavigate } from "react-router-dom"
 import { useToast } from "@/context/ToastContext"
 import { cn } from "@/lib/utils"
+import { ConditionLabel } from "@/components/shared/ConditionLabel"
 
 const mockOrderSearch = [
   { id: 'MQ-10284', patient: 'Ramesh Kumar', test: 'CBC + Lipid Profile', date: '14 Aug' },
@@ -134,7 +135,7 @@ export function UploadReport() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-[14px] md:text-[16px] font-semibold text-[#172033] truncate">{o.patient}</p>
-                    <p className="text-[12px] md:text-[14px] text-[#667085] truncate">{o.test}</p>
+                    <ConditionLabel name={o.test} textClassName="text-[12px] md:text-[14px] text-[#667085]" iconClassName="w-4 h-4" />
                     <p className="text-[11px] md:text-[13px] text-[#98A2B3] mt-0.5 md:mt-1">{o.id} · {o.date}</p>
                   </div>
                   {selectedOrder?.id === o.id && <CheckCircle2 className="w-5 h-5 md:w-6 md:h-6 text-primary shrink-0" />}
@@ -157,7 +158,10 @@ export function UploadReport() {
             <div className="bg-primary/5 border border-primary/15 rounded-2xl px-4 py-3 md:px-5 md:py-4">
               <p className="text-[12px] md:text-[13px] font-semibold text-primary mb-1">Selected Order</p>
               <p className="text-[15px] md:text-[18px] font-bold text-[#172033]">{selectedOrder.patient}</p>
-              <p className="text-[13px] md:text-[15px] text-[#667085]">{selectedOrder.test} · {selectedOrder.id}</p>
+              <div className="flex items-center gap-1.5 mt-1">
+                <ConditionLabel name={selectedOrder.test} textClassName="text-[13px] md:text-[15px] text-[#667085]" iconClassName="w-4 h-4" />
+                <span className="text-[#667085]">· {selectedOrder.id}</span>
+              </div>
             </div>
 
             <div>

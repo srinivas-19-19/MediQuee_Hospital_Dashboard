@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ConfirmationSheet } from "@/components/ui/ConfirmationSheet"
+import { ConditionSelector } from "@/components/shared/ConditionSelector"
 
 const schema = z.object({
   patientName: z.string().min(2, "Name is required"),
@@ -29,9 +30,12 @@ export function CreateHomeCollection() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showExitConfirm, setShowExitConfirm] = useState(false)
 
-  const { register, handleSubmit, formState: { errors, isDirty } } = useForm<FormValues>({
-    resolver: zodResolver(schema)
+  const { register, handleSubmit, setValue, watch, formState: { errors, isDirty } } = useForm<FormValues>({
+    resolver: zodResolver(schema),
+    mode: "onChange"
   })
+  
+  const selectedTest = watch("test");
 
   const onSubmit = async (_: FormValues) => {
     setIsSubmitting(true)
@@ -71,16 +75,24 @@ export function CreateHomeCollection() {
             ))}
           </div>
 
-          {[
-            { label: 'Collection Address', name: 'address', type: 'text', placeholder: 'Full address with landmark' },
-            { label: 'Test Required', name: 'test', type: 'text', placeholder: 'e.g. CBC + Thyroid Profile' },
-          ].map(f => (
-            <div key={f.name} className="flex flex-col gap-1.5 md:gap-2">
-              <label className="text-[13px] md:text-[14px] font-semibold text-[#172033]">{f.label} <span className="text-destructive">*</span></label>
-              <input {...register(f.name as any)} type={f.type} placeholder={f.placeholder} className={inputClass(!!(errors as any)[f.name])} />
-              {(errors as any)[f.name] && <span className="text-destructive text-[12px] font-medium">{(errors as any)[f.name].message}</span>}
-            </div>
-          ))}
+          <div className="flex flex-col gap-1.5 md:gap-2">
+            <label className="text-[13px] md:text-[14px] font-semibold text-[#172033]">Collection Address <span className="text-destructive">*</span></label>
+            <input {...register('address')} type="text" placeholder="Full address with landmark" className={inputClass(!!errors.address)} />
+            {errors.address && <span className="text-destructive text-[12px] font-medium">{errors.address.message}</span>}
+          </div>
+
+          <div className="flex flex-col gap-1.5 md:gap-2">
+            <label className="text-[13px] md:text-[14px] font-semibold text-[#172033]">Test Required <span className="text-destructive">*</span></label>
+            <ConditionSelector 
+              type="test" 
+              value={selectedTest} 
+              onChange={(val) => setValue("test", val, { shouldValidate: true })} 
+              error={!!errors.test} 
+            />
+            {/* Hidden input to keep form integration intact */}
+            <input type="hidden" {...register("test")} />
+            {errors.test && <span className="text-destructive text-[12px] font-medium">{errors.test.message}</span>}
+          </div>
 
           <div className="grid grid-cols-2 gap-3 md:gap-6">
             <div className="flex flex-col gap-1.5 md:gap-2">

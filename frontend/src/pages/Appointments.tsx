@@ -270,7 +270,7 @@ export function Appointments() {
                               Consultation
                             </div>
                             
-                            {apt.status !== 'CANCELLED' ? (
+                            {apt.status !== 'CANCELLED' && role === 'doctor' ? (
                               <button 
                                 onClick={() => setSelectedAppointment(apt)}
                                 className="flex items-center gap-1.5 text-[#1B5DF1] font-bold text-[13px] px-3 py-1.5 rounded-lg border border-[#1B5DF1]/20 hover:bg-[#EBF5FF] transition-colors active:scale-95"

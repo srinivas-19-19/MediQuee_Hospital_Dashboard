@@ -1,171 +1,181 @@
+import { useState, useEffect } from "react";
+import { useForm, FormProvider } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { onboardingSchema, type OnboardingFormValues } from "./onboarding/schema";
+import { OnboardingLayout } from "./onboarding/OnboardingLayout";
+import { SuccessScreen } from "./onboarding/SuccessScreen";
 
-import { motion } from "framer-motion"
-import { useNavigate, Link } from "react-router-dom"
-import { useAuth } from "@/context/AuthContext"
-import { Mail, Lock, User, Phone, ArrowRight, Activity, ShieldCheck } from "lucide-react"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
+// Shared Steps
+import { Step1Account } from "./onboarding/steps/shared/Step1Account";
+import { Step2BusinessType } from "./onboarding/steps/shared/Step2BusinessType";
+import { Step4Location } from "./onboarding/steps/shared/Step4Location";
+import { StepAdmin } from "./onboarding/steps/shared/StepAdmin";
+import { StepReview } from "./onboarding/steps/shared/StepReview";
 
-const registerSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters."),
-  email: z.string().email("Please enter a valid email address."),
-  phone: z.string().min(10, "Phone number must be at least 10 digits."),
-  role: z.enum(["admin", "lab"]),
-  password: z.string().min(6, "Password must be at least 6 characters."),
-});
+// Hospital Steps
+import { Step3Hospital } from "./onboarding/steps/hospital/Step3Hospital";
+import { Step5HospitalServices } from "./onboarding/steps/hospital/Step5HospitalServices";
+import { Step6Departments } from "./onboarding/steps/hospital/Step6Departments";
+import { Step7Verification } from "./onboarding/steps/hospital/Step7Verification";
 
-type RegisterFormValues = z.infer<typeof registerSchema>;
+// Laboratory Steps
+import { Step3Laboratory } from "./onboarding/steps/laboratory/Step3Laboratory";
+import { Step5LabServices } from "./onboarding/steps/laboratory/Step5LabServices";
+import { Step6Verification } from "./onboarding/steps/laboratory/Step6Verification";
+
+const DRAFT_KEY = "mediquee_onboarding_draft";
+
+const getInitialValues = () => {
+  const saved = localStorage.getItem(DRAFT_KEY);
+  if (saved) {
+    try {
+      return JSON.parse(saved);
+    } catch (e) {
+      return {};
+    }
+  }
+  return {};
+};
 
 export function Register() {
-  const navigate = useNavigate();
-  const { login } = useAuth();
+  const [currentStep, setCurrentStep] = useState(1);
+  const [isSuccess, setIsSuccess] = useState(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<RegisterFormValues>({
-    resolver: zodResolver(registerSchema),
-    defaultValues: {
-      role: 'admin'
-    }
+  // Initialize form with local storage draft if available
+  const methods = useForm<OnboardingFormValues>({
+    resolver: zodResolver(onboardingSchema),
+    mode: "onChange",
+    defaultValues: getInitialValues()
   });
 
-  const onSubmit = (data: RegisterFormValues) => {
-    login(data.role); 
-    navigate("/dashboard");
+  const { watch, trigger, getValues } = methods;
+  const businessType = watch("businessType.businessType");
+
+  // Save draft on change (excluding files which can't be easily serialized)
+  useEffect(() => {
+    const subscription = watch((value: any) => {
+      // Create a copy without file objects to save to localStorage
+      const draftToSave = { ...value };
+      delete draftToSave.hospitalVerification;
+      delete draftToSave.labVerification;
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(draftToSave));
+    }) as any;
+    return () => {
+      if (subscription && typeof subscription.unsubscribe === "function") {
+        subscription.unsubscribe();
+      }
+    };
+  }, [watch]);
+
+  // Determine flow configuration
+  const isHospital = businessType === "hospital";
+  
+  // Hospital: 9 steps total
+  // Lab: 8 steps total
+  const totalSteps = businessType ? (isHospital ? 9 : 8) : 2; 
+
+  const handleNext = async () => {
+    let fieldsToValidate: string[] = [];
+
+    // Map step to required validation fields
+    if (currentStep === 1) fieldsToValidate = ["account"];
+    else if (currentStep === 2) fieldsToValidate = ["businessType"];
+    else if (currentStep === 3) fieldsToValidate = [isHospital ? "hospitalInfo" : "labInfo"];
+    else if (currentStep === 4) fieldsToValidate = [isHospital ? "hospitalLocation" : "labLocation"];
+    else if (currentStep === 5) fieldsToValidate = [isHospital ? "hospitalServices" : "labServices"];
+    else if (isHospital && currentStep === 6) fieldsToValidate = ["hospitalDepartments"];
+    else if (isHospital && currentStep === 7) fieldsToValidate = ["hospitalVerification"];
+    else if (!isHospital && currentStep === 6) fieldsToValidate = ["labVerification"];
+    else if (isHospital && currentStep === 8) fieldsToValidate = ["hospitalAdmin"];
+    else if (!isHospital && currentStep === 7) fieldsToValidate = ["labAdmin"];
+
+    const isStepValid = await trigger(fieldsToValidate as any);
+
+    if (isStepValid) {
+      if (currentStep < totalSteps) {
+        setCurrentStep(prev => prev + 1);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        // Final Submission
+        onSubmit(getValues());
+      }
+    }
+  };
+
+  const handleBack = () => {
+    if (currentStep > 1) {
+      setCurrentStep(prev => prev - 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const jumpToStep = (stepName: string) => {
+    const mapHospital: Record<string, number> = { account: 1, info: 3, location: 4, services: 5, departments: 6, verification: 7, admin: 8 };
+    const mapLab: Record<string, number> = { account: 1, info: 3, location: 4, services: 5, verification: 6, admin: 7 };
+    const target = isHospital ? mapHospital[stepName] : mapLab[stepName];
+    if (target) {
+      setCurrentStep(target);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const onSubmit = async (data: OnboardingFormValues) => {
+    console.log("Form Submitted:", data);
+    // Clear draft
+    localStorage.removeItem(DRAFT_KEY);
+    
+    // Registration submitted. User must await admin verification before login.
+    setIsSuccess(true);
+  };
+
+  if (isSuccess) {
+    return <SuccessScreen businessType={businessType as "hospital" | "laboratory"} />;
   }
 
+  // Render appropriate step
+  const renderStep = () => {
+    // Shared Steps
+    if (currentStep === 1) return <Step1Account />;
+    if (currentStep === 2) return <Step2BusinessType />;
+    
+    if (isHospital) {
+      // Hospital Flow
+      if (currentStep === 3) return <Step3Hospital />;
+      if (currentStep === 4) return <Step4Location />;
+      if (currentStep === 5) return <Step5HospitalServices />;
+      if (currentStep === 6) return <Step6Departments />;
+      if (currentStep === 7) return <Step7Verification />;
+      if (currentStep === 8) return <StepAdmin />;
+      if (currentStep === 9) return <StepReview onEditStep={jumpToStep} />;
+    } else {
+      // Laboratory Flow
+      if (currentStep === 3) return <Step3Laboratory />;
+      if (currentStep === 4) return <Step4Location />;
+      if (currentStep === 5) return <Step5LabServices />;
+      if (currentStep === 6) return <Step6Verification />;
+      if (currentStep === 7) return <StepAdmin />;
+      if (currentStep === 8) return <StepReview onEditStep={jumpToStep} />;
+    }
+
+    return null;
+  };
+
+  const isFinalStep = currentStep === totalSteps;
+  const isNextDisabled = currentStep === 2 && !businessType;
+
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center p-4 relative overflow-hidden">
-      
-      {/* Background decorative elements */}
-      <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-400/20 rounded-full blur-3xl" />
-      <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-purple-400/20 rounded-full blur-3xl" />
-
-      <motion.div 
-        initial={{ opacity: 0, y: 20, scale: 0.95 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="w-full max-w-md bg-white backdrop-blur-xl border border-white/50 rounded-[32px] p-8 shadow-2xl shadow-blue-900/5 relative z-10 my-8"
+    <FormProvider {...methods}>
+      <OnboardingLayout
+        currentStep={currentStep}
+        totalSteps={totalSteps}
+        onBack={handleBack}
+        onNext={handleNext}
+        nextLabel={isFinalStep ? "Complete Registration" : "Continue"}
+        isNextDisabled={isNextDisabled}
+        showBack={currentStep > 1}
       >
-        <div className="flex flex-col items-center mb-8">
-          <motion.div 
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-            className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center text-white mb-4 shadow-lg shadow-primary/30"
-          >
-            <Activity className="w-8 h-8" />
-          </motion.div>
-          <h1 className="text-2xl font-bold text-gray-800">Create Account</h1>
-          <p className="text-gray-500 text-sm mt-1">Join the MediQuee Network</p>
-        </div>
-
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-          
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.25 }} className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-gray-700 ml-1">Name</label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-gray-400">
-                <User className="w-5 h-5" />
-              </div>
-              <input 
-                {...register("name")}
-                type="text" 
-                placeholder="Institution Name" 
-                className={`w-full pl-12 pr-4 py-3.5 bg-white border ${errors.name ? 'border-red-500 focus:ring-red-500/10' : 'border-gray-200 focus:border-primary focus:ring-primary/10'} rounded-2xl outline-none focus:ring-4 transition-all text-sm font-medium`}
-              />
-            </div>
-            {errors.name && <span className="text-red-500 text-xs ml-1 font-medium">{errors.name.message}</span>}
-          </motion.div>
-
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }} className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-gray-700 ml-1">Email Address</label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-gray-400">
-                <Mail className="w-5 h-5" />
-              </div>
-              <input 
-                {...register("email")}
-                type="email" 
-                placeholder="admin@mediquee.com" 
-                className={`w-full pl-12 pr-4 py-3.5 bg-white border ${errors.email ? 'border-red-500 focus:ring-red-500/10' : 'border-gray-200 focus:border-primary focus:ring-primary/10'} rounded-2xl outline-none focus:ring-4 transition-all text-sm font-medium`}
-              />
-            </div>
-            {errors.email && <span className="text-red-500 text-xs ml-1 font-medium">{errors.email.message}</span>}
-          </motion.div>
-
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.35 }} className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-gray-700 ml-1">Phone Number</label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-gray-400">
-                <Phone className="w-5 h-5" />
-              </div>
-              <input 
-                {...register("phone")}
-                type="tel" 
-                placeholder="+91 00000 00000" 
-                className={`w-full pl-12 pr-4 py-3.5 bg-white border ${errors.phone ? 'border-red-500 focus:ring-red-500/10' : 'border-gray-200 focus:border-primary focus:ring-primary/10'} rounded-2xl outline-none focus:ring-4 transition-all text-sm font-medium`}
-              />
-            </div>
-            {errors.phone && <span className="text-red-500 text-xs ml-1 font-medium">{errors.phone.message}</span>}
-          </motion.div>
-
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4 }} className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-gray-700 ml-1">Role</label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-gray-400">
-                <ShieldCheck className="w-5 h-5" />
-              </div>
-              <select 
-                {...register("role")}
-                className={`w-full pl-12 pr-4 py-3.5 bg-white border ${errors.role ? 'border-red-500 focus:ring-red-500/10' : 'border-gray-200 focus:border-primary focus:ring-primary/10'} rounded-2xl outline-none focus:ring-4 transition-all text-sm font-medium appearance-none`}
-              >
-                <option value="admin">Hospital</option>
-                <option value="lab">Lab</option>
-              </select>
-            </div>
-            {errors.role && <span className="text-red-500 text-xs ml-1 font-medium">{errors.role.message}</span>}
-          </motion.div>
-
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.45 }} className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-gray-700 ml-1">Password</label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-gray-400">
-                <Lock className="w-5 h-5" />
-              </div>
-              <input 
-                {...register("password")}
-                type="password" 
-                placeholder="Create a strong password" 
-                className={`w-full pl-12 pr-4 py-3.5 bg-white border ${errors.password ? 'border-red-500 focus:ring-red-500/10' : 'border-gray-200 focus:border-primary focus:ring-primary/10'} rounded-2xl outline-none focus:ring-4 transition-all text-sm font-medium`}
-              />
-            </div>
-            {errors.password && <span className="text-red-500 text-xs ml-1 font-medium">{errors.password.message}</span>}
-          </motion.div>
-
-          <motion.button 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.55 }}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            type="submit" 
-            className="w-full bg-primary text-white font-bold py-4 rounded-2xl mt-4 shadow-lg shadow-primary/25 flex items-center justify-center gap-2 group"
-          >
-            Create Account
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </motion.button>
-        </form>
-
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.65 }}
-          className="mt-6 text-center"
-        >
-          <span className="text-gray-500 text-sm">Already have an account? </span>
-          <Link to="/login" className="text-primary font-bold text-sm hover:underline">Log in</Link>
-        </motion.div>
-      </motion.div>
-    </div>
-  )
+        {renderStep()}
+      </OnboardingLayout>
+    </FormProvider>
+  );
 }

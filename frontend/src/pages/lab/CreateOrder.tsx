@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom"
 import { useToast } from "@/context/ToastContext"
 import { ConfirmationSheet } from "@/components/ui/ConfirmationSheet"
 import { cn } from "@/lib/utils"
+import { getConditionIconPath } from "@/components/shared/ConditionLabel"
 
 const availableTests = [
   { id: 't1', name: 'CBC', price: 300 },
@@ -122,8 +123,12 @@ export function CreateOrder() {
                       selected ? "bg-primary/5 border-primary shadow-sm" : "bg-white border-gray-200/60 shadow-sm"
                     )}
                   >
-                    <div className={cn("w-9 h-9 md:w-12 md:h-12 rounded-xl flex items-center justify-center transition-colors", selected ? "bg-primary" : "bg-blue-50")}>
-                      <FlaskConical className={cn("w-4 h-4 md:w-6 md:h-6", selected ? "text-white" : "text-primary")} strokeWidth={1.5} />
+                    <div className={cn("w-9 h-9 md:w-12 md:h-12 rounded-xl flex items-center justify-center transition-colors shrink-0 overflow-hidden", selected ? "bg-primary" : "bg-blue-50")}>
+                      {getConditionIconPath(t.name) ? (
+                        <img src={getConditionIconPath(t.name)!} alt={t.name} className="w-5 h-5 md:w-7 md:h-7 object-contain drop-shadow-sm mix-blend-multiply" style={selected ? { filter: 'brightness(0) invert(1)' } : {}} />
+                      ) : (
+                        <FlaskConical className={cn("w-4 h-4 md:w-6 md:h-6", selected ? "text-white" : "text-primary")} strokeWidth={1.5} />
+                      )}
                     </div>
                     <div className="flex-1">
                       <p className="text-[14px] md:text-[16px] font-semibold text-[#172033]">{t.name}</p>
