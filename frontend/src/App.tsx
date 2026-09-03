@@ -126,10 +126,12 @@ function AnimatedRoutes() {
             <Route path="/add-lab" element={<AddLab />} />
             <Route path="/add-nurse" element={<AddNurse />} />
             <Route path="/add-receptionist" element={<AddReceptionist />} />
-            <Route path="/about" element={<AboutMediQuee />} />
-            <Route path="/book-camp" element={<BookMedicalCamp />} />
-            <Route path="/book-marketing" element={<BookMarketing />} />
           </Route>
+
+          {/* Shared / Marketing Routes */}
+          <Route path="/about" element={<AboutMediQuee />} />
+          <Route path="/book-camp" element={<BookMedicalCamp />} />
+          <Route path="/book-marketing" element={<BookMarketing />} />
 
           {/* Doctor Routes */}
           <Route element={<RoleProtectedRoute allowedRoles={['doctor']} />}>

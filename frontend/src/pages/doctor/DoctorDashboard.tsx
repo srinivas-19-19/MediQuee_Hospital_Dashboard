@@ -1,4 +1,4 @@
-import { Video, Stethoscope } from "lucide-react"
+import { Video, Stethoscope, Megaphone, ChevronRight } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { cn } from "@/lib/utils"
 
@@ -117,6 +117,25 @@ export function DoctorDashboard() {
         <div className="bg-white rounded-[20px] p-4 flex flex-col gap-1 shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-gray-100">
           <span className="text-[24px] font-black text-indigo-500">4</span>
           <span className="text-[12px] font-bold text-gray-500">Video Calls</span>
+        </div>
+      </div>
+
+      {/* Book Marketing Tile */}
+      <div 
+        onClick={() => navigate('/book-marketing')}
+        className="mt-3 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-[20px] p-6 md:p-8 flex items-center justify-between cursor-pointer shadow-[0_4px_12px_rgba(99,102,241,0.2)] hover:shadow-[0_4px_16px_rgba(99,102,241,0.3)] transition-all active:scale-[0.98] min-h-[110px]"
+      >
+        <div className="flex items-center gap-5">
+          <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-white/20 flex items-center justify-center shrink-0 backdrop-blur-sm">
+            <Megaphone className="w-7 h-7 md:w-8 md:h-8 text-white" />
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <h3 className="text-white font-bold text-[18px] md:text-[20px]">Book Marketing</h3>
+            <p className="text-indigo-100 text-[13px] md:text-[14px] font-medium leading-tight max-w-[200px]">Request admin for marketing support</p>
+          </div>
+        </div>
+        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+          <ChevronRight className="w-4 h-4 text-white" />
         </div>
       </div>
 
