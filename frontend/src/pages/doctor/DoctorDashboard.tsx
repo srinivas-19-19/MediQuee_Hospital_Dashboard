@@ -1,15 +1,20 @@
-import { Video, Stethoscope, Megaphone, ChevronRight, Calendar, RefreshCw, CalendarClock } from "lucide-react"
+import { Video, Stethoscope, Megaphone, ChevronRight, Calendar, RefreshCw, CalendarClock, ChevronDown } from "lucide-react"
 import { useState, useEffect, useCallback } from "react"
 import { useNavigate } from "react-router-dom"
 import { cn } from "@/lib/utils"
 import { EmptyState } from "@/components/ui/EmptyState"
-import { doctorApi } from "@/services/doctorApi"
+import { useToast } from "@/context/ToastContext"
+import { doctorApi, type DoctorPresenceStatus } from "@/services/doctorApi"
 
 export function DoctorDashboard() {
   const navigate = useNavigate()
+  const { toast } = useToast()
 
   const [appointments, setAppointments] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [presenceStatus, setPresenceStatus] = useState<DoctorPresenceStatus>('OFF_DUTY');
+  const [isPresenceMenuOpen, setIsPresenceMenuOpen] = useState(false);
+  const [isUpdatingPresence, setIsUpdatingPresence] = useState(false);
 
   const loadData = useCallback(async () => {
     setIsLoading(true);
@@ -25,7 +30,24 @@ export function DoctorDashboard() {
 
   useEffect(() => {
     loadData();
+    doctorApi.getDoctorPresence()
+      .then(status => setPresenceStatus(status))
+      .catch(err => console.error("Failed to load doctor presence:", err));
   }, [loadData]);
+
+  const handlePresenceChange = async (newStatus: DoctorPresenceStatus) => {
+    setIsUpdatingPresence(true);
+    try {
+      await doctorApi.updateDoctorPresence(newStatus);
+      setPresenceStatus(newStatus);
+      toast(`Presence status updated to ${newStatus.replace(/_/g, ' ')}`, "success");
+    } catch (err: any) {
+      toast(err.message || "Failed to update presence status", "error");
+    } finally {
+      setIsUpdatingPresence(false);
+      setIsPresenceMenuOpen(false);
+    }
+  };
 
   // Normalized appointments
   const normalizedAppointments = (appointments || []).map(a => ({
@@ -101,7 +123,7 @@ export function DoctorDashboard() {
   return (
     <div className="flex flex-col gap-6 w-full max-w-md mx-auto md:max-w-none md:p-4 pb-12 bg-[#F7F8FA] min-h-full px-4 pt-4">
       
-      {/* Compact Header Section */}
+      {/* Compact Header Section with Presence Toggle */}
       <div className="flex items-center justify-between">
         <div className="flex flex-col">
           <div className="flex items-center gap-2">
@@ -113,14 +135,70 @@ export function DoctorDashboard() {
             </span>
           </div>
         </div>
-        <button
-          onClick={loadData}
-          disabled={isLoading}
-          className="p-2 rounded-xl bg-white border border-gray-100 shadow-sm text-gray-500 hover:text-[#1B5DF1] hover:border-[#1B5DF1]/30 transition-all active:scale-95 disabled:opacity-50"
-          title="Refresh appointments"
-        >
-          <RefreshCw className={cn("w-4 h-4", isLoading && "animate-spin text-[#1B5DF1]")} />
-        </button>
+
+        <div className="flex items-center gap-2">
+          {/* Presence Status Selector */}
+          <div className="relative">
+            <button
+              onClick={() => setIsPresenceMenuOpen(!isPresenceMenuOpen)}
+              disabled={isUpdatingPresence}
+              className={cn(
+                "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold border transition-all active:scale-95 shadow-sm",
+                presenceStatus === 'AVAILABLE_IN_OPD' ? "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100" :
+                presenceStatus === 'ON_BREAK' ? "bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100" :
+                presenceStatus === 'IN_SURGERY' ? "bg-indigo-50 text-indigo-700 border-indigo-200 hover:bg-indigo-100" :
+                "bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100"
+              )}
+            >
+              <span className={cn(
+                "w-2 h-2 rounded-full",
+                presenceStatus === 'AVAILABLE_IN_OPD' ? "bg-emerald-500 animate-pulse" :
+                presenceStatus === 'ON_BREAK' ? "bg-amber-500" :
+                presenceStatus === 'IN_SURGERY' ? "bg-indigo-500" :
+                "bg-gray-400"
+              )} />
+              <span>
+                {presenceStatus === 'AVAILABLE_IN_OPD' ? "In OPD" :
+                 presenceStatus === 'ON_BREAK' ? "On Break" :
+                 presenceStatus === 'IN_SURGERY' ? "In Surgery" :
+                 "Off Duty"}
+              </span>
+              <ChevronDown className="w-3 h-3 opacity-60" />
+            </button>
+
+            {isPresenceMenuOpen && (
+              <div className="absolute right-0 mt-1.5 w-44 bg-white rounded-2xl shadow-xl border border-gray-100 py-1.5 z-50 overflow-hidden">
+                {[
+                  { status: 'AVAILABLE_IN_OPD', label: 'Available in OPD', color: 'bg-emerald-500' },
+                  { status: 'ON_BREAK', label: 'On Break', color: 'bg-amber-500' },
+                  { status: 'IN_SURGERY', label: 'In Surgery', color: 'bg-indigo-500' },
+                  { status: 'OFF_DUTY', label: 'Off Duty', color: 'bg-gray-400' },
+                ].map(opt => (
+                  <button
+                    key={opt.status}
+                    onClick={() => handlePresenceChange(opt.status as DoctorPresenceStatus)}
+                    className={cn(
+                      "w-full text-left px-3.5 py-2.5 text-[12px] font-bold flex items-center gap-2 hover:bg-gray-50 transition-colors",
+                      presenceStatus === opt.status ? "text-[#1B5DF1] bg-[#EBF5FF]" : "text-[#0A1A3D]"
+                    )}
+                  >
+                    <span className={cn("w-2 h-2 rounded-full", opt.color)} />
+                    <span>{opt.label}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <button
+            onClick={loadData}
+            disabled={isLoading}
+            className="p-2 rounded-xl bg-white border border-gray-100 shadow-sm text-gray-500 hover:text-[#1B5DF1] hover:border-[#1B5DF1]/30 transition-all active:scale-95 disabled:opacity-50"
+            title="Refresh appointments"
+          >
+            <RefreshCw className={cn("w-4 h-4", isLoading && "animate-spin text-[#1B5DF1]")} />
+          </button>
+        </div>
       </div>
 
       {/* Doctor Availability Configuration Quick Action */}

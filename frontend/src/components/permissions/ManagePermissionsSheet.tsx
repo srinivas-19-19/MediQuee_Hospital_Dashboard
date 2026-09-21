@@ -22,6 +22,7 @@ export function ManagePermissionsSheet({ isOpen, onClose, role, roleName, onSucc
   }, [isOpen, role]);
 
   const fetchPermissions = async () => {
+    if (!role) return;
     setIsLoading(true);
     try {
       const data = await adminApi.getPermissions(role);
@@ -76,7 +77,7 @@ export function ManagePermissionsSheet({ isOpen, onClose, role, roleName, onSucc
                 <div key={moduleName} className="flex flex-col gap-3">
                   <h3 className="font-bold text-gray-900 border-b border-gray-100 pb-2">{moduleName}</h3>
                   <div className="flex flex-col gap-2">
-                    {perms.map(p => (
+                    {(perms as any[]).map((p: any) => (
                       <div key={p.key} onClick={() => handleToggle(p.key)} className="flex items-start justify-between cursor-pointer p-3 rounded-xl border border-gray-100 hover:bg-gray-50 transition-colors">
                         <div className="flex flex-col pr-4">
                           <span className="font-semibold text-gray-900">{p.name}</span>

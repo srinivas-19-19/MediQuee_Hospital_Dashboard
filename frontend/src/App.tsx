@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import { AuthProvider, useAuth } from "./context/AuthContext"
 import { ThemeProvider } from "./context/ThemeContext"
 import { ToastProvider } from "./context/ToastContext"
+import { NotificationProvider } from "./context/NotificationContext"
 import "./i18n"
 
 // Role Dashboards
@@ -225,9 +226,11 @@ function App() {
     <ThemeProvider>
       <ToastProvider>
         <AuthProvider>
-          <BrowserRouter basename={import.meta.env.BASE_URL}>
-            <AnimatedRoutes />
-          </BrowserRouter>
+          <NotificationProvider>
+            <BrowserRouter basename={import.meta.env.BASE_URL}>
+              <AnimatedRoutes />
+            </BrowserRouter>
+          </NotificationProvider>
         </AuthProvider>
       </ToastProvider>
     </ThemeProvider>

@@ -1,6 +1,8 @@
 export interface ServicePayout {
-  revenue: number;
+  revenue: number;           // Gross revenue
   count: number;
+  adminCommission?: number;  // 20% platform cut
+  hospitalPayout?: number;   // 80% net to hospital
 }
 
 export interface PayoutByService {
@@ -14,8 +16,11 @@ export interface PayoutByService {
 export interface PayoutSummary {
   totalTransactions: number;
   averagePayout: number;
+  averageHospitalPayout?: number;
   thisMonth: number;
+  thisMonthHospitalPayout?: number;
   lastMonth: number;
+  lastMonthHospitalPayout?: number;
 }
 
 export interface PayoutTrendItem {
@@ -29,6 +34,8 @@ export interface PayoutTransaction {
   type: string;
   date: string;
   amount: number;
+  adminCommission?: number;
+  hospitalPayout?: number;
   status: string;
   statusColor: string;
   patientName: string;
@@ -36,6 +43,11 @@ export interface PayoutTransaction {
 
 export interface PayoutsResponse {
   totalPayout: number;
+  totalGross?: number;
+  totalAdminCommission?: number;
+  totalHospitalPayout?: number;
+  adminCommissionRate?: number;
+  hospitalShareRate?: number;
   byService: PayoutByService;
   payoutSummary: PayoutSummary;
   payoutTrend: PayoutTrendItem[];
@@ -59,22 +71,22 @@ function getAuthHeaders(): Record<string, string> {
 export const payoutsApi = {
   /**
    * GET /api/v1/hospital/payouts
-   * Fetches real aggregated financial data broken down by service types and filtered by date range.
+   * Fetches real-time payout metrics, service breakdown, and transactions.
    */
   async getPayouts(startDate?: string, endDate?: string): Promise<PayoutsResponse> {
     const params = new URLSearchParams();
     if (startDate) params.append('startDate', startDate);
     if (endDate) params.append('endDate', endDate);
-    const queryString = params.toString() ? `?${params.toString()}` : '';
 
-    const res = await fetch(`${API_URL}/api/v1/hospital/payouts${queryString}`, {
+    const query = params.toString() ? `?${params.toString()}` : '';
+    const res = await fetch(`${API_URL}/api/v1/hospital/payouts${query}`, {
       method: 'GET',
       headers: getAuthHeaders(),
     });
 
     if (!res.ok) {
       const error = await res.json().catch(() => ({}));
-      throw new Error(error.error?.message || 'Failed to fetch payouts data');
+      throw new Error(error.error?.message || 'Failed to fetch payouts');
     }
 
     const json = await res.json();

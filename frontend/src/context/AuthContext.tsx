@@ -47,6 +47,8 @@ type AuthContextType = {
   isLoading: boolean;
   login: (token: string, role: Role) => void;
   logout: () => void;
+  updateUser: (updated: Partial<User>) => void;
+  refreshUser: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -104,8 +106,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem('mediquee_token');
   };
 
+  const updateUser = (updated: Partial<User>) => {
+    setUser((prev) => prev ? { ...prev, ...updated } : null);
+  };
+
+  const refreshUser = async () => {
+    const storedToken = localStorage.getItem('mediquee_token');
+    if (storedToken) {
+      try {
+        const fetched = await authApi.getMe(storedToken);
+        setUser(fetched);
+      } catch (err) {
+        console.error("Failed to refresh user:", err);
+      }
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, role, token, user, isLoading, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, role, token, user, isLoading, login, logout, updateUser, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );

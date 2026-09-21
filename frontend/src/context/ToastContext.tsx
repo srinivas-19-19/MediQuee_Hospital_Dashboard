@@ -1,9 +1,9 @@
 import { createContext, useContext, useState, useCallback, type ReactNode } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { CheckCircle2, XCircle, AlertCircle, X } from 'lucide-react';
+import { CheckCircle2, XCircle, AlertCircle, Info, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-export type ToastType = 'success' | 'error' | 'warning';
+export type ToastType = 'success' | 'error' | 'warning' | 'info';
 
 interface Toast {
   id: string;
@@ -49,12 +49,14 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                 "flex items-center gap-3 px-4 py-3 rounded-2xl shadow-lg border pointer-events-auto max-w-[400px] w-full",
                 t.type === 'success' ? "bg-white border-green-100 shadow-green-900/5" : "",
                 t.type === 'error' ? "bg-white border-red-100 shadow-red-900/5" : "",
-                t.type === 'warning' ? "bg-white border-orange-100 shadow-orange-900/5" : ""
+                t.type === 'warning' ? "bg-white border-orange-100 shadow-orange-900/5" : "",
+                t.type === 'info' ? "bg-white border-blue-100 shadow-blue-900/5" : ""
               )}
             >
               {t.type === 'success' && <CheckCircle2 className="w-5 h-5 text-success shrink-0" />}
               {t.type === 'error' && <XCircle className="w-5 h-5 text-destructive shrink-0" />}
               {t.type === 'warning' && <AlertCircle className="w-5 h-5 text-warning shrink-0" />}
+              {t.type === 'info' && <Info className="w-5 h-5 text-blue-500 shrink-0" />}
               
               <span className="text-[14px] font-semibold text-[#172033] flex-1">
                 {t.message}

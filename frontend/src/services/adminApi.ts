@@ -12,6 +12,57 @@ function getAuthHeaders(): Record<string, string> {
   };
 }
 
+export interface MarketingRequestInput {
+  campaignType?: string;
+  services?: string[];
+  budget?: number | null;
+  targetAudience?: string | null;
+  preferredTime?: string | null;
+  notes?: string | null;
+}
+
+export interface MarketingRequestRecord {
+  id: string;
+  hospitalId: string;
+  campaignType: string;
+  budget: number | null;
+  targetAudience: string | null;
+  notes: string | null;
+  status: 'PENDING' | 'REVIEWING' | 'APPROVED' | 'REJECTED' | 'COMPLETED';
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CampRequestInput {
+  campTitle?: string;
+  location: string;
+  expectedDate: string;
+  specialties?: string[];
+  speciality?: string | null;
+  expectedPatients?: number | null;
+  expectedFootfall?: string | null;
+  notes?: string | null;
+}
+
+export interface MedicalCampRecord {
+  id: string;
+  hospitalId: string;
+  campTitle: string;
+  location: string;
+  expectedDate: string;
+  specialties: string[];
+  expectedPatients: number | null;
+  notes: string | null;
+  status: 'PENDING' | 'REVIEWING' | 'APPROVED' | 'REJECTED' | 'COMPLETED';
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface HospitalRequestsResponse {
+  marketingRequests: MarketingRequestRecord[];
+  campRequests: MedicalCampRecord[];
+}
+
 export const adminApi = {
   /**
    * GET /api/v1/reference/specialties
@@ -147,21 +198,56 @@ export const adminApi = {
   },
 
   /**
-   * POST /api/marketing-requests
+   * POST /api/v1/hospital/marketing-requests
    * Submits a hospital marketing service enquiry.
    */
-  async requestMarketing(payload: unknown): Promise<{ id: string }> {
-    console.log('[API Call] POST /api/marketing-requests', payload);
-    throw new Error('BACKEND_MISSING: POST /api/marketing-requests is not implemented.');
+  async requestMarketing(payload: MarketingRequestInput): Promise<MarketingRequestRecord> {
+    const res = await fetch(`${API_URL}/api/v1/hospital/marketing-requests`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+      const error = await res.json().catch(() => ({}));
+      throw new Error(error.error?.message || error.message || 'Failed to submit marketing request');
+    }
+    const data = await res.json();
+    return data.data;
   },
 
   /**
-   * POST /api/medical-camp-requests
+   * POST /api/v1/hospital/camp-requests
    * Submits a community medical camp booking request.
    */
-  async requestMedicalCamp(payload: unknown): Promise<{ id: string }> {
-    console.log('[API Call] POST /api/medical-camp-requests', payload);
-    throw new Error('BACKEND_MISSING: POST /api/medical-camp-requests is not implemented.');
+  async requestMedicalCamp(payload: CampRequestInput): Promise<MedicalCampRecord> {
+    const res = await fetch(`${API_URL}/api/v1/hospital/camp-requests`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+      const error = await res.json().catch(() => ({}));
+      throw new Error(error.error?.message || error.message || 'Failed to submit medical camp request');
+    }
+    const data = await res.json();
+    return data.data;
+  },
+
+  /**
+   * GET /api/v1/hospital/requests
+   * Retrieves hospital marketing and medical camp request history.
+   */
+  async getHospitalRequests(): Promise<HospitalRequestsResponse> {
+    const res = await fetch(`${API_URL}/api/v1/hospital/requests`, {
+      method: 'GET',
+      headers: getAuthHeaders(),
+    });
+    if (!res.ok) {
+      const error = await res.json().catch(() => ({}));
+      throw new Error(error.error?.message || error.message || 'Failed to fetch hospital requests');
+    }
+    const data = await res.json();
+    return data.data;
   },
 
   /**
@@ -239,11 +325,11 @@ export const adminApi = {
     return data.data;
   },
 
-  async updateBookingStatus(id: string, status: string): Promise<any> {
+  async updateBookingStatus(id: string, status: string, notes?: string): Promise<any> {
     const res = await fetch(`${API_URL}/api/v1/hospital/bookings/${id}/status`, {
       method: 'PATCH',
       headers: getAuthHeaders(),
-      body: JSON.stringify({ status }),
+      body: JSON.stringify({ status, notes, reason: notes }),
     });
     if (!res.ok) {
       const error = await res.json().catch(() => ({}));

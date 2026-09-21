@@ -10,7 +10,8 @@ import {
   TrendingUp, 
   RefreshCw,
   X,
-  Check
+  Check,
+  Percent
 } from "lucide-react"
 import { AreaChart, Area, Tooltip, ResponsiveContainer } from 'recharts'
 import { cn } from "@/lib/utils"
@@ -34,10 +35,15 @@ export function Payouts() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Helper to calculate preset dates
+  // Helper to calculate preset dates safely without UTC day-shifts
   const calculatePresetDates = useCallback((preset: DatePreset) => {
     const now = new Date();
-    const toYMD = (d: Date) => d.toISOString().split('T')[0];
+    const toYMD = (d: Date) => {
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    };
 
     if (preset === 'today') {
       const todayStr = toYMD(now);
@@ -126,12 +132,20 @@ export function Payouts() {
   const byService = payoutsData?.byService;
   const summary = payoutsData?.payoutSummary;
 
+  // 20% Admin deduction calculations
+  const totalGross = payoutsData?.totalGross ?? payoutsData?.totalPayout ?? 0;
+  const totalAdminCommission = payoutsData?.totalAdminCommission ?? Math.round(totalGross * 0.20);
+  const totalHospitalPayout = payoutsData?.totalHospitalPayout ?? (totalGross - totalAdminCommission);
+
   return (
-    <div className="flex flex-col bg-background min-h-full pb-6">
+    <div className="flex flex-col bg-background min-h-full pb-32 sm:pb-36">
       
       {/* Sticky Top Controls */}
       <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md pt-4 pb-3 px-4 flex justify-between items-center border-b border-gray-100/50 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
-        <h1 className="text-[22px] font-semibold text-[#172033]">Payouts & Revenue</h1>
+        <div>
+          <h1 className="text-[22px] font-semibold text-[#172033]">Payouts & Revenue</h1>
+          <span className="text-[12px] text-[#667085] font-medium">Hospital Share: 80% &middot; Platform Fee: 20%</span>
+        </div>
         <button 
           onClick={() => fetchPayouts(startDate, endDate, true)}
           disabled={isLoading}
@@ -195,51 +209,102 @@ export function Payouts() {
           </div>
         )}
 
-        {/* Total Payout Summary Card */}
-        <div className="bg-white rounded-2xl p-5 shadow-[0_1px_2px_rgba(0,0,0,0.02)] border border-primary/20 relative overflow-hidden flex flex-col gap-1">
-          <div className="absolute top-0 right-0 p-4 opacity-10 text-primary pointer-events-none">
-            <TrendingUp className="w-24 h-24 -mt-4 -mr-4" strokeWidth={1} />
+        {/* Total Hospital Payout Summary Card with 20% Admin Deduction */}
+        <div className="bg-white rounded-2xl p-5 shadow-[0_1px_3px_rgba(0,0,0,0.03)] border border-emerald-200/70 relative overflow-hidden flex flex-col gap-3">
+          <div className="absolute top-0 right-0 p-4 opacity-5 text-emerald-600 pointer-events-none">
+            <TrendingUp className="w-28 h-28 -mt-4 -mr-4" strokeWidth={1} />
           </div>
-          <div className="flex items-center gap-2 relative z-10">
-            <div className="w-6 h-6 rounded-md bg-blue-50 flex items-center justify-center text-primary">
-              <IndianRupee className="w-3.5 h-3.5" strokeWidth={2.5} />
+
+          <div className="flex items-center justify-between relative z-10">
+            <div className="flex items-center gap-2">
+              <div className="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-xs">
+                80%
+              </div>
+              <div>
+                <span className="text-[14px] font-semibold text-[#172033]">Hospital Net Payout</span>
+                <span className="text-[11px] text-[#667085] block">After 20% platform admin fee</span>
+              </div>
             </div>
-            <span className="text-[14px] font-semibold text-[#667085]">Total Payout</span>
+            <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200/60 px-2 py-0.5 rounded-full">
+              Hospital Share
+            </span>
           </div>
-          <div className="text-[32px] font-bold text-[#172033] tracking-tight relative z-10 mt-1 min-h-[40px] flex items-center">
+
+          <div className="text-[32px] font-extrabold text-emerald-600 tracking-tight relative z-10 min-h-[40px] flex items-center">
             {isLoading && !payoutsData ? (
               <Skeleton className="h-9 w-32" />
             ) : (
-              formatCurrency(payoutsData?.totalPayout ?? 0)
+              formatCurrency(totalHospitalPayout)
             )}
+          </div>
+
+          {/* 2-Column Split: Gross Revenue vs 20% Admin Cut */}
+          <div className="grid grid-cols-2 gap-2 pt-2 border-t border-gray-100 relative z-10">
+            <div className="flex flex-col bg-gray-50/90 rounded-xl p-2.5">
+              <span className="text-[11px] font-medium text-[#667085]">Total Gross Booked</span>
+              <span className="text-[16px] font-bold text-[#172033] mt-0.5">
+                {isLoading && !payoutsData ? (
+                  <Skeleton className="h-5 w-16" />
+                ) : (
+                  formatCurrency(totalGross)
+                )}
+              </span>
+            </div>
+            <div className="flex flex-col bg-amber-50/70 rounded-xl p-2.5 border border-amber-100/70">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-semibold text-amber-800">Admin Cut</span>
+                <span className="text-[10px] font-bold text-amber-700 bg-amber-100/90 px-1.5 py-0.2 rounded">20% off</span>
+              </div>
+              <span className="text-[16px] font-bold text-amber-900 mt-0.5">
+                {isLoading && !payoutsData ? (
+                  <Skeleton className="h-5 w-16" />
+                ) : (
+                  `-${formatCurrency(totalAdminCommission)}`
+                )}
+              </span>
+            </div>
           </div>
         </div>
 
-        {/* Payout by Service */}
+        {/* Payout by Service with 20% Admin Deduction */}
         <div className="flex flex-col gap-3">
-          <h3 className="text-[17px] font-semibold text-[#172033] px-1">Payout by Service</h3>
+          <div className="flex justify-between items-center px-1">
+            <h3 className="text-[17px] font-semibold text-[#172033]">Payout by Service</h3>
+            <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/50">
+              80% Net Payout
+            </span>
+          </div>
+
           <div className="bg-white rounded-2xl border border-gray-200/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] overflow-hidden flex flex-col">
             
             {/* 1. OP */}
             <div className="flex items-center justify-between p-3.5 border-b border-gray-100 last:border-0 interactive-element active:bg-gray-50/50">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-blue-50 text-primary flex items-center justify-center shrink-0">
-                  <Stethoscope className="w-4 h-4" />
+                <div className="w-10 h-10 rounded-xl bg-blue-50 text-primary flex items-center justify-center shrink-0">
+                  <Stethoscope className="w-5 h-5" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[14px] font-semibold text-[#172033]">OP</span>
+                  <span className="text-[14px] font-semibold text-[#172033]">OP Consultation</span>
                   <span className="text-[11px] text-[#667085]">
                     {isLoading && !payoutsData ? "Loading..." : `${byService?.op.count ?? 0} bookings`}
                   </span>
                 </div>
               </div>
-              <div className="flex flex-col items-end min-w-[70px]">
+              <div className="flex flex-col items-end min-w-[120px]">
                 {isLoading && !payoutsData ? (
-                  <Skeleton className="h-5 w-16" />
+                  <Skeleton className="h-5 w-20" />
                 ) : (
-                  <span className="text-[14px] font-bold text-[#172033]">
-                    {formatCurrency(byService?.op.revenue ?? 0)}
-                  </span>
+                  <>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-[15px] font-bold text-emerald-600">
+                        {formatCurrency(byService?.op.hospitalPayout ?? Math.round((byService?.op.revenue ?? 0) * 0.8))}
+                      </span>
+                      <span className="text-[9px] font-bold text-emerald-700 bg-emerald-50 px-1 py-0.2 rounded border border-emerald-200/60">80%</span>
+                    </div>
+                    <span className="text-[10px] text-[#667085] mt-0.5 text-right">
+                      Gross: {formatCurrency(byService?.op.revenue ?? 0)} &middot; <span className="text-amber-700 font-medium">Admin: -{formatCurrency(byService?.op.adminCommission ?? Math.round((byService?.op.revenue ?? 0) * 0.2))}</span>
+                    </span>
+                  </>
                 )}
               </div>
             </div>
@@ -247,8 +312,8 @@ export function Payouts() {
             {/* 2. Video Consultation */}
             <div className="flex items-center justify-between p-3.5 border-b border-gray-100 last:border-0 interactive-element active:bg-gray-50/50">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-purple-50 text-[#8B5CF6] flex items-center justify-center shrink-0">
-                  <Video className="w-4 h-4" />
+                <div className="w-10 h-10 rounded-xl bg-purple-50 text-[#8B5CF6] flex items-center justify-center shrink-0">
+                  <Video className="w-5 h-5" />
                 </div>
                 <div className="flex flex-col">
                   <span className="text-[14px] font-semibold text-[#172033]">Video Consultation</span>
@@ -257,13 +322,21 @@ export function Payouts() {
                   </span>
                 </div>
               </div>
-              <div className="flex flex-col items-end min-w-[70px]">
+              <div className="flex flex-col items-end min-w-[120px]">
                 {isLoading && !payoutsData ? (
-                  <Skeleton className="h-5 w-16" />
+                  <Skeleton className="h-5 w-20" />
                 ) : (
-                  <span className="text-[14px] font-bold text-[#172033]">
-                    {formatCurrency(byService?.videoConsultation.revenue ?? 0)}
-                  </span>
+                  <>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-[15px] font-bold text-emerald-600">
+                        {formatCurrency(byService?.videoConsultation.hospitalPayout ?? Math.round((byService?.videoConsultation.revenue ?? 0) * 0.8))}
+                      </span>
+                      <span className="text-[9px] font-bold text-emerald-700 bg-emerald-50 px-1 py-0.2 rounded border border-emerald-200/60">80%</span>
+                    </div>
+                    <span className="text-[10px] text-[#667085] mt-0.5 text-right">
+                      Gross: {formatCurrency(byService?.videoConsultation.revenue ?? 0)} &middot; <span className="text-amber-700 font-medium">Admin: -{formatCurrency(byService?.videoConsultation.adminCommission ?? Math.round((byService?.videoConsultation.revenue ?? 0) * 0.2))}</span>
+                    </span>
+                  </>
                 )}
               </div>
             </div>
@@ -271,8 +344,8 @@ export function Payouts() {
             {/* 3. Home Nursing */}
             <div className="flex items-center justify-between p-3.5 border-b border-gray-100 last:border-0 interactive-element active:bg-gray-50/50">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-green-50 text-success flex items-center justify-center shrink-0">
-                  <Home className="w-4 h-4" />
+                <div className="w-10 h-10 rounded-xl bg-green-50 text-success flex items-center justify-center shrink-0">
+                  <Home className="w-5 h-5" />
                 </div>
                 <div className="flex flex-col">
                   <span className="text-[14px] font-semibold text-[#172033]">Home Nursing</span>
@@ -281,13 +354,21 @@ export function Payouts() {
                   </span>
                 </div>
               </div>
-              <div className="flex flex-col items-end min-w-[70px]">
+              <div className="flex flex-col items-end min-w-[120px]">
                 {isLoading && !payoutsData ? (
-                  <Skeleton className="h-5 w-16" />
+                  <Skeleton className="h-5 w-20" />
                 ) : (
-                  <span className="text-[14px] font-bold text-[#172033]">
-                    {formatCurrency(byService?.homeNursing.revenue ?? 0)}
-                  </span>
+                  <>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-[15px] font-bold text-emerald-600">
+                        {formatCurrency(byService?.homeNursing.hospitalPayout ?? Math.round((byService?.homeNursing.revenue ?? 0) * 0.8))}
+                      </span>
+                      <span className="text-[9px] font-bold text-emerald-700 bg-emerald-50 px-1 py-0.2 rounded border border-emerald-200/60">80%</span>
+                    </div>
+                    <span className="text-[10px] text-[#667085] mt-0.5 text-right">
+                      Gross: {formatCurrency(byService?.homeNursing.revenue ?? 0)} &middot; <span className="text-amber-700 font-medium">Admin: -{formatCurrency(byService?.homeNursing.adminCommission ?? Math.round((byService?.homeNursing.revenue ?? 0) * 0.2))}</span>
+                    </span>
+                  </>
                 )}
               </div>
             </div>
@@ -295,8 +376,8 @@ export function Payouts() {
             {/* 4. Lab Tests */}
             <div className="flex items-center justify-between p-3.5 border-b border-gray-100 last:border-0 interactive-element active:bg-gray-50/50">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-pink-50 text-[#ec4899] flex items-center justify-center shrink-0">
-                  <FlaskConical className="w-4 h-4" />
+                <div className="w-10 h-10 rounded-xl bg-pink-50 text-[#ec4899] flex items-center justify-center shrink-0">
+                  <FlaskConical className="w-5 h-5" />
                 </div>
                 <div className="flex flex-col">
                   <span className="text-[14px] font-semibold text-[#172033]">Lab Tests</span>
@@ -305,13 +386,21 @@ export function Payouts() {
                   </span>
                 </div>
               </div>
-              <div className="flex flex-col items-end min-w-[70px]">
+              <div className="flex flex-col items-end min-w-[120px]">
                 {isLoading && !payoutsData ? (
-                  <Skeleton className="h-5 w-16" />
+                  <Skeleton className="h-5 w-20" />
                 ) : (
-                  <span className="text-[14px] font-bold text-[#172033]">
-                    {formatCurrency(byService?.labTests.revenue ?? 0)}
-                  </span>
+                  <>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-[15px] font-bold text-emerald-600">
+                        {formatCurrency(byService?.labTests.hospitalPayout ?? Math.round((byService?.labTests.revenue ?? 0) * 0.8))}
+                      </span>
+                      <span className="text-[9px] font-bold text-emerald-700 bg-emerald-50 px-1 py-0.2 rounded border border-emerald-200/60">80%</span>
+                    </div>
+                    <span className="text-[10px] text-[#667085] mt-0.5 text-right">
+                      Gross: {formatCurrency(byService?.labTests.revenue ?? 0)} &middot; <span className="text-amber-700 font-medium">Admin: -{formatCurrency(byService?.labTests.adminCommission ?? Math.round((byService?.labTests.revenue ?? 0) * 0.2))}</span>
+                    </span>
+                  </>
                 )}
               </div>
             </div>
@@ -319,8 +408,8 @@ export function Payouts() {
             {/* 5. Home Sample Collection */}
             <div className="flex items-center justify-between p-3.5 border-b border-gray-100 last:border-0 interactive-element active:bg-gray-50/50">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-orange-50 text-[#f97316] flex items-center justify-center shrink-0">
-                  <TestTube className="w-4 h-4" />
+                <div className="w-10 h-10 rounded-xl bg-orange-50 text-[#f97316] flex items-center justify-center shrink-0">
+                  <TestTube className="w-5 h-5" />
                 </div>
                 <div className="flex flex-col">
                   <span className="text-[14px] font-semibold text-[#172033] line-clamp-1">Home Sample Collection</span>
@@ -329,13 +418,21 @@ export function Payouts() {
                   </span>
                 </div>
               </div>
-              <div className="flex flex-col items-end shrink-0 min-w-[70px]">
+              <div className="flex flex-col items-end min-w-[120px]">
                 {isLoading && !payoutsData ? (
-                  <Skeleton className="h-5 w-16" />
+                  <Skeleton className="h-5 w-20" />
                 ) : (
-                  <span className="text-[14px] font-bold text-[#172033]">
-                    {formatCurrency(byService?.homeSampleCollection.revenue ?? 0)}
-                  </span>
+                  <>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-[15px] font-bold text-emerald-600">
+                        {formatCurrency(byService?.homeSampleCollection.hospitalPayout ?? Math.round((byService?.homeSampleCollection.revenue ?? 0) * 0.8))}
+                      </span>
+                      <span className="text-[9px] font-bold text-emerald-700 bg-emerald-50 px-1 py-0.2 rounded border border-emerald-200/60">80%</span>
+                    </div>
+                    <span className="text-[10px] text-[#667085] mt-0.5 text-right">
+                      Gross: {formatCurrency(byService?.homeSampleCollection.revenue ?? 0)} &middot; <span className="text-amber-700 font-medium">Admin: -{formatCurrency(byService?.homeSampleCollection.adminCommission ?? Math.round((byService?.homeSampleCollection.revenue ?? 0) * 0.2))}</span>
+                    </span>
+                  </>
                 )}
               </div>
             </div>
@@ -361,46 +458,55 @@ export function Payouts() {
               </div>
             </div>
 
-            {/* Average Payout */}
+            {/* Average Net Hospital Payout */}
             <div className="bg-white rounded-2xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.02)] border border-gray-200/60 flex flex-col gap-1">
-              <span className="text-[12px] font-semibold text-[#667085]">Average Payout</span>
+              <span className="text-[12px] font-semibold text-[#667085]">Avg Hospital Net</span>
               <div className="min-h-[28px] flex items-center">
                 {isLoading && !payoutsData ? (
                   <Skeleton className="h-6 w-16" />
                 ) : (
-                  <span className="text-[20px] font-bold text-[#172033]">
-                    {formatCurrency(summary?.averagePayout ?? 0)}
+                  <span className="text-[20px] font-bold text-emerald-600">
+                    {formatCurrency(summary?.averageHospitalPayout ?? Math.round((summary?.averagePayout ?? 0) * 0.8))}
                   </span>
                 )}
               </div>
+              <span className="text-[10px] text-[#98A2B3]">
+                Gross avg: {formatCurrency(summary?.averagePayout ?? 0)}
+              </span>
             </div>
 
-            {/* This Month */}
+            {/* This Month Net */}
             <div className="bg-white rounded-2xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.02)] border border-gray-200/60 flex flex-col gap-1">
-              <span className="text-[12px] font-semibold text-[#667085]">This Month</span>
+              <span className="text-[12px] font-semibold text-[#667085]">This Month (Net 80%)</span>
               <div className="min-h-[28px] flex items-center">
                 {isLoading && !payoutsData ? (
                   <Skeleton className="h-6 w-16" />
                 ) : (
-                  <span className="text-[20px] font-bold text-[#172033]">
-                    {formatCurrency(summary?.thisMonth ?? 0)}
+                  <span className="text-[20px] font-bold text-emerald-600">
+                    {formatCurrency(summary?.thisMonthHospitalPayout ?? Math.round((summary?.thisMonth ?? 0) * 0.8))}
                   </span>
                 )}
               </div>
+              <span className="text-[10px] text-[#98A2B3]">
+                Gross: {formatCurrency(summary?.thisMonth ?? 0)}
+              </span>
             </div>
 
-            {/* Last Month */}
+            {/* Last Month Net */}
             <div className="bg-white rounded-2xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.02)] border border-gray-200/60 flex flex-col gap-1">
-              <span className="text-[12px] font-semibold text-[#667085]">Last Month</span>
+              <span className="text-[12px] font-semibold text-[#667085]">Last Month (Net 80%)</span>
               <div className="min-h-[28px] flex items-center">
                 {isLoading && !payoutsData ? (
                   <Skeleton className="h-6 w-16" />
                 ) : (
                   <span className="text-[20px] font-bold text-[#172033]">
-                    {formatCurrency(summary?.lastMonth ?? 0)}
+                    {formatCurrency(summary?.lastMonthHospitalPayout ?? Math.round((summary?.lastMonth ?? 0) * 0.8))}
                   </span>
                 )}
               </div>
+              <span className="text-[10px] text-[#98A2B3]">
+                Gross: {formatCurrency(summary?.lastMonth ?? 0)}
+              </span>
             </div>
           </div>
         </div>
@@ -409,8 +515,8 @@ export function Payouts() {
         <div className="bg-white rounded-2xl border border-gray-200/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] p-4 flex flex-col gap-4 mt-1">
           <div className="flex items-center justify-between">
             <div className="flex flex-col">
-              <h3 className="text-[15px] font-semibold text-[#172033]">Payout Trend</h3>
-              <span className="text-[11px] text-[#667085]">Aggregated for selected period</span>
+              <h3 className="text-[15px] font-semibold text-[#172033]">Hospital Net Payout Trend</h3>
+              <span className="text-[11px] text-[#667085]">Daily 80% net earnings for selected period</span>
             </div>
           </div>
           
@@ -424,17 +530,17 @@ export function Payouts() {
                 <AreaChart data={payoutTrend}>
                   <defs>
                     <linearGradient id="colorPayout" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#1769E0" stopOpacity={0.2}/>
-                      <stop offset="95%" stopColor="#1769E0" stopOpacity={0}/>
+                      <stop offset="5%" stopColor="#10b981" stopOpacity={0.25}/>
+                      <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
                     </linearGradient>
                   </defs>
                   <Tooltip
-                    contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.05)', fontSize: '12px' }}
-                    itemStyle={{ color: '#1769E0', fontWeight: '600' }}
-                    formatter={(val: any) => [formatCurrency(Number(val) || 0), 'Payout']}
+                    contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.08)', fontSize: '12px' }}
+                    itemStyle={{ color: '#059669', fontWeight: '700' }}
+                    formatter={(val: any) => [formatCurrency(Number(val) || 0), 'Hospital Net (80%)']}
                     cursor={{ stroke: '#E5E7EB', strokeWidth: 1, strokeDasharray: '4 4' }}
                   />
-                  <Area type="monotone" dataKey="value" stroke="#1769E0" strokeWidth={2.5} fillOpacity={1} fill="url(#colorPayout)" />
+                  <Area type="monotone" dataKey="value" stroke="#10b981" strokeWidth={2.5} fillOpacity={1} fill="url(#colorPayout)" />
                 </AreaChart>
               </ResponsiveContainer>
             ) : (
@@ -483,7 +589,14 @@ export function Payouts() {
                 <div className="flex flex-col flex-1 gap-0.5">
                   <div className="flex justify-between items-start">
                     <span className="text-[14px] font-semibold text-[#172033]">{txn.service}</span>
-                    <span className="text-[14px] font-bold text-[#172033]">{formatCurrency(txn.amount)}</span>
+                    <div className="flex flex-col items-end">
+                      <span className="text-[14px] font-bold text-emerald-600">
+                        +{formatCurrency(txn.hospitalPayout ?? Math.round(txn.amount * 0.8))}
+                      </span>
+                      <span className="text-[10px] text-[#98A2B3]">
+                        Gross: {formatCurrency(txn.amount)} &middot; Admin: -{formatCurrency(txn.adminCommission ?? Math.round(txn.amount * 0.2))}
+                      </span>
+                    </div>
                   </div>
                   <div className="flex items-center justify-between text-[12px] text-[#667085]">
                     <span>{txn.patientName || 'Patient'}</span>

@@ -2,7 +2,7 @@ import { Search, Filter, Calendar, ArrowLeft, Play, FileText } from "lucide-reac
 import { useState, useEffect, useCallback } from "react"
 import { useAuth } from "@/context/AuthContext"
 import { motion, AnimatePresence } from "framer-motion"
-import { AppointmentDetailModal } from "../../components/appointments/AppointmentDetailModal"
+import { DoctorConsultationWorkspace } from "../../components/doctor/DoctorConsultationWorkspace"
 import { Skeleton } from "../../components/ui/Skeleton"
 import { EmptyState } from "../../components/ui/EmptyState"
 import { cn } from "@/lib/utils"
@@ -59,6 +59,9 @@ export function DoctorOPs() {
           mqId: (a.id || a.appointmentId || '').slice(0, 8).toUpperCase() || 'OP',
           patientName: a.patientName || a.name || 'Patient',
           patientPhone: a.patientPhone,
+          patientAge: a.patientAge ?? a.age,
+          patientGender: a.patientGender || a.gender,
+          reason: a.reason,
           time: parts[0] || '10:00',
           period: parts[1] || (timeStr.toUpperCase().includes('PM') ? 'PM' : 'AM'),
           date: (a.date || '').split('T')[0],
@@ -105,9 +108,9 @@ export function DoctorOPs() {
     return true;
   });
 
-  const updateStatus = async (id: string, newStatus: string) => {
+  const updateStatus = async (id: string, newStatus: string, notes?: string) => {
     try {
-      await adminApi.updateBookingStatus(id, newStatus);
+      await adminApi.updateBookingStatus(id, newStatus, notes);
       setAppointmentsList(prev => prev.map(a => a.id === id ? { ...a, status: newStatus } : a));
     } catch (err) {
       console.error("Failed to update status:", err);
@@ -119,6 +122,7 @@ export function DoctorOPs() {
     switch (status) {
       case 'CONFIRMED': return 'bg-emerald-50 text-emerald-500';
       case 'PENDING': return 'bg-[#EBF5FF] text-[#1B5DF1]';
+      case 'IN_CONSULTATION': return 'bg-blue-50 text-blue-600 border border-blue-200';
       case 'COMPLETED': return 'bg-[#0A1A3D] text-white';
       case 'CANCELLED': return 'bg-red-50 text-red-500';
       case 'WAITING': return 'bg-amber-50 text-amber-500';
@@ -337,19 +341,19 @@ export function DoctorOPs() {
                                 </div>
                               )}
 
-                              {activeDropdown === apt.id && (
-                                <div className="absolute top-full right-0 mt-1 w-36 bg-white rounded-xl shadow-xl border border-gray-100 py-1.5 z-50 overflow-hidden">
-                                  {['PENDING', 'CONFIRMED', 'COMPLETED', 'CANCELLED', 'WAITING'].map(status => (
-                                    <button
-                                      key={status}
-                                      onClick={() => updateStatus(apt.id, status)}
-                                      className="w-full text-left px-4 py-2.5 text-[11px] font-bold uppercase text-[#0A1A3D] hover:bg-[#EBF5FF] hover:text-[#1B5DF1] transition-colors"
-                                    >
-                                      {status}
-                                    </button>
-                                  ))}
-                                </div>
-                              )}
+                                {activeDropdown === apt.id && (
+                                  <div className="absolute top-full right-0 mt-1 w-44 bg-white rounded-xl shadow-xl border border-gray-100 py-1.5 z-50 overflow-hidden">
+                                    {['WAITING', 'IN_CONSULTATION', 'COMPLETED', 'CANCELLED'].map(status => (
+                                      <button
+                                        key={status}
+                                        onClick={() => updateStatus(apt.id, status)}
+                                        className="w-full text-left px-4 py-2.5 text-[11px] font-bold uppercase text-[#0A1A3D] hover:bg-[#EBF5FF] hover:text-[#1B5DF1] transition-colors"
+                                      >
+                                        {status.replace('_', ' ')}
+                                      </button>
+                                    ))}
+                                  </div>
+                                )}
                             </div>
                           </div>
 
@@ -393,10 +397,11 @@ export function DoctorOPs() {
         </div>
       </div>
 
-      <AppointmentDetailModal 
+      <DoctorConsultationWorkspace 
         isOpen={!!selectedAppointment}
         onClose={() => setSelectedAppointment(null)}
         appointment={selectedAppointment}
+        onConsultationCompleted={loadData}
       />
     </div>
   )

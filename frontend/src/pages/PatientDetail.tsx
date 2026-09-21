@@ -1,11 +1,15 @@
-import { ArrowLeft, User, Phone, Calendar, Activity, Clock, FileCheck, Download, AlertCircle, HeartPulse, Thermometer, Droplets, Stethoscope, ChevronRight, ShieldCheck } from "lucide-react"
+import { 
+  ArrowLeft, User, Phone, Calendar, Activity, Clock, FileCheck, 
+  AlertCircle, HeartPulse, Thermometer, Droplets, Stethoscope, 
+  ShieldCheck, Pill, FlaskConical, ChevronRight 
+} from "lucide-react"
 import { useNavigate, useParams } from "react-router-dom"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion } from "framer-motion"
 import { useState, useEffect } from "react"
 import { ConditionLabel } from "@/components/shared/ConditionLabel"
 import { EmptyState } from "../components/ui/EmptyState"
 import { Skeleton } from "../components/ui/Skeleton"
-import { doctorApi } from "@/services/doctorApi"
+import { doctorApi, type ClinicalHistoryItem } from "@/services/doctorApi"
 
 type PatientRecord = {
   id: string;
@@ -14,10 +18,6 @@ type PatientRecord = {
   age: string;
   gender: string;
   phone: string;
-  bloodGroup: string;
-  weight: string;
-  height: string;
-  allergies: string;
   lastVisit: string;
   condition: string;
   reason: string;
@@ -37,6 +37,7 @@ type VisitHistoryItem = {
   doctor: string;
   diagnosis: string;
   status: string;
+  reason?: string;
 };
 
 export function PatientDetail() {
@@ -46,6 +47,9 @@ export function PatientDetail() {
 
   const [patient, setPatient] = useState<PatientRecord | null>(null);
   const [visits, setVisits] = useState<VisitHistoryItem[]>([]);
+  const [clinicalHistory, setClinicalHistory] = useState<ClinicalHistoryItem[]>([]);
+  const [latestVitals, setLatestVitals] = useState<ClinicalHistoryItem['vitals'] | null>(null);
+
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -82,10 +86,6 @@ export function PatientDetail() {
           age: ageStr,
           gender: genderStr,
           phone: data.patientPhone || '',
-          bloodGroup: 'B+',
-          weight: '68 kg',
-          height: '172 cm',
-          allergies: 'No known drug allergies',
           lastVisit: data.date ? new Date(data.date).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Recent',
           condition: data.diseaseName || data.reason || data.opType || 'General Consultation',
           reason: data.reason || data.diseaseName || 'Routine consultation',
@@ -100,19 +100,55 @@ export function PatientDetail() {
 
         setPatient(formattedPatient);
 
-        if (data.pastVisits && data.pastVisits.length > 0) {
-          setVisits(data.pastVisits);
-        } else {
-          setVisits([
-            {
-              id: data.id || id,
-              date: formattedPatient.lastVisit,
-              time: formattedPatient.time,
-              doctor: formattedPatient.doctor,
-              diagnosis: formattedPatient.condition,
-              status: formattedPatient.status
+        // Fetch authentic longitudinal clinical history (vitals, prescriptions, lab orders)
+        const patientPhone = data.patientPhone;
+        const patientUserId = data.patientId;
+        const searchIdentifier = patientPhone || patientUserId;
+
+        if (searchIdentifier) {
+          try {
+            const history = await doctorApi.getPatientClinicalHistory(searchIdentifier);
+            if (isMounted) {
+              setClinicalHistory(history || []);
+              
+              // Find latest recorded vitals
+              const foundWithVitals = (history || []).find(h => h.vitals && (
+                h.vitals.systolicBp || h.vitals.pulseRate || h.vitals.bodyTemperature || h.vitals.spo2 || h.vitals.weightKg
+              ));
+              if (foundWithVitals) {
+                setLatestVitals(foundWithVitals.vitals);
+              }
+
+              // Transform visits
+              if (history && history.length > 0) {
+                setVisits(history.map(h => ({
+                  id: h.bookingId,
+                  date: h.date,
+                  time: h.time,
+                  doctor: h.doctor?.name || formattedPatient.doctor,
+                  diagnosis: h.prescription?.diagnosis || h.condition || formattedPatient.condition,
+                  status: h.status,
+                  reason: h.chiefComplaint
+                })));
+              } else if (data.pastVisits && data.pastVisits.length > 0) {
+                setVisits(data.pastVisits);
+              } else {
+                setVisits([
+                  {
+                    id: data.id || id,
+                    date: formattedPatient.lastVisit,
+                    time: formattedPatient.time,
+                    doctor: formattedPatient.doctor,
+                    diagnosis: formattedPatient.condition,
+                    status: formattedPatient.status,
+                    reason: formattedPatient.reason
+                  }
+                ]);
+              }
             }
-          ]);
+          } catch (histErr) {
+            console.warn("Could not load clinical history:", histErr);
+          }
         }
       } catch (err: any) {
         console.error("Failed to load patient details:", err);
@@ -132,11 +168,6 @@ export function PatientDetail() {
     };
   }, [id]);
 
-  const reports = [
-    { name: "General Blood Panel & CBC", date: "Recent", type: "Lab Report", size: "1.4 MB" },
-    { name: "Consultation Summary & E-Rx", date: "Today", type: "E-Prescription", size: "320 KB" }
-  ];
-
   if (isLoading) {
     return (
       <div className="flex flex-col bg-[#F7F8FA] min-h-[calc(100vh-80px)] p-4 max-w-2xl mx-auto w-full gap-4">
@@ -148,15 +179,6 @@ export function PatientDetail() {
           <Skeleton className="w-24 h-24 rounded-full" />
           <Skeleton className="w-40 h-7 rounded-lg" />
           <Skeleton className="w-56 h-4 rounded-lg" />
-          <div className="flex gap-3 w-full max-w-xs justify-center">
-            <Skeleton className="w-28 h-10 rounded-xl" />
-            <Skeleton className="w-28 h-10 rounded-xl" />
-          </div>
-        </div>
-        <div className="flex gap-2">
-          <Skeleton className="flex-1 h-11 rounded-xl" />
-          <Skeleton className="flex-1 h-11 rounded-xl" />
-          <Skeleton className="flex-1 h-11 rounded-xl" />
         </div>
         <Skeleton className="w-full h-40 rounded-2xl" />
       </div>
@@ -209,6 +231,22 @@ export function PatientDetail() {
     }
   };
 
+  // Collect all real prescriptions and lab orders
+  const allPrescriptions = clinicalHistory.filter(h => h.prescription).map(h => ({
+    bookingId: h.bookingId,
+    date: h.date,
+    doctor: h.doctor?.name || 'Doctor',
+    prescription: h.prescription!
+  }));
+
+  const allLabOrders = clinicalHistory.flatMap(h => h.labOrders.map(lo => ({
+    ...lo,
+    bookingDate: h.date,
+    doctorName: h.doctor?.name || 'Doctor'
+  })));
+
+  const totalReportsCount = allPrescriptions.length + allLabOrders.length;
+
   return (
     <div className="flex flex-col bg-[#F7F8FA] min-h-[calc(100vh-80px)] pb-24">
       
@@ -239,7 +277,7 @@ export function PatientDetail() {
           
           <h1 className="text-[22px] font-black tracking-tight text-[#0A1A3D]">{patient.name}</h1>
           <p className="text-xs font-semibold text-gray-500 mt-0.5">
-            {patient.age} • {patient.gender} • Blood Group {patient.bloodGroup}
+            {patient.age} • {patient.gender} {patient.phone ? `• ${patient.phone}` : ''}
           </p>
 
           <div className="flex items-center gap-2 mt-2">
@@ -271,7 +309,7 @@ export function PatientDetail() {
               onClick={() => navigate('/doctor/ops')}
               className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-[#1B5DF1] text-white hover:bg-blue-700 rounded-xl font-bold text-sm transition-all active:scale-95 shadow-sm"
             >
-              <Stethoscope className="w-4 h-4" /> Start Consult
+              <Stethoscope className="w-4 h-4" /> Go to OPs
             </button>
           </div>
         </div>
@@ -308,7 +346,7 @@ export function PatientDetail() {
                 : 'text-gray-500 hover:text-gray-900'
             }`}
           >
-            Reports ({reports.length})
+            Clinical Records ({totalReportsCount})
           </button>
         </div>
       </div>
@@ -331,7 +369,7 @@ export function PatientDetail() {
                 <span className="text-xs text-gray-400 font-semibold">Chief Complaint / Condition</span>
                 <ConditionLabel name={patient.condition} textClassName="text-[17px] font-black text-[#0A1A3D]" />
                 {patient.reason && patient.reason !== patient.condition && (
-                  <p className="text-xs text-gray-500 mt-1 font-medium italic">
+                  <p className="text-xs text-gray-600 mt-1 font-medium bg-gray-50 p-2.5 rounded-xl border border-gray-100">
                     "{patient.reason}"
                   </p>
                 )}
@@ -349,73 +387,101 @@ export function PatientDetail() {
               </div>
             </div>
 
-            {/* Vitals Metrics Grid */}
-            <div className="grid grid-cols-3 gap-2.5">
-              <div className="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center">
-                <span className="text-[11px] font-bold text-gray-400 mb-1">Weight</span>
-                <span className="text-sm font-black text-gray-800">{patient.weight}</span>
-              </div>
-              <div className="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center">
-                <span className="text-[11px] font-bold text-gray-400 mb-1">Height</span>
-                <span className="text-sm font-black text-gray-800">{patient.height}</span>
-              </div>
-              <div className="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center">
-                <span className="text-[11px] font-bold text-gray-400 mb-1">Blood Group</span>
-                <span className="text-sm font-black text-[#1B5DF1]">{patient.bloodGroup}</span>
-              </div>
-            </div>
-
-            {/* Clinical Vitals Details */}
+            {/* Authentic Clinical Vitals Baseline */}
             <div className="bg-white p-5 rounded-[24px] shadow-sm border border-gray-100 flex flex-col gap-3">
-              <h3 className="font-black text-sm text-[#0A1A3D] flex items-center gap-2">
-                <Activity className="w-4 h-4 text-[#1B5DF1]" /> Vitals Baseline
-              </h3>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div className="p-3 bg-gray-50 rounded-xl flex items-center gap-3">
-                  <HeartPulse className="w-5 h-5 text-rose-500 shrink-0" />
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-bold text-gray-400 uppercase">Blood Pressure</span>
-                    <span className="text-xs font-bold text-gray-800">120/80 mmHg</span>
-                  </div>
-                </div>
-
-                <div className="p-3 bg-gray-50 rounded-xl flex items-center gap-3">
-                  <Thermometer className="w-5 h-5 text-amber-500 shrink-0" />
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-bold text-gray-400 uppercase">Temperature</span>
-                    <span className="text-xs font-bold text-gray-800">98.6 °F</span>
-                  </div>
-                </div>
-
-                <div className="p-3 bg-gray-50 rounded-xl flex items-center gap-3">
-                  <Droplets className="w-5 h-5 text-blue-500 shrink-0" />
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-bold text-gray-400 uppercase">Pulse Rate</span>
-                    <span className="text-xs font-bold text-gray-800">72 bpm</span>
-                  </div>
-                </div>
-
-                <div className="p-3 bg-gray-50 rounded-xl flex items-center gap-3">
-                  <ShieldCheck className="w-5 h-5 text-emerald-500 shrink-0" />
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-bold text-gray-400 uppercase">SpO2</span>
-                    <span className="text-xs font-bold text-gray-800">99%</span>
-                  </div>
-                </div>
+              <div className="flex items-center justify-between">
+                <h3 className="font-black text-sm text-[#0A1A3D] flex items-center gap-2">
+                  <Activity className="w-4 h-4 text-[#1B5DF1]" /> Vitals Baseline
+                </h3>
+                {latestVitals?.recordedAt && (
+                  <span className="text-[10px] font-bold text-gray-400">
+                    Recorded {new Date(latestVitals.recordedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                  </span>
+                )}
               </div>
 
-              <div className="mt-1 pt-3 border-t border-gray-100 flex flex-col gap-1">
-                <span className="text-xs font-bold text-gray-500">Allergies & Sensitivities</span>
-                <span className="text-xs font-medium text-amber-600 bg-amber-50 px-3 py-1.5 rounded-lg border border-amber-100">
-                  {patient.allergies}
-                </span>
-              </div>
+              {latestVitals && (latestVitals.systolicBp || latestVitals.pulseRate || latestVitals.bodyTemperature || latestVitals.spo2 || latestVitals.weightKg) ? (
+                <>
+                  {/* Key Metrics */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                    {latestVitals.weightKg && (
+                      <div className="bg-gray-50/70 p-3 rounded-xl flex flex-col items-center text-center">
+                        <span className="text-[10px] font-bold text-gray-400 uppercase">Weight</span>
+                        <span className="text-sm font-black text-gray-800">{latestVitals.weightKg} kg</span>
+                      </div>
+                    )}
+                    {latestVitals.heightCm && (
+                      <div className="bg-gray-50/70 p-3 rounded-xl flex flex-col items-center text-center">
+                        <span className="text-[10px] font-bold text-gray-400 uppercase">Height</span>
+                        <span className="text-sm font-black text-gray-800">{latestVitals.heightCm} cm</span>
+                      </div>
+                    )}
+                    {latestVitals.respiratoryRate && (
+                      <div className="bg-gray-50/70 p-3 rounded-xl flex flex-col items-center text-center">
+                        <span className="text-[10px] font-bold text-gray-400 uppercase">Resp Rate</span>
+                        <span className="text-sm font-black text-gray-800">{latestVitals.respiratoryRate} /min</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Detailed Vitals Grid */}
+                  <div className="grid grid-cols-2 gap-3 pt-1">
+                    {latestVitals.systolicBp && latestVitals.diastolicBp ? (
+                      <div className="p-3 bg-gray-50 rounded-xl flex items-center gap-3">
+                        <HeartPulse className="w-5 h-5 text-rose-500 shrink-0" />
+                        <div className="flex flex-col">
+                          <span className="text-[10px] font-bold text-gray-400 uppercase">Blood Pressure</span>
+                          <span className="text-xs font-bold text-gray-800">{latestVitals.systolicBp}/{latestVitals.diastolicBp} mmHg</span>
+                        </div>
+                      </div>
+                    ) : null}
+
+                    {latestVitals.bodyTemperature ? (
+                      <div className="p-3 bg-gray-50 rounded-xl flex items-center gap-3">
+                        <Thermometer className="w-5 h-5 text-amber-500 shrink-0" />
+                        <div className="flex flex-col">
+                          <span className="text-[10px] font-bold text-gray-400 uppercase">Temperature</span>
+                          <span className="text-xs font-bold text-gray-800">{latestVitals.bodyTemperature} °F</span>
+                        </div>
+                      </div>
+                    ) : null}
+
+                    {latestVitals.pulseRate ? (
+                      <div className="p-3 bg-gray-50 rounded-xl flex items-center gap-3">
+                        <Droplets className="w-5 h-5 text-blue-500 shrink-0" />
+                        <div className="flex flex-col">
+                          <span className="text-[10px] font-bold text-gray-400 uppercase">Pulse Rate</span>
+                          <span className="text-xs font-bold text-gray-800">{latestVitals.pulseRate} bpm</span>
+                        </div>
+                      </div>
+                    ) : null}
+
+                    {latestVitals.spo2 ? (
+                      <div className="p-3 bg-gray-50 rounded-xl flex items-center gap-3">
+                        <ShieldCheck className="w-5 h-5 text-emerald-500 shrink-0" />
+                        <div className="flex flex-col">
+                          <span className="text-[10px] font-bold text-gray-400 uppercase">SpO2</span>
+                          <span className="text-xs font-bold text-gray-800">{latestVitals.spo2}%</span>
+                        </div>
+                      </div>
+                    ) : null}
+                  </div>
+                </>
+              ) : (
+                <div className="py-6 flex flex-col items-center text-center gap-2 bg-gray-50/50 rounded-2xl p-4">
+                  <HeartPulse className="w-8 h-8 text-gray-300" />
+                  <p className="text-xs font-bold text-gray-600">No Baseline Vitals Recorded</p>
+                  <p className="text-[11px] text-gray-400 max-w-xs">
+                    Vitals will appear here automatically once recorded during a consultation.
+                  </p>
+                </div>
+              )}
             </div>
             
           </motion.div>
         )}
 
+        {/* Tab B: History */}
         {activeTab === 'history' && (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col gap-3">
             {visits.length === 0 ? (
@@ -427,41 +493,103 @@ export function PatientDetail() {
                 </div>
                 <div className="flex-1">
                   <ConditionLabel name={visit.diagnosis} textClassName="font-bold text-gray-800 text-sm" />
-                  <div className="flex items-center justify-between mt-1">
+                  {visit.reason && (
+                    <p className="text-xs text-gray-500 mt-0.5 italic">"{visit.reason}"</p>
+                  )}
+                  <div className="flex items-center justify-between mt-2 pt-2 border-t border-gray-50">
                     <span className="text-xs text-gray-500 font-medium">{visit.doctor}</span>
                     <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded uppercase">
                       {visit.status}
                     </span>
                   </div>
-                  <p className="text-[11px] text-gray-400 mt-1.5 font-medium">{visit.date} {visit.time ? `• ${visit.time}` : ''}</p>
+                  <p className="text-[11px] text-gray-400 mt-1 font-medium">{visit.date} {visit.time ? `• ${visit.time}` : ''}</p>
                 </div>
               </div>
             ))}
           </motion.div>
         )}
 
+        {/* Tab C: Real Clinical Prescriptions & Ordered Lab Tests */}
         {activeTab === 'reports' && (
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col gap-3">
-            {reports.length === 0 ? (
-              <EmptyState icon={FileCheck} title="No Reports" description="Lab reports will appear here once available." />
-            ) : reports.map((report, i) => (
-              <div key={i} className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
-                <div className="w-11 h-11 rounded-xl bg-orange-50 text-orange-500 flex items-center justify-center shrink-0">
-                  <FileCheck className="w-5 h-5" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h4 className="font-bold text-gray-800 text-sm truncate">{report.name}</h4>
-                  <p className="text-xs text-gray-500 mt-0.5">{report.date} • {report.size}</p>
-                </div>
-                <button 
-                  onClick={() => alert(`Downloading ${report.name}`)}
-                  className="w-9 h-9 rounded-full bg-gray-50 flex items-center justify-center text-gray-600 hover:bg-gray-100 transition-colors shrink-0"
-                  title="Download report"
-                >
-                  <Download className="w-4 h-4" />
-                </button>
-              </div>
-            ))}
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col gap-4">
+            {totalReportsCount === 0 ? (
+              <EmptyState 
+                icon={FileCheck} 
+                title="No Clinical Records Yet" 
+                description="Prescriptions and diagnostic lab orders will appear here once issued by the doctor." 
+              />
+            ) : (
+              <>
+                {/* Prescriptions List */}
+                {allPrescriptions.length > 0 && (
+                  <div className="flex flex-col gap-3">
+                    <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider px-1">Issued Prescriptions</h3>
+                    {allPrescriptions.map(rx => (
+                      <div key={rx.prescription.id} className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col gap-3">
+                        <div className="flex items-start justify-between">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-black text-sm">
+                              <Pill className="w-5 h-5" />
+                            </div>
+                            <div>
+                              <h4 className="font-bold text-gray-800 text-sm">{rx.prescription.diagnosis}</h4>
+                              <p className="text-xs text-gray-500">{rx.doctor} • {rx.date}</p>
+                            </div>
+                          </div>
+                          <span className="text-[10px] font-bold bg-emerald-50 text-emerald-600 px-2.5 py-1 rounded-lg">
+                            {rx.prescription.items.length} Medicines
+                          </span>
+                        </div>
+
+                        {rx.prescription.clinicalNotes && (
+                          <p className="text-xs text-gray-600 bg-gray-50 p-2.5 rounded-xl border border-gray-100">
+                            Notes: {rx.prescription.clinicalNotes}
+                          </p>
+                        )}
+
+                        <div className="flex flex-col gap-1.5 pt-1 border-t border-gray-50">
+                          {rx.prescription.items.map(item => (
+                            <div key={item.id} className="flex items-center justify-between text-xs py-1">
+                              <div className="flex items-center gap-1.5">
+                                <span className="font-bold text-gray-800">{item.medicineName}</span>
+                                {item.strength && <span className="text-gray-400">({item.strength})</span>}
+                                <span className="text-[10px] text-gray-500 bg-gray-100 px-1.5 py-0.5 rounded">{item.dosageForm}</span>
+                              </div>
+                              <div className="flex items-center gap-2 text-gray-500 font-semibold">
+                                <span>{item.frequency}</span>
+                                <span>•</span>
+                                <span>{item.durationDays}d</span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Lab Investigation Orders */}
+                {allLabOrders.length > 0 && (
+                  <div className="flex flex-col gap-3 pt-2">
+                    <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider px-1">Prescribed Lab Tests</h3>
+                    {allLabOrders.map(lo => (
+                      <div key={lo.id} className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
+                          <FlaskConical className="w-5 h-5" />
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="font-bold text-gray-800 text-sm">{lo.testName || 'Diagnostic Lab Investigation'}</h4>
+                          <p className="text-xs text-gray-500">{lo.category || 'Lab'} • Ordered by {lo.doctorName} on {lo.bookingDate}</p>
+                        </div>
+                        <span className="text-[10px] font-bold bg-purple-50 text-purple-600 px-2.5 py-1 rounded-lg">
+                          Prescribed
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>
+            )}
           </motion.div>
         )}
       </div>

@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from "react"
-import { Clock, Users, IndianRupee, Calendar, FileText, ChevronDown, Stethoscope, MoreVertical, RefreshCw } from "lucide-react"
-import { motion } from "framer-motion"
+import { useState, useEffect, useCallback, useRef } from "react"
+import { Clock, Users, IndianRupee, Calendar, FileText, ChevronDown, Stethoscope, MoreVertical, RefreshCw, CheckCircle2, ChevronRight, Check } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
 import { AreaChart, Area, Tooltip, ResponsiveContainer } from 'recharts'
 import { useNavigate } from "react-router-dom"
 import { PromoCarousel } from "../components/PromoCarousel"
@@ -9,6 +9,8 @@ import { Skeleton } from "../components/ui/Skeleton"
 import { useAuth } from "../context/AuthContext"
 import { dashboardApi, type DashboardOverview } from "../services/dashboardApi"
 
+type RevenueTimeframe = 'today' | 'week' | 'month' | 'year';
+
 export function Dashboard() {
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -16,6 +18,22 @@ export function Dashboard() {
   const [overview, setOverview] = useState<DashboardOverview | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Revenue timeframe filter state
+  const [timeframe, setTimeframe] = useState<RevenueTimeframe>('week');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const fetchOverview = useCallback(async (showLoading = true) => {
     if (showLoading) setIsLoading(true);
@@ -70,15 +88,38 @@ export function Dashboard() {
     return "Good evening";
   };
 
+  // Remaining quick actions after removing OP Mgt and Reports
   const quickActions = [
-    { icon: Users, label: 'OP Mgt', path: '/appointments' },
-    { icon: Calendar, label: 'Appts', path: '/appointments' },
-    { icon: IndianRupee, label: 'Payout', path: '/payouts' },
-    { icon: Stethoscope, label: 'Doctors', path: '/profile' },
-    { icon: FileText, label: 'Reports', path: '/dashboard' },
+    { icon: Calendar, label: 'Appts', path: '/appointments', bg: 'bg-blue-50', text: 'text-primary' },
+    { icon: IndianRupee, label: 'Payout', path: '/payouts', bg: 'bg-teal-50', text: 'text-teal-600' },
+    { icon: Stethoscope, label: 'Doctors', path: '/profile/staff/doctors', bg: 'bg-indigo-50', text: 'text-indigo-600' },
   ];
 
-  const revenueData = overview?.revenueTrend || [];
+  const timeframeConfig: Record<RevenueTimeframe, { label: string; subtitle: string; emptyText: string }> = {
+    today: { label: 'Today', subtitle: 'Today', emptyText: 'No revenue recorded today' },
+    week: { label: 'Week', subtitle: 'This Week', emptyText: 'No revenue recorded this week' },
+    month: { label: 'Month', subtitle: 'This Month', emptyText: 'No revenue recorded this month' },
+    year: { label: 'Year', subtitle: 'This Year', emptyText: 'No revenue recorded this year' },
+  };
+
+  const getRevenueForTimeframe = () => {
+    if (!overview) return 0;
+    switch (timeframe) {
+      case 'today':
+        return overview.revenueToday ?? 0;
+      case 'week':
+        return overview.revenueThisWeek ?? 0;
+      case 'month':
+        return overview.revenueThisMonth ?? 0;
+      case 'year':
+        return overview.revenueThisYear ?? 0;
+      default:
+        return overview.revenueThisWeek ?? 0;
+    }
+  };
+
+  const revenueData = overview?.revenueTrends?.[timeframe] || (timeframe === 'week' ? overview?.revenueTrend || [] : []);
+
   const todayAppointments = overview?.todayAppointments || [];
   const upcomingAppointments = overview?.upcomingAppointments || [];
   const [appointmentTab, setAppointmentTab] = useState<'today' | 'upcoming'>('today');
@@ -102,12 +143,14 @@ export function Dashboard() {
     }
   };
 
+  const todayIso = new Date().toISOString().split('T')[0];
+
   return (
     <motion.div 
       initial="hidden"
       animate="show"
       variants={container}
-      className="flex flex-col gap-6 p-4 pt-2"
+      className="flex flex-col gap-6 p-4 pt-2 pb-32 sm:pb-36"
     >
       {/* Greeting & Refresh Header */}
       <div className="flex items-start justify-between">
@@ -138,12 +181,23 @@ export function Dashboard() {
       {/* Today's Overview (2x2 Grid) */}
       <div className="grid grid-cols-2 gap-3">
         {/* Card 1: Total OPs */}
-        <motion.div variants={item} className="bg-white rounded-2xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.02)] border border-gray-100/50 flex flex-col gap-3">
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 bg-blue-50 text-primary rounded-lg">
-              <Users className="w-4 h-4" />
+        <motion.div 
+          variants={item}
+          onClick={() => navigate('/appointments', { state: { date: todayIso, filter: 'ops' } })}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') navigate('/appointments', { state: { date: todayIso, filter: 'ops' } }); }}
+          className="bg-white rounded-2xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.02)] border border-gray-100/60 flex flex-col justify-between gap-3 cursor-pointer hover:border-blue-200 hover:shadow-md transition-all active:scale-[0.98] group"
+          title="View Today's OPs"
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="p-1.5 bg-blue-50 text-primary rounded-lg group-hover:bg-blue-100/80 transition-colors">
+                <Users className="w-4 h-4" />
+              </div>
+              <span className="text-[13px] font-medium text-[#667085]">Today's OPs</span>
             </div>
-            <span className="text-[13px] font-medium text-[#667085]">Today's OPs</span>
+            <ChevronRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
           </div>
           <div className="flex flex-col min-h-[32px] justify-center">
             {isLoading && !overview ? (
@@ -163,32 +217,104 @@ export function Dashboard() {
           </div>
         </motion.div>
 
-        {/* Card 2: Pending OPs */}
-        <motion.div variants={item} className="bg-white rounded-2xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.02)] border border-gray-100/50 flex flex-col gap-3">
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 bg-orange-50 text-warning rounded-lg">
-              <Clock className="w-4 h-4" />
+        {/* Card 2: Pending & Completed OPs (Split Half) */}
+        <motion.div 
+          variants={item}
+          className="bg-white rounded-2xl p-3 sm:p-4 shadow-[0_1px_2px_rgba(0,0,0,0.02)] border border-gray-100/60 flex flex-col justify-between hover:border-gray-200 transition-all group"
+        >
+          <div className="grid grid-cols-2 divide-x divide-gray-100 h-full">
+            {/* Left Half: Pending OPs */}
+            <div 
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate('/appointments', { state: { date: todayIso, status: 'WAITING' } });
+              }}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { 
+                if (e.key === 'Enter' || e.key === ' ') {
+                  navigate('/appointments', { state: { date: todayIso, status: 'WAITING' } }); 
+                }
+              }}
+              className="flex flex-col justify-between pr-2.5 sm:pr-3 cursor-pointer group/pending hover:bg-amber-50/40 -my-1 -ml-1 py-1 pl-1 rounded-xl transition-all active:scale-[0.97]"
+              title="View Pending OPs"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1.5">
+                  <div className="p-1 bg-amber-50 text-amber-600 rounded-lg group-hover/pending:bg-amber-100/80 transition-colors">
+                    <Clock className="w-3.5 h-3.5" />
+                  </div>
+                  <span className="text-[11px] sm:text-[12px] font-medium text-[#667085] truncate">Pending</span>
+                </div>
+                <ChevronRight className="w-3 h-3 text-gray-300 group-hover/pending:text-amber-600 group-hover/pending:translate-x-0.5 transition-all hidden sm:block" />
+              </div>
+              <div className="flex flex-col min-h-[32px] justify-center mt-1">
+                {isLoading && !overview ? (
+                  <Skeleton className="h-7 w-10" />
+                ) : (
+                  <span className="text-[20px] sm:text-[22px] font-semibold text-[#172033] tracking-tight">
+                    {overview?.pendingOPs ?? 0}
+                  </span>
+                )}
+              </div>
             </div>
-            <span className="text-[13px] font-medium text-[#667085]">Pending OPs</span>
-          </div>
-          <div className="flex flex-col min-h-[32px] justify-center">
-            {isLoading && !overview ? (
-              <Skeleton className="h-7 w-16" />
-            ) : (
-              <span className="text-[24px] font-semibold text-[#172033] tracking-tight">
-                {overview?.pendingOPs ?? 0}
-              </span>
-            )}
+
+            {/* Right Half: Completed OPs */}
+            <div 
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate('/appointments', { state: { date: todayIso, status: 'COMPLETED' } });
+              }}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { 
+                if (e.key === 'Enter' || e.key === ' ') {
+                  navigate('/appointments', { state: { date: todayIso, status: 'COMPLETED' } }); 
+                }
+              }}
+              className="flex flex-col justify-between pl-2.5 sm:pl-3 cursor-pointer group/completed hover:bg-emerald-50/40 -my-1 -mr-1 py-1 pr-1 rounded-xl transition-all active:scale-[0.97]"
+              title="View Completed OPs"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1.5">
+                  <div className="p-1 bg-emerald-50 text-emerald-600 rounded-lg group-hover/completed:bg-emerald-100/80 transition-colors">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                  </div>
+                  <span className="text-[11px] sm:text-[12px] font-medium text-[#667085] truncate">Completed</span>
+                </div>
+                <ChevronRight className="w-3 h-3 text-gray-300 group-hover/completed:text-emerald-600 group-hover/completed:translate-x-0.5 transition-all hidden sm:block" />
+              </div>
+              <div className="flex flex-col min-h-[32px] justify-center mt-1">
+                {isLoading && !overview ? (
+                  <Skeleton className="h-7 w-10" />
+                ) : (
+                  <span className="text-[20px] sm:text-[22px] font-semibold text-emerald-600 tracking-tight">
+                    {overview?.completedOPs ?? Math.max(0, (overview?.totalOPs ?? 0) - (overview?.pendingOPs ?? 0))}
+                  </span>
+                )}
+              </div>
+            </div>
           </div>
         </motion.div>
 
         {/* Card 3: Lab Tests */}
-        <motion.div variants={item} className="bg-white rounded-2xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.02)] border border-gray-100/50 flex flex-col gap-3">
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 bg-purple-50 text-info rounded-lg">
-              <FileText className="w-4 h-4" />
+        <motion.div 
+          variants={item}
+          onClick={() => navigate('/appointments', { state: { filter: 'lab', date: todayIso } })}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') navigate('/appointments', { state: { filter: 'lab', date: todayIso } }); }}
+          className="bg-white rounded-2xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.02)] border border-gray-100/60 flex flex-col justify-between gap-3 cursor-pointer hover:border-purple-200 hover:shadow-md transition-all active:scale-[0.98] group"
+          title="View Lab Tests"
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="p-1.5 bg-purple-50 text-info rounded-lg group-hover:bg-purple-100/80 transition-colors">
+                <FileText className="w-4 h-4" />
+              </div>
+              <span className="text-[13px] font-medium text-[#667085]">Lab Tests</span>
             </div>
-            <span className="text-[13px] font-medium text-[#667085]">Lab Tests</span>
+            <ChevronRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-info group-hover:translate-x-0.5 transition-all" />
           </div>
           <div className="flex flex-col min-h-[32px] justify-center">
             {isLoading && !overview ? (
@@ -202,12 +328,23 @@ export function Dashboard() {
         </motion.div>
 
         {/* Card 4: Revenue Today */}
-        <motion.div variants={item} className="bg-white rounded-2xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.02)] border border-gray-100/50 flex flex-col gap-3">
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 bg-teal-50 text-teal rounded-lg">
-              <IndianRupee className="w-4 h-4" />
+        <motion.div 
+          variants={item}
+          onClick={() => navigate('/payouts')}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') navigate('/payouts'); }}
+          className="bg-white rounded-2xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.02)] border border-gray-100/60 flex flex-col justify-between gap-3 cursor-pointer hover:border-teal-200 hover:shadow-md transition-all active:scale-[0.98] group"
+          title="View Revenue & Payouts"
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="p-1.5 bg-teal-50 text-teal rounded-lg group-hover:bg-teal-100/80 transition-colors">
+                <IndianRupee className="w-4 h-4" />
+              </div>
+              <span className="text-[13px] font-medium text-[#667085]">Revenue Today</span>
             </div>
-            <span className="text-[13px] font-medium text-[#667085]">Revenue</span>
+            <ChevronRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-teal group-hover:translate-x-0.5 transition-all" />
           </div>
           <div className="flex flex-col min-h-[32px] justify-center">
             {isLoading && !overview ? (
@@ -223,16 +360,55 @@ export function Dashboard() {
 
       <PromoCarousel />
 
-      {/* Revenue Trend Chart */}
+      {/* Revenue Trend Section with Working Timeframe Filter */}
       <motion.div variants={item} className="bg-white rounded-2xl border border-gray-100/50 shadow-[0_1px_2px_rgba(0,0,0,0.02)] p-4 flex flex-col gap-4">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between relative">
           <div className="flex flex-col">
             <h3 className="text-[15px] font-semibold text-[#172033]">Revenue</h3>
-            <span className="text-[12px] font-medium text-[#667085]">This Week</span>
+            <span className="text-[12px] font-medium text-[#667085]">{timeframeConfig[timeframe].subtitle}</span>
           </div>
-          <button className="flex items-center gap-1 text-[12px] font-semibold text-[#172033] bg-[#F7F8FA] px-2.5 py-1.5 rounded-lg interactive-element">
-            Week <ChevronDown className="w-3 h-3" />
-          </button>
+
+          {/* Interactive Timeframe Filter Dropdown */}
+          <div className="relative" ref={dropdownRef}>
+            <button 
+              onClick={() => setIsDropdownOpen(prev => !prev)}
+              className="flex items-center gap-1.5 text-[12px] font-semibold text-[#172033] bg-[#F7F8FA] hover:bg-gray-100 active:bg-gray-200 px-3 py-1.5 rounded-xl border border-gray-200/60 shadow-sm transition-all"
+              title="Change timeframe"
+            >
+              <span>{timeframeConfig[timeframe].label}</span>
+              <ChevronDown className={`w-3.5 h-3.5 text-gray-500 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            <AnimatePresence>
+              {isDropdownOpen && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95, y: -4 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, y: -4 }}
+                  transition={{ duration: 0.15 }}
+                  className="absolute right-0 mt-1.5 w-36 bg-white rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.12)] border border-gray-100 py-1 z-30 overflow-hidden"
+                >
+                  {(['today', 'week', 'month', 'year'] as const).map((t) => (
+                    <button
+                      key={t}
+                      onClick={() => {
+                        setTimeframe(t);
+                        setIsDropdownOpen(false);
+                      }}
+                      className={`w-full text-left px-3 py-2 text-[13px] flex items-center justify-between transition-colors ${
+                        timeframe === t 
+                          ? 'bg-blue-50/70 text-primary font-bold' 
+                          : 'text-[#172033] hover:bg-gray-50 font-medium'
+                      }`}
+                    >
+                      <span>{timeframeConfig[t].label}</span>
+                      {timeframe === t && <Check className="w-3.5 h-3.5 text-primary" />}
+                    </button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
         
         <div className="flex items-end justify-between">
@@ -241,7 +417,7 @@ export function Dashboard() {
               <Skeleton className="h-7 w-24" />
             ) : (
               <span className="text-[24px] font-semibold text-[#172033] tracking-tight">
-                {formatCurrency(overview?.revenueThisWeek ?? 0)}
+                {formatCurrency(getRevenueForTimeframe())}
               </span>
             )}
           </div>
@@ -262,7 +438,7 @@ export function Dashboard() {
                   </linearGradient>
                 </defs>
                 <Tooltip
-                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.05)', fontSize: '12px' }}
+                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.08)', fontSize: '12px' }}
                   itemStyle={{ color: '#1769E0', fontWeight: '600' }}
                   formatter={(value: any) => [formatCurrency(Number(value) || 0), 'Revenue']}
                   cursor={{ stroke: '#E5E7EB', strokeWidth: 1, strokeDasharray: '4 4' }}
@@ -272,29 +448,34 @@ export function Dashboard() {
             </ResponsiveContainer>
           ) : (
             <div className="h-full w-full flex items-center justify-center ml-2">
-              <span className="text-[13px] font-medium text-[#98A2B3]">No revenue recorded this week</span>
+              <span className="text-[13px] font-medium text-[#98A2B3]">{timeframeConfig[timeframe].emptyText}</span>
             </div>
           )}
         </div>
       </motion.div>
 
-      {/* Quick Access */}
+      {/* Quick Access: Clean 3-Button Grid (OP Mgt & Reports removed, Doctors -> /profile/staff/doctors) */}
       <motion.div variants={item} className="flex flex-col gap-3">
         <h3 className="text-[17px] font-semibold text-[#172033] px-1">Quick Access</h3>
-        <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-2 px-1">
+        <div className="grid grid-cols-3 gap-3 px-1">
           {quickActions.map((action, idx) => (
-            <button key={idx} onClick={() => navigate(action.path)} className="flex flex-col items-center gap-2 min-w-[72px] interactive-element active:scale-95 transition-transform">
-              <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center border border-gray-100/50 shadow-[0_2px_8px_rgba(0,0,0,0.02)] text-primary">
-                <action.icon className="w-6 h-6" strokeWidth={2} />
+            <button 
+              key={idx} 
+              onClick={() => navigate(action.path)} 
+              className="flex flex-col items-center justify-center gap-2 py-3.5 px-2 bg-white rounded-2xl border border-gray-100/70 shadow-[0_1px_3px_rgba(0,0,0,0.03)] hover:border-blue-200 hover:shadow-md active:scale-95 transition-all group"
+              title={`Go to ${action.label}`}
+            >
+              <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${action.bg} ${action.text} group-hover:scale-105 transition-transform`}>
+                <action.icon className="w-5 h-5" strokeWidth={2.2} />
               </div>
-              <span className="text-[12px] font-medium text-[#172033]">{action.label}</span>
+              <span className="text-[12px] font-semibold text-[#172033]">{action.label}</span>
             </button>
           ))}
         </div>
       </motion.div>
 
       {/* Appointments Feed with Today vs Upcoming Toggle */}
-      <motion.div variants={item} className="flex flex-col gap-3">
+      <motion.div variants={item} className="flex flex-col gap-3 mb-6">
         <div className="flex justify-between items-center px-1">
           <div className="flex items-center gap-2">
             <button
@@ -336,8 +517,14 @@ export function Dashboard() {
             activeAppointments.map((appt) => (
               <div 
                 key={appt.id} 
-                onClick={() => navigate('/appointments')} 
-                className="flex items-start gap-3 p-4 border-b border-gray-50 last:border-0 interactive-element active:bg-gray-50/50 transition-colors cursor-pointer"
+                onClick={() => {
+                  if (appt.patientId) {
+                    navigate(`/patients/${appt.patientId}`);
+                  } else {
+                    navigate('/appointments');
+                  }
+                }} 
+                className="flex items-start gap-3 p-4 border-b border-gray-50 last:border-0 interactive-element active:bg-gray-50/50 transition-colors cursor-pointer hover:bg-gray-50/40"
               >
                 <div className="flex flex-col items-center pt-1 min-w-[70px]">
                   <span className="text-[13px] font-bold text-[#172033]">{appt.time.split(' ')[0]}</span>
@@ -356,7 +543,14 @@ export function Dashboard() {
                 <div className="flex flex-col flex-1">
                   <div className="flex justify-between items-start">
                     <span className="text-[15px] font-semibold text-[#172033]">{appt.name}</span>
-                    <button className="p-1 -mt-1 -mr-1 text-[#98A2B3] active:text-[#172033]">
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (appt.patientId) navigate(`/patients/${appt.patientId}`);
+                        else navigate('/appointments');
+                      }}
+                      className="p-1 -mt-1 -mr-1 text-[#98A2B3] hover:text-[#172033] active:scale-95"
+                    >
                       <MoreVertical className="w-4 h-4" />
                     </button>
                   </div>

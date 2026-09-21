@@ -23,6 +23,7 @@ export function AddDepartment() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showExitConfirm, setShowExitConfirm] = useState(false);
   const [specialties, setSpecialties] = useState<any[]>([]);
+  const [existingDepartments, setExistingDepartments] = useState<any[]>([]);
   const [isLoadingSpecialties, setIsLoadingSpecialties] = useState(true);
   const [specialtiesError, setSpecialtiesError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -35,20 +36,24 @@ export function AddDepartment() {
   );
 
   useEffect(() => {
-    const fetchSpecialties = async () => {
+    const fetchData = async () => {
       try {
-        const data = await adminApi.getSpecialties();
-        setSpecialties(data);
+        const [specs, depts] = await Promise.all([
+          adminApi.getSpecialties(),
+          adminApi.getDepartments().catch(() => [])
+        ]);
+        setSpecialties(specs);
+        setExistingDepartments(depts || []);
       } catch (err) {
         setSpecialtiesError("Failed to load specialties");
       } finally {
         setIsLoadingSpecialties(false);
       }
     };
-    fetchSpecialties();
+    fetchData();
   }, []);
 
-  const { register, handleSubmit, formState: { errors, isDirty } } = useForm<DepartmentFormValues>({
+  const { register, handleSubmit, setValue, formState: { errors, isDirty } } = useForm<DepartmentFormValues>({
     resolver: zodResolver(departmentSchema),
     defaultValues: {
       status: "active"
@@ -59,6 +64,7 @@ export function AddDepartment() {
     setIsSubmitting(true);
     try {
       await adminApi.createDepartment(data);
+      toast('Department created successfully', 'success');
       navigate(-1);
     } catch (error) {
       toast(error instanceof Error ? error.message : 'Unable to create department', "error");
@@ -111,7 +117,7 @@ export function AddDepartment() {
                 {isLoadingSpecialties ? "Loading specialties..." : 
                  specialtiesError ? "Failed to load specialties" :
                  (specialties.find(s => s.id === document.getElementsByName("specialtyId")[0]?.getAttribute("value"))?.name || 
-                  specialties.find(s => s.id === register("specialtyId").value)?.name || // For initial render before selection
+                  specialties.find(s => s.id === (register("specialtyId") as any).value)?.name || // For initial render before selection
                   "Search and select a specialty...")}
               </span>
               {isLoadingSpecialties ? <Loader2 className="w-5 h-5 animate-spin text-[#98A2B3]" /> : <ChevronDown className="w-5 h-5 text-[#98A2B3]" />}
@@ -127,7 +133,7 @@ export function AddDepartment() {
                   <Search className="w-4 h-4 text-gray-400 mr-2" />
                   <input 
                     type="text"
-                    placeholder="Search 47+ specialties..."
+                    placeholder="Search specialties..."
                     className="flex-1 bg-transparent outline-none text-[14px] text-[#172033] placeholder:text-gray-400"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -140,24 +146,48 @@ export function AddDepartment() {
                       No specialties found matching "{searchQuery}"
                     </div>
                   ) : (
-                    filteredSpecialties.map((s) => (
-                      <div 
-                        key={s.id}
-                        className="px-4 py-2.5 hover:bg-blue-50/50 cursor-pointer flex items-center justify-between group transition-colors"
-                        onClick={() => {
-                          const event = { target: { name: 'specialtyId', value: s.id } };
-                          register("specialtyId").onChange(event);
-                          document.getElementsByName("specialtyId")[0]?.setAttribute("value", s.id); // Update DOM value for display logic
-                          setIsDropdownOpen(false);
-                          setSearchQuery("");
-                        }}
-                      >
-                        <div className="flex flex-col">
-                          <span className="text-[14px] font-medium text-[#172033] group-hover:text-primary transition-colors">{s.name}</span>
-                          {s.description && <span className="text-[12px] text-gray-500 line-clamp-1">{s.description}</span>}
+                    filteredSpecialties.map((s) => {
+                      const isAlreadyAdded = existingDepartments.some(
+                        (d) => d.specialtyId === s.id || d.name?.toLowerCase() === s.name?.toLowerCase()
+                      );
+
+                      return (
+                        <div 
+                          key={s.id}
+                          className={cn(
+                            "px-4 py-2.5 flex items-center justify-between group transition-colors",
+                            isAlreadyAdded 
+                              ? "opacity-50 bg-gray-50/70 cursor-not-allowed" 
+                              : "hover:bg-blue-50/50 cursor-pointer"
+                          )}
+                          onClick={() => {
+                            if (isAlreadyAdded) {
+                              toast(`'${s.name}' department is already added for your hospital.`, 'warning');
+                              return;
+                            }
+                            setValue('specialtyId', s.id, { shouldValidate: true, shouldDirty: true });
+                            document.getElementsByName("specialtyId")[0]?.setAttribute("value", s.id);
+                            setIsDropdownOpen(false);
+                            setSearchQuery("");
+                          }}
+                        >
+                          <div className="flex flex-col pr-2">
+                            <span className={cn(
+                              "text-[14px] font-medium transition-colors",
+                              isAlreadyAdded ? "text-gray-500" : "text-[#172033] group-hover:text-primary"
+                            )}>
+                              {s.name}
+                            </span>
+                            {s.description && <span className="text-[12px] text-gray-500 line-clamp-1">{s.description}</span>}
+                          </div>
+                          {isAlreadyAdded && (
+                            <span className="shrink-0 px-2 py-0.5 bg-gray-200/80 text-gray-600 text-[10px] font-bold uppercase rounded-md tracking-wider">
+                              Already Added
+                            </span>
+                          )}
                         </div>
-                      </div>
-                    ))
+                      );
+                    })
                   )}
                 </div>
               </div>

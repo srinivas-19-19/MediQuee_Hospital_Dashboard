@@ -16,13 +16,27 @@ export function BookMedicalCamp() {
     setIsSubmitting(true);
     try {
       const form = new FormData(e.currentTarget);
+      const location = String(form.get('location') || '').trim();
+      const expectedDate = String(form.get('expectedDate') || '').trim();
+      const expectedFootfall = form.get('expectedFootfall') ? String(form.get('expectedFootfall')) : null;
+      const speciality = form.get('speciality') ? String(form.get('speciality')).trim() : null;
+
+      if (!location || !expectedDate) {
+        toast('Please enter both location and expected date', 'warning');
+        setIsSubmitting(false);
+        return;
+      }
+
       await adminApi.requestMedicalCamp({
-        location: form.get('location'),
-        expectedDate: form.get('expectedDate'),
-        expectedFootfall: form.get('expectedFootfall'),
-        speciality: form.get('speciality'),
+        campTitle: speciality ? `${speciality} Health Camp` : 'Community Health Camp',
+        location,
+        expectedDate,
+        expectedFootfall,
+        speciality,
+        specialties: speciality ? [speciality] : ['General Medicine'],
       });
       setIsSubmitted(true);
+      toast('Medical camp request submitted successfully!', 'success');
     } catch (error) {
       toast(error instanceof Error ? error.message : 'Unable to submit request', 'error');
     } finally {

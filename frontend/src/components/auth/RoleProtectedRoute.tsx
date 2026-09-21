@@ -22,7 +22,7 @@ export function RoleProtectedRoute({ children, allowedRoles }: Props) {
     return <Navigate to="/login" replace />
   }
 
-  if (!allowedRoles.includes(role)) {
+  if (!role || !allowedRoles.includes(role)) {
     // Redirect to the user's correct dashboard
     if (role === 'lab') return <Navigate to="/lab" replace />
     if (role === 'doctor') return <Navigate to="/doctor" replace />

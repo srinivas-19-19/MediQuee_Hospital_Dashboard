@@ -279,7 +279,7 @@ export function AddDoctor() {
                       {isLoadingDepartments ? "Loading departments..." : 
                        departments.length === 0 ? "Please add a department first" :
                        (departments.find(d => d.id === document.getElementsByName("departmentId")[0]?.getAttribute("value"))?.name || 
-                        departments.find(d => d.id === register("departmentId").value)?.name || // For initial render before selection
+                        departments.find(d => d.id === (register("departmentId") as any).value)?.name || // For initial render before selection
                         "Search and select department...")}
                     </span>
                     {isLoadingDepartments ? <Loader2 className="w-5 h-5 animate-spin text-[#98A2B3]" /> : <ChevronDown className="w-5 h-5 text-[#98A2B3]" />}

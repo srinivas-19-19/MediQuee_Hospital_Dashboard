@@ -26,14 +26,25 @@ export function BookMarketing() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (selectedServices.length === 0) {
+      toast('Please select at least one marketing service', 'warning');
+      return;
+    }
     setIsSubmitting(true);
     try {
       const form = new FormData(e.currentTarget);
+      const preferredTimeVal = form.get('preferredTime');
+      const serviceLabels = selectedServices.map(
+        id => services.find(s => s.id === id)?.label || id
+      );
+
       await adminApi.requestMarketing({
-        services: selectedServices,
-        preferredTime: form.get('preferredTime'),
+        campaignType: serviceLabels.join(', '),
+        services: serviceLabels,
+        preferredTime: preferredTimeVal ? String(preferredTimeVal) : null,
       });
       setIsSubmitted(true);
+      toast('Marketing request submitted successfully!', 'success');
     } catch (error) {
       toast(error instanceof Error ? error.message : 'Unable to submit request', 'error');
     } finally {

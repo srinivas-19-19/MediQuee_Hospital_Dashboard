@@ -1,5 +1,6 @@
 export interface DashboardAppointment {
   id: string;
+  patientId?: string;
   date?: string;
   time: string;
   name: string;
@@ -15,14 +16,25 @@ export interface RevenueTrendItem {
   revenue: number;
 }
 
+export interface RevenueTrends {
+  today: RevenueTrendItem[];
+  week: RevenueTrendItem[];
+  month: RevenueTrendItem[];
+  year: RevenueTrendItem[];
+}
+
 export interface DashboardOverview {
   totalOPs: number;
   pendingOPs: number;
+  completedOPs?: number;
   upcomingOPs?: number;
   labTests: number;
   revenueToday: number;
   revenueThisWeek: number;
+  revenueThisMonth?: number;
+  revenueThisYear?: number;
   revenueTrend: RevenueTrendItem[];
+  revenueTrends?: RevenueTrends;
   todayAppointments: DashboardAppointment[];
   upcomingAppointments?: DashboardAppointment[];
 }
@@ -40,7 +52,7 @@ function getAuthHeaders(): Record<string, string> {
 export const dashboardApi = {
   /**
    * GET /api/v1/hospital/dashboard/overview
-   * Fetches real-time aggregate hospital overview metrics for today and this week.
+   * Fetches real-time aggregate hospital overview metrics for today, week, month, and year.
    */
   async getOverview(): Promise<DashboardOverview> {
     const res = await fetch(`${API_URL}/api/v1/hospital/dashboard/overview`, {

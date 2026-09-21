@@ -1,7 +1,7 @@
 import { Bell, Menu } from "lucide-react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { useAuth } from "@/context/AuthContext"
-import { useState } from "react"
+import { useNotifications } from "@/context/NotificationContext"
 import { cn } from "@/lib/utils"
 
 export function Header({ 
@@ -12,11 +12,10 @@ export function Header({
   onToggleSidebar?: () => void;
 }) {
   const { role, user } = useAuth()
+  const { unreadCount } = useNotifications()
   const location = useLocation()
   const navigate = useNavigate()
 
-  // Unread notification count comes from the backend. Hidden until available.
-  const [unreadCount] = useState<number | null>(null);
   const isDashboard = ['/dashboard', '/', '/doctor', '/nurse', '/receptionist', '/lab'].includes(location.pathname);
 
   const getScreenName = () => {
@@ -94,10 +93,19 @@ export function Header({
 
         {isDashboard && (
           <div className="flex items-center gap-3 relative">
-            <button onClick={() => navigate('/notifications')} className="relative p-1 text-gray-700 hover:text-[#0A1A3D] transition-colors interactive-element">
-              <Bell className="w-6 h-6" strokeWidth={2} />
-              {unreadCount !== null && (
-                <span className={cn("absolute top-0.5 right-1 w-3.5 h-3.5 text-white text-[9px] font-bold flex items-center justify-center rounded-full border-2 border-white", primaryBg)}>{unreadCount}</span>
+            <button 
+              onClick={() => navigate('/notifications')} 
+              className="relative p-1 text-gray-700 hover:text-[#0A1A3D] transition-colors interactive-element group"
+              title="Notifications"
+            >
+              <Bell className="w-6 h-6 group-hover:scale-105 transition-transform" strokeWidth={2} />
+              {unreadCount > 0 && (
+                <span className={cn(
+                  "absolute -top-0.5 -right-1 min-w-[18px] h-[18px] px-1 text-white text-[9px] font-black flex items-center justify-center rounded-full border-2 border-white shadow-sm animate-pulse",
+                  primaryBg
+                )}>
+                  {unreadCount > 99 ? '99+' : unreadCount}
+                </span>
               )}
             </button>
           </div>
