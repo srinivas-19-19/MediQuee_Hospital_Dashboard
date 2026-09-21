@@ -8,10 +8,11 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5175,
+    allowedHosts: true,
   },
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      "@": path.resolve(import.meta.dirname, "./src"),
     },
   },
 })
