@@ -64,7 +64,7 @@ export function LabDashboard() {
         </div>
         <div className="flex gap-3 overflow-x-auto pb-1 scrollbar-none -mx-0 md:flex-wrap md:overflow-visible">
           {testStatus.map(s => (
-            <div key={s.label} className={cn("flex-shrink-0 md:flex-1 md:min-w-[150px] flex flex-col items-center gap-1 px-5 py-3 md:py-4 rounded-2xl border bg-white", s.color)}>
+            <div key={s.label} className={cn("flex-shrink-0 md:flex-1 md:min-w-[150px] flex flex-col items-center gap-1 px-5 py-3 md:py-4 rounded-2xl border bg-surface", s.color)}>
               <span className="text-[22px] md:text-[26px] font-bold">{s.count}</span>
               <span className="text-[12px] md:text-[14px] font-semibold whitespace-nowrap">{s.label}</span>
             </div>
@@ -75,7 +75,7 @@ export function LabDashboard() {
       {/* Main Content Grid (Chart + Orders) */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 md:gap-6">
         {/* Revenue Chart */}
-        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.13 }} className="bg-white rounded-2xl p-4 md:p-6 border border-gray-100 shadow-sm flex flex-col h-full">
+        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.13 }} className="bg-surface rounded-2xl p-4 md:p-6 border border-border shadow-sm flex flex-col h-full">
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
             <div>
               <p className="text-[13px] md:text-[14px] text-[#667085] font-medium">Revenue</p>
@@ -88,7 +88,7 @@ export function LabDashboard() {
                   onClick={() => setRevPeriod(p)}
                   className={cn(
                     "px-3 py-1.5 md:px-4 md:py-2 rounded-lg text-[12px] md:text-[13px] font-semibold transition-colors capitalize",
-                    revPeriod === p ? "bg-white text-primary shadow-sm" : "text-[#667085] hover:bg-gray-100"
+                    revPeriod === p ? "bg-surface text-primary shadow-sm" : "text-[#667085] hover:bg-gray-100"
                   )}
                 >
                   {p.charAt(0).toUpperCase() + p.slice(1)}
@@ -111,9 +111,9 @@ export function LabDashboard() {
                     </linearGradient>
                   </defs>
                   <Tooltip
-                    contentStyle={{ background: '#fff', border: '1px solid #E5E7EB', borderRadius: 10, fontSize: 12 }}
+                    contentStyle={{ background: 'var(--surface, #1E293B)', border: '1px solid var(--border, #334155)', borderRadius: 10, fontSize: 12, color: 'var(--foreground, #F8FAFC)' }}
                     formatter={(v: any) => [`₹${v.toLocaleString()}`, 'Revenue']}
-                    labelStyle={{ color: '#667085' }}
+                    labelStyle={{ color: 'var(--muted, #94A3B8)' }}
                   />
                   <Area type="monotone" dataKey="v" stroke="#1769E0" strokeWidth={2} fill="url(#revGrad)" dot={false} />
                 </AreaChart>
@@ -123,7 +123,7 @@ export function LabDashboard() {
         </motion.div>
 
         {/* Today's Orders */}
-        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.16 }} className="bg-white rounded-2xl p-4 md:p-6 border border-gray-100 shadow-sm flex flex-col h-full">
+        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.16 }} className="bg-surface rounded-2xl p-4 md:p-6 border border-border shadow-sm flex flex-col h-full">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-[17px] md:text-[19px] font-bold text-[#172033]">Today's Orders</h2>
             <button onClick={() => navigate('/lab/orders')} className="text-[13px] md:text-[14px] text-primary font-semibold flex items-center gap-0.5 hover:underline">
@@ -145,7 +145,7 @@ export function LabDashboard() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.18 + i * 0.05 }}
                 onClick={() => navigate(`/lab/order/${order.id}`)}
-                className="w-full bg-white rounded-2xl p-4 border border-gray-100 shadow-sm flex items-center gap-3 active:scale-[0.98] transition-all hover:border-primary/20 hover:shadow-md text-left"
+                className="w-full bg-surface rounded-2xl p-4 border border-border shadow-sm flex items-center gap-3 active:scale-[0.98] transition-all hover:border-primary/20 hover:shadow-md text-left"
               >
                 {/* Avatar */}
                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center shrink-0">

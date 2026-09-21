@@ -27,7 +27,7 @@ export function ReportView() {
   return (
     <div className="flex flex-col bg-background min-h-screen w-full">
       {/* Header */}
-      <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md pt-4 md:pt-6 pb-3 md:pb-4 px-4 md:px-6 flex items-center gap-4 border-b border-gray-100/50">
+      <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md pt-4 md:pt-6 pb-3 md:pb-4 px-4 md:px-6 flex items-center gap-4 border-b border-border/50">
         <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-[#172033] rounded-full hover:bg-gray-100 transition-colors">
           <ArrowLeft className="w-5 h-5 md:w-6 md:h-6" />
         </button>
@@ -54,7 +54,7 @@ export function ReportView() {
 
             {/* Patient */}
             <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.06 }}
-              className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+              className="bg-surface rounded-2xl border border-border shadow-sm overflow-hidden">
               <div className="px-4 py-3 border-b border-gray-50">
                 <p className="text-[12px] md:text-[13px] font-bold text-[#667085] uppercase tracking-wide">Patient</p>
               </div>
@@ -71,7 +71,7 @@ export function ReportView() {
 
             {/* Test Info */}
             <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-              className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+              className="bg-surface rounded-2xl border border-border shadow-sm overflow-hidden">
               <div className="px-4 py-3 border-b border-gray-50">
                 <p className="text-[12px] md:text-[13px] font-bold text-[#667085] uppercase tracking-wide">Test Details</p>
               </div>
@@ -96,7 +96,7 @@ export function ReportView() {
           <div className="lg:col-span-8 flex flex-col gap-4 md:gap-6">
             {/* Report File Details */}
             <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.14 }}
-              className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 flex items-center gap-3">
+              className="bg-surface rounded-2xl border border-border shadow-sm p-4 flex items-center gap-3">
               <div className="w-12 h-12 md:w-14 md:h-14 bg-red-50 rounded-2xl flex items-center justify-center border border-red-100">
                 <FileText className="w-6 h-6 md:w-7 md:h-7 text-red-500" />
               </div>
@@ -112,8 +112,8 @@ export function ReportView() {
 
             {/* PDF Preview Placeholder */}
             <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.18 }}
-              className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 flex flex-col items-center justify-center gap-3 text-center min-h-[300px] lg:h-full lg:min-h-[500px]">
-              <div className="w-14 h-14 md:w-16 md:h-16 bg-gray-50 rounded-2xl flex items-center justify-center border border-gray-100">
+              className="bg-surface rounded-2xl border border-border shadow-sm p-8 flex flex-col items-center justify-center gap-3 text-center min-h-[300px] lg:h-full lg:min-h-[500px]">
+              <div className="w-14 h-14 md:w-16 md:h-16 bg-gray-50 rounded-2xl flex items-center justify-center border border-border">
                 <FileText className="w-7 h-7 md:w-8 md:h-8 text-[#98A2B3]" />
               </div>
               <p className="text-[14px] md:text-[16px] font-semibold text-[#172033]">PDF Preview</p>

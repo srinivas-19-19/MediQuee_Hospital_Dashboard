@@ -6,58 +6,58 @@ export function EPrescriptionSettings() {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50/30 pb-12">
-      <div className="sticky top-0 z-30 pt-4 pb-3 px-4 flex items-center gap-3 bg-white/80 backdrop-blur-xl border-b border-gray-100 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
-        <button onClick={() => navigate(-1)} className="p-2 -ml-2 rounded-xl hover:bg-gray-50 transition-colors">
-          <ArrowLeft className="w-5 h-5 text-gray-800" />
+    <div className="flex flex-col min-h-screen bg-background/30 pb-12">
+      <div className="sticky top-0 z-30 pt-4 pb-3 px-4 flex items-center gap-3 bg-surface/80 backdrop-blur-xl border-b border-border shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+        <button onClick={() => navigate(-1)} className="p-2 -ml-2 rounded-xl hover:bg-background transition-colors">
+          <ArrowLeft className="w-5 h-5 text-foreground" />
         </button>
         <h1 className="text-[20px] font-black text-[#0A1A3D] tracking-tight">E-Prescription Settings</h1>
       </div>
 
       <div className="p-4 flex flex-col gap-4">
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-surface rounded-2xl p-5 border border-border shadow-sm">
           <div className="flex items-center gap-3 mb-4 border-b border-gray-50 pb-4">
             <div className="w-12 h-12 rounded-xl bg-[#EBF5FF] flex items-center justify-center shrink-0">
               <FileSignature className="w-6 h-6 text-[#1B5DF1]" />
             </div>
             <div>
               <h2 className="text-lg font-bold text-[#0A1A3D]">Digital Signature</h2>
-              <p className="text-sm text-gray-500 font-medium">Manage your e-prescribing signature</p>
+              <p className="text-sm text-muted font-medium">Manage your e-prescribing signature</p>
             </div>
           </div>
           
           <div className="flex flex-col gap-4">
             {/* The saved signature comes from the backend. Unavailable until connected. */}
-            <div className="h-32 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center text-gray-400">
+            <div className="h-32 bg-background rounded-xl border-2 border-dashed border-border flex flex-col items-center justify-center text-muted/70">
               <span className="font-dancing-script text-3xl text-[#0A1A3D] opacity-80">—</span>
               <span className="text-xs font-bold uppercase mt-2 opacity-60">No Signature Added</span>
             </div>
-            <button className="w-full bg-white border border-gray-200 text-gray-700 py-3 rounded-xl font-bold hover:bg-gray-50 transition-colors">
+            <button className="w-full bg-surface border border-border text-foreground/80 py-3 rounded-xl font-bold hover:bg-background transition-colors">
               Update Signature
             </button>
           </div>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex flex-col gap-4">
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bg-surface rounded-2xl p-5 border border-border shadow-sm flex flex-col gap-4">
           <h3 className="font-bold text-[#0A1A3D]">Preferences</h3>
           
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-semibold text-gray-800">Save Favorite Medicines</p>
-              <p className="text-xs text-gray-500 font-medium mt-0.5">Quickly add frequently prescribed drugs</p>
+              <p className="font-semibold text-foreground">Save Favorite Medicines</p>
+              <p className="text-xs text-muted font-medium mt-0.5">Quickly add frequently prescribed drugs</p>
             </div>
             <div className="w-12 h-6 bg-[#1B5DF1] rounded-full relative shadow-inner">
-              <div className="absolute right-1 top-1 w-4 h-4 bg-white rounded-full"></div>
+              <div className="absolute right-1 top-1 w-4 h-4 bg-surface rounded-full"></div>
             </div>
           </div>
           
           <div className="flex items-center justify-between pt-4 border-t border-gray-50">
             <div>
-              <p className="font-semibold text-gray-800">Auto-add Generic Names</p>
-              <p className="text-xs text-gray-500 font-medium mt-0.5">Include generic equivalents in print</p>
+              <p className="font-semibold text-foreground">Auto-add Generic Names</p>
+              <p className="text-xs text-muted font-medium mt-0.5">Include generic equivalents in print</p>
             </div>
             <div className="w-12 h-6 bg-[#1B5DF1] rounded-full relative shadow-inner">
-              <div className="absolute right-1 top-1 w-4 h-4 bg-white rounded-full"></div>
+              <div className="absolute right-1 top-1 w-4 h-4 bg-surface rounded-full"></div>
             </div>
           </div>
         </motion.div>

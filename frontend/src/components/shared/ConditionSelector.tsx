@@ -78,14 +78,14 @@ export function ConditionSelector({ type, value, onChange, error }: ConditionSel
                 "flex items-center p-3 gap-3 rounded-xl border-2 transition-all cursor-pointer interactive-element",
                 isSelected 
                   ? "border-primary bg-primary/5" 
-                  : cn(error ? "border-destructive/40 bg-white hover:border-destructive" : "border-gray-100 hover:border-primary/40 bg-white")
+                  : cn(error ? "border-destructive/40 bg-surface hover:border-destructive" : "border-border hover:border-primary/40 bg-surface")
               )}
             >
               {item.iconPath ? (
                 <img src={item.iconPath} alt={item.name} className="w-8 h-8 object-contain drop-shadow-sm shrink-0" />
               ) : (
                 <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center shrink-0">
-                  <Activity className="w-4 h-4 text-gray-400" />
+                  <Activity className="w-4 h-4 text-muted/70" />
                 </div>
               )}
               <span className="text-[13px] font-semibold text-[#172033] leading-tight flex-1">{item.name}</span>
@@ -96,9 +96,9 @@ export function ConditionSelector({ type, value, onChange, error }: ConditionSel
         {/* More Button */}
         <div
           onClick={() => setIsModalOpen(true)}
-          className="flex items-center justify-center p-3 gap-2 rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 hover:bg-gray-100 hover:border-gray-300 transition-all cursor-pointer interactive-element"
+          className="flex items-center justify-center p-3 gap-2 rounded-xl border-2 border-dashed border-border bg-gray-50 hover:bg-gray-100 hover:border-gray-300 transition-all cursor-pointer interactive-element"
         >
-          <Search className="w-5 h-5 text-gray-500" />
+          <Search className="w-5 h-5 text-muted" />
           <span className="text-[13px] font-semibold text-gray-600">Search more...</span>
         </div>
       </div>
@@ -117,33 +117,33 @@ export function ConditionSelector({ type, value, onChange, error }: ConditionSel
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              className="relative w-full max-w-lg bg-white rounded-3xl shadow-xl overflow-hidden flex flex-col max-h-[80vh]"
+              className="relative w-full max-w-lg bg-surface rounded-3xl shadow-xl overflow-hidden flex flex-col max-h-[80vh]"
             >
-              <div className="flex items-center justify-between p-4 border-b border-gray-100">
-                <h3 className="text-lg font-bold text-gray-900">
+              <div className="flex items-center justify-between p-4 border-b border-border">
+                <h3 className="text-lg font-bold text-foreground">
                   Select {type === 'specialization' ? 'Specialization' : 'Test'}
                 </h3>
                 <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-                  <X className="w-5 h-5 text-gray-500" />
+                  <X className="w-5 h-5 text-muted" />
                 </button>
               </div>
 
-              <div className="p-4 border-b border-gray-100">
+              <div className="p-4 border-b border-border">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted/70" />
                   <input 
                     autoFocus
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search..."
-                    className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 text-sm"
+                    className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-border rounded-xl outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 text-sm"
                   />
                 </div>
               </div>
 
               <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-2">
                 {filteredItems.length === 0 ? (
-                  <div className="text-center py-10 text-gray-500 text-sm">
+                  <div className="text-center py-10 text-muted text-sm">
                     No results found
                   </div>
                 ) : (
@@ -156,17 +156,17 @@ export function ConditionSelector({ type, value, onChange, error }: ConditionSel
                       }}
                       className={cn(
                         "flex items-center gap-3 p-3 rounded-xl border text-left transition-all w-full",
-                        value === item.name ? "bg-primary/5 border-primary" : "bg-white border-gray-100 hover:border-gray-200 hover:bg-gray-50"
+                        value === item.name ? "bg-primary/5 border-primary" : "bg-surface border-border hover:border-border hover:bg-gray-50"
                       )}
                     >
                       {item.iconPath ? (
                         <img src={item.iconPath} alt={item.name} className="w-10 h-10 object-contain drop-shadow-sm" />
                       ) : (
                         <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center">
-                          <Activity className="w-5 h-5 text-gray-400" />
+                          <Activity className="w-5 h-5 text-muted/70" />
                         </div>
                       )}
-                      <span className="flex-1 text-sm font-semibold text-gray-900">{item.name}</span>
+                      <span className="flex-1 text-sm font-semibold text-foreground">{item.name}</span>
                       {value === item.name && <div className="w-2 h-2 rounded-full bg-primary" />}
                     </button>
                   ))

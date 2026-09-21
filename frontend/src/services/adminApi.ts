@@ -80,6 +80,23 @@ export const adminApi = {
     const data = await res.json();
     return data.data;
   },
+  
+  /**
+   * GET /api/v1/reference/lab-departments
+   * Fetch platform lab departments
+   */
+  async getPlatformLabDepartments(): Promise<any[]> {
+    const res = await fetch(`${API_URL}/api/v1/reference/lab-departments`, {
+      method: 'GET',
+      headers: getAuthHeaders(),
+    });
+    if (!res.ok) {
+      const error = await res.json().catch(() => ({}));
+      throw new Error(error.error?.message || 'Failed to fetch lab departments');
+    }
+    const data = await res.json();
+    return data.data;
+  },
   /**
    * GET /api/v1/departments
    * Fetch hospital departments

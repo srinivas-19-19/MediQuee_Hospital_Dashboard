@@ -12,7 +12,7 @@ const config: Record<string, { label: string; className: string }> = {
   collected:  { label: 'Collected',  className: 'bg-blue-50 text-blue-700 border border-blue-200' },
   processing: { label: 'Processing', className: 'bg-purple-50 text-purple-700 border border-purple-200' },
   ready:      { label: 'Ready',      className: 'bg-emerald-50 text-emerald-700 border border-emerald-200' },
-  delivered:  { label: 'Delivered',  className: 'bg-gray-50 text-gray-500 border border-gray-200' },
+  delivered:  { label: 'Delivered',  className: 'bg-gray-50 text-muted border border-border' },
   cancelled:  { label: 'Cancelled',  className: 'bg-red-50 text-red-600 border border-red-200' },
 }
 
@@ -42,7 +42,7 @@ interface LabKpiCardProps {
 
 export function LabKpiCard({ icon: Icon, label, value, trend, trendUp = true, iconBg = 'bg-blue-50', iconColor = 'text-primary' }: LabKpiCardProps) {
   return (
-    <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm flex flex-col gap-2">
+    <div className="bg-surface rounded-2xl p-4 border border-border shadow-sm flex flex-col gap-2">
       <div className="flex items-center justify-between">
         <div className={cn("w-8 h-8 rounded-xl flex items-center justify-center", iconBg)}>
           <Icon className={cn("w-4 h-4", iconColor)} strokeWidth={2} />

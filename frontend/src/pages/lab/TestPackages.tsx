@@ -47,7 +47,7 @@ export function TestPackages() {
 
   return (
     <div className="flex flex-col bg-background min-h-screen w-full">
-      <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md pt-4 md:pt-6 pb-3 md:pb-4 px-4 md:px-6 flex items-center gap-4 border-b border-gray-100/50">
+      <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md pt-4 md:pt-6 pb-3 md:pb-4 px-4 md:px-6 flex items-center gap-4 border-b border-border/50">
         <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-[#172033] rounded-full hover:bg-gray-100 transition-colors">
           <ArrowLeft className="w-5 h-5 md:w-6 md:h-6" />
         </button>
@@ -60,7 +60,7 @@ export function TestPackages() {
       <div className="px-4 md:px-6 pt-5 md:pt-8 pb-4 md:pb-8 w-full max-w-7xl mx-auto">
         {/* Add Package Form */}
         {showAdd && (
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-white rounded-2xl md:rounded-3xl border border-primary/20 shadow-sm p-4 md:p-6 lg:p-8 flex flex-col gap-4 md:gap-6 mb-6 md:mb-8 max-w-3xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-surface rounded-2xl md:rounded-3xl border border-primary/20 shadow-sm p-4 md:p-6 lg:p-8 flex flex-col gap-4 md:gap-6 mb-6 md:mb-8 max-w-3xl mx-auto">
             <div className="flex items-center justify-between">
               <h3 className="text-[15px] md:text-[18px] font-bold text-[#172033]">New Package</h3>
               <button onClick={() => setShowAdd(false)} className="p-1.5 md:p-2 rounded-full hover:bg-gray-100 text-[#667085] transition-colors"><X className="w-4 h-4 md:w-5 md:h-5" /></button>
@@ -68,7 +68,7 @@ export function TestPackages() {
 
             <div className="flex flex-col gap-1.5 md:gap-2">
               <label className="text-[13px] md:text-[14px] font-semibold text-[#172033]">Package Name <span className="text-destructive">*</span></label>
-              <input value={pkgName} onChange={e => setPkgName(e.target.value)} placeholder="e.g. Basic Health Package" className="px-4 md:px-5 py-3 md:py-3.5 bg-[#F7F8FA] border border-gray-200/60 rounded-xl md:rounded-2xl text-[15px] md:text-[16px] outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" />
+              <input value={pkgName} onChange={e => setPkgName(e.target.value)} placeholder="e.g. Basic Health Package" className="px-4 md:px-5 py-3 md:py-3.5 bg-[#F7F8FA] border border-border/60 rounded-xl md:rounded-2xl text-[15px] md:text-[16px] outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" />
             </div>
 
             <div className="flex flex-col gap-2 md:gap-3">
@@ -79,8 +79,8 @@ export function TestPackages() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3">
                 {availableTests.map(t => (
                   <button key={t.id} onClick={() => toggleTest(t.id)}
-                    className={cn("flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl md:rounded-2xl border text-left transition-all hover:border-primary/40", selectedTests.includes(t.id) ? "bg-primary/5 border-primary shadow-sm" : "bg-[#F7F8FA] border-gray-200/60")}>
-                    <div className={cn("w-5 h-5 md:w-6 md:h-6 rounded-md md:rounded-lg border flex items-center justify-center transition-colors", selectedTests.includes(t.id) ? "bg-primary border-primary" : "bg-white border-gray-300")}>
+                    className={cn("flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl md:rounded-2xl border text-left transition-all hover:border-primary/40", selectedTests.includes(t.id) ? "bg-primary/5 border-primary shadow-sm" : "bg-[#F7F8FA] border-border/60")}>
+                    <div className={cn("w-5 h-5 md:w-6 md:h-6 rounded-md md:rounded-lg border flex items-center justify-center transition-colors", selectedTests.includes(t.id) ? "bg-primary border-primary" : "bg-surface border-gray-300")}>
                       {selectedTests.includes(t.id) && <Check className="w-3 h-3 md:w-4 md:h-4 text-white" strokeWidth={3} />}
                     </div>
                     <span className="flex-1 text-[14px] md:text-[15px] font-medium text-[#172033]">{t.name}</span>
@@ -100,7 +100,7 @@ export function TestPackages() {
 
             <div className="flex flex-col gap-1.5 md:gap-2">
               <label className="text-[13px] md:text-[14px] font-semibold text-[#172033]">Package Price (₹) <span className="text-destructive">*</span></label>
-              <input value={pkgPrice} onChange={e => setPkgPrice(e.target.value)} type="number" placeholder="e.g. 999" className="px-4 md:px-5 py-3 md:py-3.5 bg-[#F7F8FA] border border-gray-200/60 rounded-xl md:rounded-2xl text-[15px] md:text-[16px] outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" />
+              <input value={pkgPrice} onChange={e => setPkgPrice(e.target.value)} type="number" placeholder="e.g. 999" className="px-4 md:px-5 py-3 md:py-3.5 bg-[#F7F8FA] border border-border/60 rounded-xl md:rounded-2xl text-[15px] md:text-[16px] outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" />
               {discount > 0 && <p className="text-[12px] md:text-[14px] text-emerald-600 font-semibold mt-1">Customer saves ₹{discount}</p>}
             </div>
 
@@ -114,7 +114,7 @@ export function TestPackages() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 w-full">
           {existingPackages.map((pkg, i) => (
             <motion.div key={pkg.id} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}
-              className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col hover:border-primary/20 hover:shadow-md transition-all">
+              className="bg-surface rounded-2xl border border-border shadow-sm overflow-hidden flex flex-col hover:border-primary/20 hover:shadow-md transition-all">
               <div className="px-4 md:px-5 pt-4 md:pt-5 pb-3 md:pb-4 flex-1">
                 <div className="flex items-start justify-between gap-2">
                   <div>

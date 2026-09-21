@@ -48,15 +48,15 @@ export function DocumentUploadCard({
       case "REQUIRED":
         return <span className="bg-red-50 text-red-600 text-[10px] font-black tracking-wider uppercase px-2 py-0.5 rounded-md">Required</span>;
       case "OPTIONAL":
-        return <span className="bg-gray-100 text-gray-500 text-[10px] font-black tracking-wider uppercase px-2 py-0.5 rounded-md">Optional</span>;
+        return <span className="bg-gray-100 text-muted text-[10px] font-black tracking-wider uppercase px-2 py-0.5 rounded-md">Optional</span>;
       case "IF APPLICABLE":
         return <span className="bg-blue-50 text-blue-600 text-[10px] font-black tracking-wider uppercase px-2 py-0.5 rounded-md">If Applicable</span>;
     }
   };
 
   return (
-    <div className={`flex flex-col bg-white border-2 rounded-[20px] transition-all overflow-hidden ${
-      error ? 'border-red-500' : value ? 'border-[#16A34A]/50 bg-[#16A34A]/5' : 'border-gray-200'
+    <div className={`flex flex-col bg-surface border-2 rounded-[20px] transition-all overflow-hidden ${
+      error ? 'border-red-500' : value ? 'border-[#16A34A]/50 bg-[#16A34A]/5' : 'border-border'
     }`}>
       
       <div className="p-4 flex gap-3">
@@ -113,7 +113,7 @@ export function DocumentUploadCard({
               exit={{ opacity: 0, height: 0 }}
               className="flex flex-col gap-3"
             >
-              <div className="flex items-center gap-3 p-3 bg-white rounded-xl border border-[#16A34A]/20 shadow-sm">
+              <div className="flex items-center gap-3 p-3 bg-surface rounded-xl border border-[#16A34A]/20 shadow-sm">
                 <div className="w-8 h-8 rounded-full bg-[#16A34A]/10 text-[#16A34A] flex items-center justify-center shrink-0">
                   <CheckCircle2 className="w-4 h-4" />
                 </div>

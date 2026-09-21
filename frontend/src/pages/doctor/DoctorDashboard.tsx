@@ -147,7 +147,7 @@ export function DoctorDashboard() {
                 presenceStatus === 'AVAILABLE_IN_OPD' ? "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100" :
                 presenceStatus === 'ON_BREAK' ? "bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100" :
                 presenceStatus === 'IN_SURGERY' ? "bg-indigo-50 text-indigo-700 border-indigo-200 hover:bg-indigo-100" :
-                "bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100"
+                "bg-gray-50 text-gray-600 border-border hover:bg-gray-100"
               )}
             >
               <span className={cn(
@@ -167,7 +167,7 @@ export function DoctorDashboard() {
             </button>
 
             {isPresenceMenuOpen && (
-              <div className="absolute right-0 mt-1.5 w-44 bg-white rounded-2xl shadow-xl border border-gray-100 py-1.5 z-50 overflow-hidden">
+              <div className="absolute right-0 mt-1.5 w-44 bg-surface rounded-2xl shadow-xl border border-border py-1.5 z-50 overflow-hidden">
                 {[
                   { status: 'AVAILABLE_IN_OPD', label: 'Available in OPD', color: 'bg-emerald-500' },
                   { status: 'ON_BREAK', label: 'On Break', color: 'bg-amber-500' },
@@ -193,7 +193,7 @@ export function DoctorDashboard() {
           <button
             onClick={loadData}
             disabled={isLoading}
-            className="p-2 rounded-xl bg-white border border-gray-100 shadow-sm text-gray-500 hover:text-[#1B5DF1] hover:border-[#1B5DF1]/30 transition-all active:scale-95 disabled:opacity-50"
+            className="p-2 rounded-xl bg-surface border border-border shadow-sm text-muted hover:text-[#1B5DF1] hover:border-[#1B5DF1]/30 transition-all active:scale-95 disabled:opacity-50"
             title="Refresh appointments"
           >
             <RefreshCw className={cn("w-4 h-4", isLoading && "animate-spin text-[#1B5DF1]")} />
@@ -204,7 +204,7 @@ export function DoctorDashboard() {
       {/* Doctor Availability Configuration Quick Action */}
       <div 
         onClick={() => navigate('/doctor/availability')}
-        className="bg-white border border-blue-100/80 hover:border-[#1B5DF1]/40 rounded-[20px] p-4 flex items-center justify-between cursor-pointer shadow-sm hover:shadow transition-all active:scale-[0.99]"
+        className="bg-surface border border-blue-100/80 hover:border-[#1B5DF1]/40 rounded-[20px] p-4 flex items-center justify-between cursor-pointer shadow-sm hover:shadow transition-all active:scale-[0.99]"
       >
         <div className="flex items-center gap-3.5">
           <div className="w-11 h-11 rounded-2xl bg-[#EBF5FF] flex items-center justify-center shrink-0 text-[#1B5DF1]">
@@ -212,20 +212,20 @@ export function DoctorDashboard() {
           </div>
           <div className="flex flex-col">
             <h3 className="text-[#0A1A3D] font-bold text-[15px]">Consultation Hours & Availability</h3>
-            <p className="text-gray-500 text-[12px] font-medium">Set your weekly schedule and slot durations</p>
+            <p className="text-muted text-[12px] font-medium">Set your weekly schedule and slot durations</p>
           </div>
         </div>
         <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center shrink-0">
-          <ChevronRight className="w-4 h-4 text-gray-400" />
+          <ChevronRight className="w-4 h-4 text-muted/70" />
         </div>
       </div>
 
       {/* Current / Next Patient Contextual Card */}
       <div className="bg-gradient-to-br from-[#1B5DF1] to-[#1244B6] rounded-[24px] p-5 text-white shadow-[0_8px_24px_rgba(27,93,241,0.25)] flex flex-col gap-4 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-48 h-48 bg-white/10 rounded-full blur-[40px] -mr-10 -mt-10 pointer-events-none" />
+        <div className="absolute top-0 right-0 w-48 h-48 bg-surface/10 rounded-full blur-[40px] -mr-10 -mt-10 pointer-events-none" />
 
         <div className="relative z-10 flex items-center justify-between">
-          <span className="bg-white/20 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest border border-white/10">
+          <span className="bg-surface/20 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest border border-white/10">
             {nextPatient ? (nextPatient.status === 'IN_CONSULTATION' ? 'NOW CONSULTING' : 'NEXT PATIENT TODAY') : nextUpcoming ? 'NEXT UPCOMING APPOINTMENT' : 'CONSULTATION DESK'}
           </span>
         </div>
@@ -236,9 +236,9 @@ export function DoctorDashboard() {
               <h2 className="text-[22px] font-black tracking-tight text-white">{nextPatient.name}</h2>
               <div className="flex items-center gap-2 text-[13px] text-[#EBF5FF]/90 font-medium">
                 <span>{nextPatient.age} yrs</span>
-                <span className="w-1 h-1 rounded-full bg-white/50"></span>
+                <span className="w-1 h-1 rounded-full bg-surface/50"></span>
                 <span>{nextPatient.gender}</span>
-                <span className="w-1 h-1 rounded-full bg-white/50"></span>
+                <span className="w-1 h-1 rounded-full bg-surface/50"></span>
                 <span>ID {nextPatient.mqId}</span>
               </div>
               <p className="text-[#EBF5FF] text-[13px] font-semibold mt-1">
@@ -249,13 +249,13 @@ export function DoctorDashboard() {
             <div className="relative z-10 flex gap-3 mt-2">
               <button
                 onClick={() => navigate('/patients/' + (nextPatient.id || nextPatient.mqId))}
-                className="flex-1 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold py-3 rounded-[14px] transition-all active:scale-[0.98] text-[14px]"
+                className="flex-1 bg-surface/10 hover:bg-surface/20 border border-white/20 text-white font-bold py-3 rounded-[14px] transition-all active:scale-[0.98] text-[14px]"
               >
                 Open Patient
               </button>
               <button
                 onClick={() => navigate('/doctor/ops')}
-                className="flex-1 bg-white text-[#1B5DF1] font-bold py-3 rounded-[14px] shadow-sm transition-all active:scale-[0.98] text-[14px]"
+                className="flex-1 bg-surface text-[#1B5DF1] font-bold py-3 rounded-[14px] shadow-sm transition-all active:scale-[0.98] text-[14px]"
               >
                 Start Consult
               </button>
@@ -266,15 +266,15 @@ export function DoctorDashboard() {
             <div className="relative z-10 flex flex-col gap-1">
               <div className="flex items-center gap-2">
                 <h2 className="text-[22px] font-black tracking-tight text-white">{nextUpcoming.name}</h2>
-                <span className="bg-white/20 text-white text-[11px] font-bold px-2 py-0.5 rounded-md">
+                <span className="bg-surface/20 text-white text-[11px] font-bold px-2 py-0.5 rounded-md">
                   {formatScheduleDate(nextUpcoming.date)}
                 </span>
               </div>
               <div className="flex items-center gap-2 text-[13px] text-[#EBF5FF]/90 font-medium">
                 <span>{nextUpcoming.age} yrs</span>
-                <span className="w-1 h-1 rounded-full bg-white/50"></span>
+                <span className="w-1 h-1 rounded-full bg-surface/50"></span>
                 <span>{nextUpcoming.gender}</span>
-                <span className="w-1 h-1 rounded-full bg-white/50"></span>
+                <span className="w-1 h-1 rounded-full bg-surface/50"></span>
                 <span>ID {nextUpcoming.mqId}</span>
               </div>
               <p className="text-[#EBF5FF] text-[13px] font-semibold mt-1">
@@ -285,13 +285,13 @@ export function DoctorDashboard() {
             <div className="relative z-10 flex gap-3 mt-2">
               <button
                 onClick={() => navigate('/patients/' + (nextUpcoming.id || nextUpcoming.mqId))}
-                className="flex-1 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold py-3 rounded-[14px] transition-all active:scale-[0.98] text-[14px]"
+                className="flex-1 bg-surface/10 hover:bg-surface/20 border border-white/20 text-white font-bold py-3 rounded-[14px] transition-all active:scale-[0.98] text-[14px]"
               >
                 Open Patient
               </button>
               <button
                 onClick={() => navigate('/doctor/ops')}
-                className="flex-1 bg-white text-[#1B5DF1] font-bold py-3 rounded-[14px] shadow-sm transition-all active:scale-[0.98] text-[14px]"
+                className="flex-1 bg-surface text-[#1B5DF1] font-bold py-3 rounded-[14px] shadow-sm transition-all active:scale-[0.98] text-[14px]"
               >
                 View in Schedule
               </button>
@@ -311,7 +311,7 @@ export function DoctorDashboard() {
 
       {/* Today's Overview (Grid) */}
       <div className="grid grid-cols-2 gap-3">
-        <div className="bg-white rounded-[20px] p-4 flex flex-col gap-1 shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-gray-100">
+        <div className="bg-surface rounded-[20px] p-4 flex flex-col gap-1 shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-border">
           <div className="flex items-baseline gap-2">
             <span className="text-[24px] font-black text-[#0A1A3D]">{isLoading ? "..." : todayOPsCount}</span>
             {upcomingAppts.length > 0 && (
@@ -320,19 +320,19 @@ export function DoctorDashboard() {
               </span>
             )}
           </div>
-          <span className="text-[12px] font-bold text-gray-500">Today's OPs</span>
+          <span className="text-[12px] font-bold text-muted">Today's OPs</span>
         </div>
-        <div className="bg-white rounded-[20px] p-4 flex flex-col gap-1 shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-gray-100">
+        <div className="bg-surface rounded-[20px] p-4 flex flex-col gap-1 shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-border">
           <span className="text-[24px] font-black text-[#1B5DF1]">{isLoading ? "..." : pendingOPsCount}</span>
           <span className="text-[12px] font-bold text-[#1B5DF1]">Pending OPs</span>
         </div>
-        <div className="bg-white rounded-[20px] p-4 flex flex-col gap-1 shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-gray-100">
+        <div className="bg-surface rounded-[20px] p-4 flex flex-col gap-1 shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-border">
           <span className="text-[24px] font-black text-emerald-500">{isLoading ? "..." : completedCount}</span>
-          <span className="text-[12px] font-bold text-gray-500">Completed</span>
+          <span className="text-[12px] font-bold text-muted">Completed</span>
         </div>
-        <div className="bg-white rounded-[20px] p-4 flex flex-col gap-1 shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-gray-100">
+        <div className="bg-surface rounded-[20px] p-4 flex flex-col gap-1 shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-border">
           <span className="text-[24px] font-black text-indigo-500">{isLoading ? "..." : videoCallsCount}</span>
-          <span className="text-[12px] font-bold text-gray-500">Video Calls</span>
+          <span className="text-[12px] font-bold text-muted">Video Calls</span>
         </div>
       </div>
 
@@ -342,7 +342,7 @@ export function DoctorDashboard() {
         className="mt-3 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-[20px] p-6 md:p-8 flex items-center justify-between cursor-pointer shadow-[0_4px_12px_rgba(99,102,241,0.2)] hover:shadow-[0_4px_16px_rgba(99,102,241,0.3)] transition-all active:scale-[0.98] min-h-[110px]"
       >
         <div className="flex items-center gap-5">
-          <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-white/20 flex items-center justify-center shrink-0 backdrop-blur-sm">
+          <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-surface/20 flex items-center justify-center shrink-0 backdrop-blur-sm">
             <Megaphone className="w-7 h-7 md:w-8 md:h-8 text-white" />
           </div>
           <div className="flex flex-col gap-1.5">
@@ -350,7 +350,7 @@ export function DoctorDashboard() {
             <p className="text-indigo-100 text-[13px] md:text-[14px] font-medium leading-tight max-w-[200px]">Request admin for marketing support</p>
           </div>
         </div>
-        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+        <div className="w-8 h-8 rounded-full bg-surface/10 flex items-center justify-center shrink-0">
           <ChevronRight className="w-4 h-4 text-white" />
         </div>
       </div>
@@ -364,7 +364,7 @@ export function DoctorDashboard() {
               className={`text-[14px] font-bold px-3 py-1.5 rounded-xl transition-all ${
                 scheduleTab === 'today'
                   ? 'bg-[#0A1A3D] text-white shadow-sm'
-                  : 'text-[#667085] hover:text-[#0A1A3D] bg-white border border-gray-200'
+                  : 'text-[#667085] hover:text-[#0A1A3D] bg-surface border border-border'
               }`}
             >
               Today ({todaySchedule.length})
@@ -374,7 +374,7 @@ export function DoctorDashboard() {
               className={`text-[14px] font-bold px-3 py-1.5 rounded-xl transition-all ${
                 scheduleTab === 'upcoming'
                   ? 'bg-[#1B5DF1] text-white shadow-sm'
-                  : 'text-[#667085] hover:text-[#0A1A3D] bg-white border border-gray-200'
+                  : 'text-[#667085] hover:text-[#0A1A3D] bg-surface border border-border'
               }`}
             >
               Upcoming ({upcomingAppts.length})
@@ -388,7 +388,7 @@ export function DoctorDashboard() {
           </button>
         </div>
         
-        <div className="flex flex-col bg-white rounded-[24px] border border-gray-100 shadow-[0_2px_12px_rgba(0,0,0,0.02)] overflow-hidden">
+        <div className="flex flex-col bg-surface rounded-[24px] border border-border shadow-[0_2px_12px_rgba(0,0,0,0.02)] overflow-hidden">
           {displayedSchedule.length === 0 ? (
             <EmptyState 
               icon={Calendar} 
@@ -407,7 +407,7 @@ export function DoctorDashboard() {
               onClick={() => navigate(patient.category === 'VIDEO' ? '/doctor/video-consultations' : '/doctor/ops')}
               className={cn(
                 "p-4 flex items-start gap-4 cursor-pointer hover:bg-gray-50 active:bg-gray-100 transition-colors",
-                index !== displayedSchedule.length - 1 ? "border-b border-gray-100" : ""
+                index !== displayedSchedule.length - 1 ? "border-b border-border" : ""
               )}
             >
               <div className="flex flex-col items-center min-w-[65px] pt-0.5">
@@ -423,12 +423,12 @@ export function DoctorDashboard() {
               <div className="flex flex-col flex-1">
                 <span className="font-bold text-[#0A1A3D] text-[15px]">{patient.name}</span>
                 <div className="flex items-center gap-1.5 mt-0.5">
-                  <span className="text-[12px] font-semibold text-gray-500 flex items-center gap-1">
+                  <span className="text-[12px] font-semibold text-muted flex items-center gap-1">
                     {patient.category === 'VIDEO' ? <Video className="w-3.5 h-3.5 text-indigo-500" /> : <Stethoscope className="w-3.5 h-3.5 text-[#1B5DF1]" />}
                     {patient.category}
                   </span>
                   <span className="w-1 h-1 rounded-full bg-gray-300"></span>
-                  <span className="text-[12px] font-medium text-gray-500">{patient.type}</span>
+                  <span className="text-[12px] font-medium text-muted">{patient.type}</span>
                 </div>
               </div>
 
@@ -467,16 +467,16 @@ export function DoctorDashboard() {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-[14px] font-black text-[#0A1A3D] flex items-center gap-1.5">
-                    {video.time} <span className="text-gray-400 font-medium">·</span> {video.name}
+                    {video.time} <span className="text-muted/70 font-medium">·</span> {video.name}
                   </span>
                   <div className="flex items-center gap-1.5 mt-0.5">
-                    <span className="text-[12px] font-medium text-gray-500">ID {video.mqId}</span>
+                    <span className="text-[12px] font-medium text-muted">ID {video.mqId}</span>
                     <span className="text-gray-300">·</span>
-                    <span className="text-[12px] font-medium text-gray-500">{video.type}</span>
+                    <span className="text-[12px] font-medium text-muted">{video.type}</span>
                   </div>
                   <span className={cn(
                     "text-[12px] font-bold mt-1.5",
-                    video.status.includes('Starts') ? "text-indigo-600" : "text-gray-500"
+                    video.status.includes('Starts') ? "text-indigo-600" : "text-muted"
                   )}>
                     {video.status}
                   </span>

@@ -85,7 +85,7 @@ export function ReceptionistAppointments() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Scheduled': return 'bg-gray-100 text-gray-700';
+      case 'Scheduled': return 'bg-gray-100 text-foreground/80';
       case 'Checked In': return 'bg-blue-50 text-blue-700 border-blue-200';
       case 'Waiting':
       case 'WAITING': return 'bg-orange-50 text-orange-700 border-orange-200';
@@ -95,18 +95,18 @@ export function ReceptionistAppointments() {
       case 'COMPLETED': return 'bg-gray-900 text-white';
       case 'Cancelled':
       case 'CANCELLED': return 'bg-red-50 text-red-700 border-red-200';
-      default: return 'bg-gray-100 text-gray-700';
+      default: return 'bg-gray-100 text-foreground/80';
     }
   };
 
   return (
     <div className="flex flex-col bg-gray-50/30 min-h-screen pb-[120px]">
-      <div className="sticky top-0 z-30 bg-white/95 backdrop-blur-xl pt-6 pb-4 px-4 flex flex-col gap-6 shadow-[0_4px_24px_rgba(0,0,0,0.02)] border-b border-gray-100">
+      <div className="sticky top-0 z-30 bg-surface/95 backdrop-blur-xl pt-6 pb-4 px-4 flex flex-col gap-6 shadow-[0_4px_24px_rgba(0,0,0,0.02)] border-b border-border">
         <div className="flex flex-col gap-4">
           <h2 className="text-[22px] font-black text-[#0A1A3D] tracking-tight">Appointments</h2>
           
           <div className="relative group">
-            <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-[#1B5DF1] transition-colors">
+            <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-muted/70 group-focus-within:text-[#1B5DF1] transition-colors">
               <Search className="w-4 h-4" />
             </div>
             <input 
@@ -114,7 +114,7 @@ export function ReceptionistAppointments() {
               placeholder="Search patient or token..." 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-11 pr-12 py-3.5 bg-gray-50 border border-gray-200/60 rounded-2xl outline-none focus:border-[#1B5DF1] focus:bg-white focus:ring-4 focus:ring-[#1B5DF1]/10 transition-all text-[15px] font-medium text-[#172033] placeholder:text-gray-400"
+              className="w-full pl-11 pr-12 py-3.5 bg-gray-50 border border-border/60 rounded-2xl outline-none focus:border-[#1B5DF1] focus:bg-surface focus:ring-4 focus:ring-[#1B5DF1]/10 transition-all text-[15px] font-medium text-[#172033] placeholder:text-muted/70"
             />
             <button className="absolute inset-y-0 right-4 flex items-center text-[#1B5DF1]">
               <Filter className="w-5 h-5" />
@@ -127,7 +127,7 @@ export function ReceptionistAppointments() {
           <button 
             onClick={() => setSelectedDate('upcoming')}
             title="View all upcoming appointments"
-            className="flex items-center justify-center w-[52px] h-[52px] bg-white border border-gray-200 text-[#0A1A3D] rounded-2xl flex-shrink-0 active:scale-95 transition-transform shadow-[0_2px_8px_rgba(0,0,0,0.02)]"
+            className="flex items-center justify-center w-[52px] h-[52px] bg-surface border border-border text-[#0A1A3D] rounded-2xl flex-shrink-0 active:scale-95 transition-transform shadow-[0_2px_8px_rgba(0,0,0,0.02)]"
           >
             <Calendar className="w-6 h-6 text-[#1B5DF1]" />
           </button>
@@ -138,7 +138,7 @@ export function ReceptionistAppointments() {
                 "flex flex-col items-center justify-center min-w-[76px] h-[52px] rounded-2xl flex-shrink-0 transition-all active:scale-95 px-3 border",
                 selectedDate === 'upcoming' 
                   ? "bg-[#1B5DF1] text-white shadow-lg shadow-[#1B5DF1]/30 border-[#1B5DF1]" 
-                  : "bg-white border-gray-200 text-[#172033] hover:bg-gray-50"
+                  : "bg-surface border-border text-[#172033] hover:bg-gray-50"
               )}
             >
               <span className={cn("text-[13px] font-bold leading-tight", selectedDate === 'upcoming' ? "text-white" : "text-[#172033]")}>Upcoming</span>
@@ -153,7 +153,7 @@ export function ReceptionistAppointments() {
                   onClick={() => setSelectedDate(d.iso)}
                   className={cn(
                     "flex flex-col items-center justify-center min-w-[56px] h-[52px] rounded-2xl flex-shrink-0 transition-all active:scale-95 border",
-                    isActive ? "bg-[#1B5DF1] text-white shadow-lg shadow-[#1B5DF1]/30 border-[#1B5DF1]" : "bg-white border-gray-200 text-gray-500 hover:border-gray-300"
+                    isActive ? "bg-[#1B5DF1] text-white shadow-lg shadow-[#1B5DF1]/30 border-[#1B5DF1]" : "bg-surface border-border text-muted hover:border-gray-300"
                   )}
                 >
                   <span className={cn("text-[13px] font-bold leading-tight", isActive ? "text-white" : "text-[#172033]")}>{d.date.split(' ')[0]} {d.date.split(' ')[1]}</span>
@@ -174,7 +174,7 @@ export function ReceptionistAppointments() {
                 onClick={() => setSelectedDept(dept.id)}
                 className={cn(
                   "flex flex-col gap-1 min-w-[120px] p-3 rounded-2xl flex-shrink-0 transition-all active:scale-95 text-left border",
-                  isActive ? "bg-[#1B5DF1] text-white shadow-lg shadow-[#1B5DF1]/20 border-[#1B5DF1]" : "bg-white text-[#172033] border-gray-200/60 hover:border-gray-300"
+                  isActive ? "bg-[#1B5DF1] text-white shadow-lg shadow-[#1B5DF1]/20 border-[#1B5DF1]" : "bg-surface text-[#172033] border-border/60 hover:border-gray-300"
                 )}
               >
                 <span className={cn("text-[13px] font-bold truncate", isActive ? "text-white" : "text-[#172033]")}>{dept.label}</span>
@@ -193,7 +193,7 @@ export function ReceptionistAppointments() {
             {isLoading ? (
               <motion.div key="skeletons" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex flex-col gap-3">
                 {[1, 2, 3].map((i) => (
-                  <Skeleton key={i} className="h-28 rounded-2xl bg-white border border-gray-100" />
+                  <Skeleton key={i} className="h-28 rounded-2xl bg-surface border border-border" />
                 ))}
               </motion.div>
             ) : filteredAppointments.length > 0 ? (
@@ -202,7 +202,7 @@ export function ReceptionistAppointments() {
                   <button 
                     key={apt.id} 
                     onClick={() => navigate('/receptionist/queue')}
-                    className="flex flex-col bg-white border border-gray-200/60 rounded-2xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.02)] active:bg-gray-50 transition-colors text-left"
+                    className="flex flex-col bg-surface border border-border/60 rounded-2xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.02)] active:bg-gray-50 transition-colors text-left"
                   >
                     <div className="flex justify-between items-start mb-2">
                       <div className="flex items-center gap-2 flex-wrap">

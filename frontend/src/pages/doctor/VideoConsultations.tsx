@@ -71,7 +71,7 @@ export function VideoConsultations() {
     } else if (apt.status === 'COMPLETED') {
       return (
         <button 
-          className="flex items-center gap-1.5 bg-gray-50 text-gray-600 font-bold text-[13px] px-4 py-2 rounded-xl border border-gray-200 hover:bg-gray-100 transition-colors active:scale-95"
+          className="flex items-center gap-1.5 bg-gray-50 text-gray-600 font-bold text-[13px] px-4 py-2 rounded-xl border border-border hover:bg-gray-100 transition-colors active:scale-95"
         >
           <FileText className="w-4 h-4" />
           Summary
@@ -81,7 +81,7 @@ export function VideoConsultations() {
       return (
         <button 
           onClick={() => setSelectedConsult(apt)}
-          className="flex items-center gap-1.5 bg-gray-50 text-gray-600 font-bold text-[13px] px-4 py-2 rounded-xl border border-gray-200 hover:bg-gray-100 transition-colors active:scale-95"
+          className="flex items-center gap-1.5 bg-gray-50 text-gray-600 font-bold text-[13px] px-4 py-2 rounded-xl border border-border hover:bg-gray-100 transition-colors active:scale-95"
         >
           View Details
         </button>
@@ -93,7 +93,7 @@ export function VideoConsultations() {
     <div className="flex flex-col bg-[#F7F8FA] min-h-full pb-8">
       
       {/* Header Section */}
-      <div className="sticky top-0 z-30 bg-white/95 backdrop-blur-xl pt-6 pb-4 px-4 flex flex-col gap-6 shadow-[0_4px_24px_rgba(0,0,0,0.02)] border-b border-gray-100">
+      <div className="sticky top-0 z-30 bg-surface/95 backdrop-blur-xl pt-6 pb-4 px-4 flex flex-col gap-6 shadow-[0_4px_24px_rgba(0,0,0,0.02)] border-b border-border">
         
         {/* Top App Bar */}
         <div className="flex items-center gap-3">
@@ -109,7 +109,7 @@ export function VideoConsultations() {
         {/* Title & Search Bar */}
         <div className="flex flex-col gap-4">
           <div className="relative group">
-            <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-[#1B5DF1] transition-colors">
+            <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-muted/70 group-focus-within:text-[#1B5DF1] transition-colors">
               <Search className="w-4 h-4" />
             </div>
             <input 
@@ -117,7 +117,7 @@ export function VideoConsultations() {
               placeholder="Search by name or ID..." 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-11 pr-12 py-3.5 bg-white border border-gray-200 rounded-[16px] outline-none focus:border-[#1B5DF1] focus:ring-4 focus:ring-[#1B5DF1]/10 transition-all text-[15px] font-medium text-[#0A1A3D] placeholder:text-gray-400 shadow-[0_2px_10px_rgba(0,0,0,0.02)]"
+              className="w-full pl-11 pr-12 py-3.5 bg-surface border border-border rounded-[16px] outline-none focus:border-[#1B5DF1] focus:ring-4 focus:ring-[#1B5DF1]/10 transition-all text-[15px] font-medium text-[#0A1A3D] placeholder:text-muted/70 shadow-[0_2px_10px_rgba(0,0,0,0.02)]"
             />
             <button className="absolute inset-y-0 right-4 flex items-center text-[#1B5DF1]">
               <Filter className="w-5 h-5" />
@@ -135,7 +135,7 @@ export function VideoConsultations() {
                 onClick={() => setSelectedFilter(type.id)}
                 className={cn(
                   "flex-1 py-2.5 rounded-[12px] font-bold text-[13px] transition-all",
-                  isActive ? "bg-white text-[#0A1A3D] shadow-sm" : "text-gray-500 hover:text-gray-700"
+                  isActive ? "bg-surface text-[#0A1A3D] shadow-sm" : "text-muted hover:text-foreground/80"
                 )}
               >
                 {type.label}
@@ -146,7 +146,7 @@ export function VideoConsultations() {
 
         {/* Date Strip */}
         <div className="flex items-center gap-3">
-          <button className="flex items-center justify-center w-[52px] h-[52px] bg-white border border-gray-200 text-[#0A1A3D] rounded-[16px] flex-shrink-0 active:scale-95 transition-transform shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
+          <button className="flex items-center justify-center w-[52px] h-[52px] bg-surface border border-border text-[#0A1A3D] rounded-[16px] flex-shrink-0 active:scale-95 transition-transform shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
             <Calendar className="w-6 h-6" />
           </button>
           <div className="flex gap-2.5 overflow-x-auto scrollbar-hide py-1 flex-1">
@@ -158,11 +158,11 @@ export function VideoConsultations() {
                   onClick={() => setSelectedDate(d.date)}
                   className={cn(
                     "flex flex-col items-center justify-center min-w-[56px] h-[52px] rounded-[16px] flex-shrink-0 transition-all active:scale-95",
-                    isActive ? "bg-[#1B5DF1] text-white shadow-lg shadow-[#1B5DF1]/30" : "bg-white border border-gray-200 text-gray-500"
+                    isActive ? "bg-[#1B5DF1] text-white shadow-lg shadow-[#1B5DF1]/30" : "bg-surface border border-border text-muted"
                   )}
                 >
                   <span className={cn("text-[13px] font-bold leading-tight", isActive ? "text-white" : "text-[#0A1A3D]")}>{d.date.split(' ')[0]}</span>
-                  <span className={cn("text-[11px] font-semibold leading-tight", isActive ? "text-[#EBF5FF]" : "text-gray-400")}>{d.day}</span>
+                  <span className={cn("text-[11px] font-semibold leading-tight", isActive ? "text-[#EBF5FF]" : "text-muted/70")}>{d.day}</span>
                 </button>
               )
             })}
@@ -173,10 +173,10 @@ export function VideoConsultations() {
       <div className="flex flex-col px-4 pt-5 gap-6">
         
         {/* Summary Block */}
-        <div className="bg-white rounded-[20px] p-4 flex items-center justify-between border border-gray-100 shadow-[0_2px_12px_rgba(0,0,0,0.03)]">
+        <div className="bg-surface rounded-[20px] p-4 flex items-center justify-between border border-border shadow-[0_2px_12px_rgba(0,0,0,0.03)]">
           <div className="flex flex-col items-center flex-1">
             <span className="text-[20px] font-black text-[#0A1A3D]">—</span>
-            <span className="text-[11px] font-bold text-gray-500">Today</span>
+            <span className="text-[11px] font-bold text-muted">Today</span>
           </div>
           <div className="w-px h-10 bg-gray-100" />
           <div className="flex flex-col items-center flex-1">
@@ -196,7 +196,7 @@ export function VideoConsultations() {
             {isLoading ? (
               <motion.div key="skeletons" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex flex-col gap-3">
                 {[1, 2, 3].map((i) => (
-                  <Skeleton key={i} className="h-32 rounded-2xl bg-white border border-gray-100" />
+                  <Skeleton key={i} className="h-32 rounded-2xl bg-surface border border-border" />
                 ))}
               </motion.div>
             ) : filteredVideos.length > 0 ? (
@@ -204,7 +204,7 @@ export function VideoConsultations() {
                 {filteredVideos.map((apt) => (
                   <div 
                     key={apt.id} 
-                    className="flex flex-col bg-white border border-gray-100 rounded-[20px] p-4 shadow-[0_2px_12px_rgba(0,0,0,0.03)] relative overflow-hidden"
+                    className="flex flex-col bg-surface border border-border rounded-[20px] p-4 shadow-[0_2px_12px_rgba(0,0,0,0.03)] relative overflow-hidden"
                   >
                     {/* Top status indicator line for Waiting/In Progress */}
                     {(apt.status === 'WAITING' || apt.status === 'IN PROGRESS') && (
@@ -215,18 +215,18 @@ export function VideoConsultations() {
                       {/* Time */}
                       <div className="flex flex-col items-center min-w-[50px] pt-1">
                         <span className="text-[16px] font-black text-[#0A1A3D] leading-none">{apt.time}</span>
-                        <span className="text-[11px] font-bold text-gray-400 mt-1">{apt.period}</span>
+                        <span className="text-[11px] font-bold text-muted/70 mt-1">{apt.period}</span>
                       </div>
                       
-                      <div className="flex flex-col flex-1 gap-2 border-l border-gray-100 pl-4">
+                      <div className="flex flex-col flex-1 gap-2 border-l border-border pl-4">
                         {/* Info & Status */}
                         <div className="flex justify-between items-start">
                           <div className="flex flex-col">
                             <span className="text-[16px] font-bold text-[#0A1A3D]">{apt.patientName}</span>
                             <div className="flex items-center gap-1.5 mt-0.5">
-                              <span className="text-[12px] font-medium text-gray-500">ID: {apt.mqId}</span>
+                              <span className="text-[12px] font-medium text-muted">ID: {apt.mqId}</span>
                               <span className="w-1 h-1 rounded-full bg-gray-300"></span>
-                              <span className="text-[12px] font-medium text-gray-500">{apt.type}</span>
+                              <span className="text-[12px] font-medium text-muted">{apt.type}</span>
                             </div>
                           </div>
                           
@@ -240,7 +240,7 @@ export function VideoConsultations() {
 
                         {/* Action Area */}
                         <div className="flex items-center justify-between mt-2 pt-3 border-t border-gray-50">
-                          <div className="flex items-center gap-1.5 text-gray-500 text-[12px] font-semibold">
+                          <div className="flex items-center gap-1.5 text-muted text-[12px] font-semibold">
                             <Video className="w-3.5 h-3.5" />
                             Remote Consult
                           </div>

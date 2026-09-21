@@ -115,20 +115,20 @@ export function HospitalInfo() {
   ) : "—";
 
   return (
-    <div className="flex flex-col bg-slate-50/50 min-h-[calc(100vh-80px)] pb-24">
+    <div className="flex flex-col bg-background/50 min-h-[calc(100vh-80px)] pb-24">
       {/* Sticky Header */}
-      <div className="sticky top-0 z-30 bg-white/90 backdrop-blur-md pt-4 pb-3 px-4 border-b border-gray-100 flex items-center justify-between">
+      <div className="sticky top-0 z-30 bg-surface/90 backdrop-blur-md pt-4 pb-3 px-4 border-b border-border flex items-center justify-between">
         <div className="flex items-center gap-3">
           <button 
             onClick={() => navigate(-1)} 
-            className="p-2 -ml-2 text-gray-500 hover:text-gray-900 transition-colors rounded-xl hover:bg-gray-100 active:scale-95"
+            className="p-2 -ml-2 text-muted hover:text-foreground transition-colors rounded-xl hover:bg-gray-100 active:scale-95"
             title="Go back"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div>
-            <h1 className="text-xl font-bold text-gray-900">Hospital Information</h1>
-            <p className="text-xs text-gray-500">Official facility metadata & contact details</p>
+            <h1 className="text-xl font-bold text-foreground">Hospital Information</h1>
+            <p className="text-xs text-muted">Official facility metadata & contact details</p>
           </div>
         </div>
 
@@ -148,12 +148,12 @@ export function HospitalInfo() {
         {/* Loading State */}
         {isLoading && (
           <div className="flex flex-col gap-4">
-            <div className="p-6 bg-white rounded-3xl border border-gray-100 shadow-sm flex flex-col items-center gap-3">
+            <div className="p-6 bg-surface rounded-3xl border border-border shadow-sm flex flex-col items-center gap-3">
               <Skeleton className="w-20 h-20 rounded-2xl" />
               <Skeleton className="w-48 h-6 rounded-lg" />
               <Skeleton className="w-36 h-4 rounded-lg" />
             </div>
-            <div className="p-5 bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col gap-4">
+            <div className="p-5 bg-surface rounded-2xl border border-border shadow-sm flex flex-col gap-4">
               <Skeleton className="w-32 h-5 rounded-lg" />
               <Skeleton className="w-full h-12 rounded-xl" />
               <Skeleton className="w-full h-12 rounded-xl" />
@@ -167,7 +167,7 @@ export function HospitalInfo() {
             <div className="w-12 h-12 rounded-2xl bg-red-100 text-red-600 flex items-center justify-center">
               <AlertCircle className="w-6 h-6" />
             </div>
-            <h3 className="text-base font-bold text-gray-900">Failed to Load Profile</h3>
+            <h3 className="text-base font-bold text-foreground">Failed to Load Profile</h3>
             <p className="text-xs text-gray-600 max-w-md">{error}</p>
             <button
               onClick={fetchProfile}
@@ -186,12 +186,12 @@ export function HospitalInfo() {
             <motion.div 
               initial={{ opacity: 0, y: 10 }} 
               animate={{ opacity: 1, y: 0 }} 
-              className="flex flex-col items-center justify-center p-6 bg-white rounded-3xl border border-gray-200/70 shadow-sm relative overflow-hidden"
+              className="flex flex-col items-center justify-center p-6 bg-surface rounded-3xl border border-border/70 shadow-sm relative overflow-hidden"
             >
               <div className="w-20 h-20 bg-blue-50 text-[#1769E0] border border-blue-100 rounded-2xl flex items-center justify-center mb-3 shadow-sm">
                 <Building2 className="w-10 h-10" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 text-center">{profile.name}</h2>
+              <h2 className="text-2xl font-bold text-foreground text-center">{profile.name}</h2>
               
               <div className="flex flex-wrap items-center justify-center gap-2 mt-2">
                 {profile.facilityType && (
@@ -210,10 +210,10 @@ export function HospitalInfo() {
                 </span>
               </div>
 
-              <div className="flex flex-wrap items-center justify-center gap-4 mt-3 text-xs text-gray-500 font-medium">
-                <span>Registration No: <strong className="text-gray-800">{profile.registrationNumber || "Not configured"}</strong></span>
+              <div className="flex flex-wrap items-center justify-center gap-4 mt-3 text-xs text-muted font-medium">
+                <span>Registration No: <strong className="text-foreground">{profile.registrationNumber || "Not configured"}</strong></span>
                 {profile.establishedYear && (
-                  <span>Est: <strong className="text-gray-800">{profile.establishedYear}</strong></span>
+                  <span>Est: <strong className="text-foreground">{profile.establishedYear}</strong></span>
                 )}
               </div>
             </motion.div>
@@ -223,38 +223,38 @@ export function HospitalInfo() {
               <button 
                 type="button"
                 onClick={() => navigate('/profile/departments')}
-                className="bg-white p-3.5 rounded-2xl border border-gray-100 shadow-sm flex flex-col items-center text-center cursor-pointer hover:border-[#1769E0]/40 hover:shadow-md active:scale-95 transition-all"
+                className="bg-surface p-3.5 rounded-2xl border border-border shadow-sm flex flex-col items-center text-center cursor-pointer hover:border-[#1769E0]/40 hover:shadow-md active:scale-95 transition-all"
                 title="View Departments"
               >
                 <div className="w-8 h-8 rounded-xl bg-blue-50 text-[#1769E0] flex items-center justify-center mb-1.5">
                   <Layers className="w-4 h-4" />
                 </div>
-                <span className="text-lg font-black text-gray-900">{profile.departmentsCount ?? 0}</span>
-                <span className="text-[11px] font-semibold text-gray-500">Departments</span>
+                <span className="text-lg font-black text-foreground">{profile.departmentsCount ?? 0}</span>
+                <span className="text-[11px] font-semibold text-muted">Departments</span>
               </button>
               <button 
                 type="button"
                 onClick={() => navigate('/profile/staff')}
-                className="bg-white p-3.5 rounded-2xl border border-gray-100 shadow-sm flex flex-col items-center text-center cursor-pointer hover:border-purple-300 hover:shadow-md active:scale-95 transition-all"
+                className="bg-surface p-3.5 rounded-2xl border border-border shadow-sm flex flex-col items-center text-center cursor-pointer hover:border-purple-300 hover:shadow-md active:scale-95 transition-all"
                 title="View Staff"
               >
                 <div className="w-8 h-8 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center mb-1.5">
                   <Users className="w-4 h-4" />
                 </div>
-                <span className="text-lg font-black text-gray-900">{profile.staffCount ?? 0}</span>
-                <span className="text-[11px] font-semibold text-gray-500">Active Staff</span>
+                <span className="text-lg font-black text-foreground">{profile.staffCount ?? 0}</span>
+                <span className="text-[11px] font-semibold text-muted">Active Staff</span>
               </button>
               <button 
                 type="button"
                 onClick={() => navigate('/appointments')}
-                className="bg-white p-3.5 rounded-2xl border border-gray-100 shadow-sm flex flex-col items-center text-center cursor-pointer hover:border-emerald-300 hover:shadow-md active:scale-95 transition-all"
+                className="bg-surface p-3.5 rounded-2xl border border-border shadow-sm flex flex-col items-center text-center cursor-pointer hover:border-emerald-300 hover:shadow-md active:scale-95 transition-all"
                 title="View Appointments"
               >
                 <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-1.5">
                   <Activity className="w-4 h-4" />
                 </div>
-                <span className="text-lg font-black text-gray-900">{profile.totalBookingsCount ?? 0}</span>
-                <span className="text-[11px] font-semibold text-gray-500">Appointments</span>
+                <span className="text-lg font-black text-foreground">{profile.totalBookingsCount ?? 0}</span>
+                <span className="text-[11px] font-semibold text-muted">Appointments</span>
               </button>
             </div>
 
@@ -281,26 +281,26 @@ export function HospitalInfo() {
 
             {/* Operational Contact Details */}
             <div className="flex flex-col gap-2">
-              <h3 className="font-semibold text-gray-900 text-sm px-1 uppercase tracking-wider">Operational Contacts</h3>
-              <div className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden divide-y divide-gray-50">
+              <h3 className="font-semibold text-foreground text-sm px-1 uppercase tracking-wider">Operational Contacts</h3>
+              <div className="bg-surface border border-border rounded-2xl shadow-sm overflow-hidden divide-y divide-gray-50">
                 <div className="p-4 flex items-center gap-3.5">
-                  <Phone className="w-5 h-5 text-gray-400 shrink-0" />
+                  <Phone className="w-5 h-5 text-muted/70 shrink-0" />
                   <div className="flex flex-col">
-                    <span className="text-xs font-semibold text-gray-500">Reception / Main Line</span>
-                    <span className="text-sm font-semibold text-gray-900">{profile.contactPhone || "Not configured"}</span>
+                    <span className="text-xs font-semibold text-muted">Reception / Main Line</span>
+                    <span className="text-sm font-semibold text-foreground">{profile.contactPhone || "Not configured"}</span>
                   </div>
                 </div>
                 <div className="p-4 flex items-center gap-3.5">
-                  <Mail className="w-5 h-5 text-gray-400 shrink-0" />
+                  <Mail className="w-5 h-5 text-muted/70 shrink-0" />
                   <div className="flex flex-col">
-                    <span className="text-xs font-semibold text-gray-500">Official Hospital Email</span>
-                    <span className="text-sm font-semibold text-gray-900">{profile.contactEmail || "Not configured"}</span>
+                    <span className="text-xs font-semibold text-muted">Official Hospital Email</span>
+                    <span className="text-sm font-semibold text-foreground">{profile.contactEmail || "Not configured"}</span>
                   </div>
                 </div>
                 <div className="p-4 flex items-center gap-3.5">
-                  <Globe className="w-5 h-5 text-gray-400 shrink-0" />
+                  <Globe className="w-5 h-5 text-muted/70 shrink-0" />
                   <div className="flex flex-col">
-                    <span className="text-xs font-semibold text-gray-500">Official Website</span>
+                    <span className="text-xs font-semibold text-muted">Official Website</span>
                     {profile.website ? (
                       <a 
                         href={profile.website.startsWith('http') ? profile.website : `https://${profile.website}`} 
@@ -311,7 +311,7 @@ export function HospitalInfo() {
                         {profile.website}
                       </a>
                     ) : (
-                      <span className="text-sm font-semibold text-gray-900">Not configured</span>
+                      <span className="text-sm font-semibold text-foreground">Not configured</span>
                     )}
                   </div>
                 </div>
@@ -320,21 +320,21 @@ export function HospitalInfo() {
 
             {/* Location & Address */}
             <div className="flex flex-col gap-2">
-              <h3 className="font-semibold text-gray-900 text-sm px-1 uppercase tracking-wider">Facility Address</h3>
-              <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-4 flex items-start gap-3.5">
+              <h3 className="font-semibold text-foreground text-sm px-1 uppercase tracking-wider">Facility Address</h3>
+              <div className="bg-surface border border-border rounded-2xl shadow-sm p-4 flex items-start gap-3.5">
                 <MapPin className="w-5 h-5 text-[#1769E0] shrink-0 mt-0.5" />
                 <div className="flex flex-col">
-                  <span className="text-xs font-semibold text-gray-500">Physical Location</span>
-                  <span className="text-sm text-gray-800 font-medium leading-relaxed">{addressString}</span>
+                  <span className="text-xs font-semibold text-muted">Physical Location</span>
+                  <span className="text-sm text-foreground font-medium leading-relaxed">{addressString}</span>
                   {(profile.city || profile.pincode) && (
                     <div className="flex gap-2 mt-2">
                       {profile.city && (
-                        <span className="px-2 py-0.5 bg-gray-100 text-gray-700 text-xs rounded-md font-medium">
+                        <span className="px-2 py-0.5 bg-gray-100 text-foreground/80 text-xs rounded-md font-medium">
                           City: {profile.city}
                         </span>
                       )}
                       {profile.pincode && (
-                        <span className="px-2 py-0.5 bg-gray-100 text-gray-700 text-xs rounded-md font-medium">
+                        <span className="px-2 py-0.5 bg-gray-100 text-foreground/80 text-xs rounded-md font-medium">
                           PIN: {profile.pincode}
                         </span>
                       )}
@@ -347,10 +347,10 @@ export function HospitalInfo() {
             {/* Services Offered */}
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between px-1">
-                <h3 className="font-semibold text-gray-900 text-sm uppercase tracking-wider">Clinical Services</h3>
-                <span className="text-xs text-gray-500">{profile.services?.length || 0} active</span>
+                <h3 className="font-semibold text-foreground text-sm uppercase tracking-wider">Clinical Services</h3>
+                <span className="text-xs text-muted">{profile.services?.length || 0} active</span>
               </div>
-              <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-4">
+              <div className="bg-surface border border-border rounded-2xl shadow-sm p-4">
                 {profile.services && profile.services.length > 0 ? (
                   <div className="flex flex-wrap gap-2">
                     {profile.services.map((svc, idx) => {
@@ -366,22 +366,22 @@ export function HospitalInfo() {
                     })}
                   </div>
                 ) : (
-                  <p className="text-xs text-gray-400 italic">No clinical services listed yet. Click "Edit Profile" to configure.</p>
+                  <p className="text-xs text-muted/70 italic">No clinical services listed yet. Click "Edit Profile" to configure.</p>
                 )}
               </div>
             </div>
 
             {/* Verification Documents */}
             <div className="flex flex-col gap-2">
-              <h3 className="font-semibold text-gray-900 text-sm px-1 uppercase tracking-wider">Licensing & Documents</h3>
-              <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-4">
+              <h3 className="font-semibold text-foreground text-sm px-1 uppercase tracking-wider">Licensing & Documents</h3>
+              <div className="bg-surface border border-border rounded-2xl shadow-sm p-4">
                 {profile.verifications && profile.verifications.length > 0 ? (
                   <div className="flex flex-col gap-2">
                     {profile.verifications.map((doc) => (
-                      <div key={doc.id} className="flex items-center justify-between p-2.5 bg-gray-50 rounded-xl border border-gray-100">
+                      <div key={doc.id} className="flex items-center justify-between p-2.5 bg-background rounded-xl border border-border">
                         <div className="flex items-center gap-2.5">
-                          <FileText className="w-4 h-4 text-gray-500" />
-                          <span className="text-xs font-semibold text-gray-800">{doc.documentType}</span>
+                          <FileText className="w-4 h-4 text-muted" />
+                          <span className="text-xs font-semibold text-foreground">{doc.documentType}</span>
                         </div>
                         <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">
                           On File
@@ -390,7 +390,7 @@ export function HospitalInfo() {
                     ))}
                   </div>
                 ) : (
-                  <p className="text-xs text-gray-400 italic">No regulatory certificates uploaded.</p>
+                  <p className="text-xs text-muted/70 italic">No regulatory certificates uploaded.</p>
                 )}
               </div>
             </div>
@@ -406,19 +406,19 @@ export function HospitalInfo() {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-white w-full max-w-xl max-h-[90vh] rounded-3xl shadow-2xl border border-gray-100 overflow-hidden flex flex-col"
+              className="bg-surface w-full max-w-xl max-h-[90vh] rounded-3xl shadow-2xl border border-border overflow-hidden flex flex-col"
             >
               {/* Modal Header */}
-              <div className="p-4 px-6 border-b border-gray-100 flex items-center justify-between bg-white sticky top-0 z-10">
+              <div className="p-4 px-6 border-b border-border flex items-center justify-between bg-surface sticky top-0 z-10">
                 <div>
-                  <h2 className="text-lg font-bold text-gray-900">Edit Hospital Profile</h2>
-                  <p className="text-xs text-gray-500">Update facility information, contact, and address</p>
+                  <h2 className="text-lg font-bold text-foreground">Edit Hospital Profile</h2>
+                  <p className="text-xs text-muted">Update facility information, contact, and address</p>
                 </div>
                 <button
                   type="button"
                   onClick={handleCloseEdit}
                   disabled={isSaving}
-                  className="p-1.5 rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-700 transition-colors"
+                  className="p-1.5 rounded-full hover:bg-gray-100 text-muted/70 hover:text-foreground/80 transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -428,46 +428,46 @@ export function HospitalInfo() {
               <form onSubmit={handleSave} className="overflow-y-auto p-6 flex flex-col gap-6">
                 {/* 1. Basic Info */}
                 <div className="flex flex-col gap-3">
-                  <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider">Basic Information</h4>
+                  <h4 className="text-xs font-bold text-muted/70 uppercase tracking-wider">Basic Information</h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div className="flex flex-col gap-1 md:col-span-2">
-                      <label className="text-xs font-semibold text-gray-700">Hospital / Facility Name *</label>
+                      <label className="text-xs font-semibold text-foreground/80">Hospital / Facility Name *</label>
                       <input
                         type="text"
                         required
                         value={formData.name || ''}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1769E0]/20 focus:border-[#1769E0]"
+                        className="px-3.5 py-2.5 bg-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1769E0]/20 focus:border-[#1769E0]"
                         placeholder="e.g. Apollo Hospitals"
                       />
                     </div>
                     <div className="flex flex-col gap-1">
-                      <label className="text-xs font-semibold text-gray-700">Facility Type</label>
+                      <label className="text-xs font-semibold text-foreground/80">Facility Type</label>
                       <input
                         type="text"
                         value={formData.facilityType || ''}
                         onChange={(e) => setFormData({ ...formData, facilityType: e.target.value })}
-                        className="px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1769E0]/20 focus:border-[#1769E0]"
+                        className="px-3.5 py-2.5 bg-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1769E0]/20 focus:border-[#1769E0]"
                         placeholder="e.g. Multi-Specialty Hospital"
                       />
                     </div>
                     <div className="flex flex-col gap-1">
-                      <label className="text-xs font-semibold text-gray-700">Registration / License No.</label>
+                      <label className="text-xs font-semibold text-foreground/80">Registration / License No.</label>
                       <input
                         type="text"
                         value={formData.registrationNumber || ''}
                         onChange={(e) => setFormData({ ...formData, registrationNumber: e.target.value })}
-                        className="px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1769E0]/20 focus:border-[#1769E0]"
+                        className="px-3.5 py-2.5 bg-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1769E0]/20 focus:border-[#1769E0]"
                         placeholder="e.g. REG-2024-8849"
                       />
                     </div>
                     <div className="flex flex-col gap-1">
-                      <label className="text-xs font-semibold text-gray-700">Established Year</label>
+                      <label className="text-xs font-semibold text-foreground/80">Established Year</label>
                       <input
                         type="text"
                         value={formData.establishedYear || ''}
                         onChange={(e) => setFormData({ ...formData, establishedYear: e.target.value })}
-                        className="px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1769E0]/20 focus:border-[#1769E0]"
+                        className="px-3.5 py-2.5 bg-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1769E0]/20 focus:border-[#1769E0]"
                         placeholder="e.g. 2012"
                       />
                     </div>
@@ -476,15 +476,15 @@ export function HospitalInfo() {
 
                 {/* 2. Contact & Helpline */}
                 <div className="flex flex-col gap-3">
-                  <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider">Contact & 24/7 Helpline</h4>
+                  <h4 className="text-xs font-bold text-muted/70 uppercase tracking-wider">Contact & 24/7 Helpline</h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div className="flex flex-col gap-1">
-                      <label className="text-xs font-semibold text-gray-700">Reception Phone</label>
+                      <label className="text-xs font-semibold text-foreground/80">Reception Phone</label>
                       <input
                         type="tel"
                         value={formData.contactPhone || ''}
                         onChange={(e) => setFormData({ ...formData, contactPhone: e.target.value })}
-                        className="px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1769E0]/20 focus:border-[#1769E0]"
+                        className="px-3.5 py-2.5 bg-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1769E0]/20 focus:border-[#1769E0]"
                         placeholder="e.g. +91 98765 43210"
                       />
                     </div>
@@ -499,22 +499,22 @@ export function HospitalInfo() {
                       />
                     </div>
                     <div className="flex flex-col gap-1">
-                      <label className="text-xs font-semibold text-gray-700">Official Email</label>
+                      <label className="text-xs font-semibold text-foreground/80">Official Email</label>
                       <input
                         type="email"
                         value={formData.contactEmail || ''}
                         onChange={(e) => setFormData({ ...formData, contactEmail: e.target.value })}
-                        className="px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1769E0]/20 focus:border-[#1769E0]"
+                        className="px-3.5 py-2.5 bg-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1769E0]/20 focus:border-[#1769E0]"
                         placeholder="e.g. contact@apollohospital.com"
                       />
                     </div>
                     <div className="flex flex-col gap-1">
-                      <label className="text-xs font-semibold text-gray-700">Website</label>
+                      <label className="text-xs font-semibold text-foreground/80">Website</label>
                       <input
                         type="text"
                         value={formData.website || ''}
                         onChange={(e) => setFormData({ ...formData, website: e.target.value })}
-                        className="px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1769E0]/20 focus:border-[#1769E0]"
+                        className="px-3.5 py-2.5 bg-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1769E0]/20 focus:border-[#1769E0]"
                         placeholder="e.g. www.apollohospital.com"
                       />
                     </div>
@@ -523,65 +523,65 @@ export function HospitalInfo() {
 
                 {/* 3. Address & Location */}
                 <div className="flex flex-col gap-3">
-                  <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider">Facility Address</h4>
+                  <h4 className="text-xs font-bold text-muted/70 uppercase tracking-wider">Facility Address</h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div className="flex flex-col gap-1 md:col-span-2">
-                      <label className="text-xs font-semibold text-gray-700">Address Line 1</label>
+                      <label className="text-xs font-semibold text-foreground/80">Address Line 1</label>
                       <input
                         type="text"
                         value={formData.addressLine1 || ''}
                         onChange={(e) => setFormData({ ...formData, addressLine1: e.target.value })}
-                        className="px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1769E0]/20 focus:border-[#1769E0]"
+                        className="px-3.5 py-2.5 bg-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1769E0]/20 focus:border-[#1769E0]"
                         placeholder="Plot No, Street, Road"
                       />
                     </div>
                     <div className="flex flex-col gap-1 md:col-span-2">
-                      <label className="text-xs font-semibold text-gray-700">Address Line 2 (Optional)</label>
+                      <label className="text-xs font-semibold text-foreground/80">Address Line 2 (Optional)</label>
                       <input
                         type="text"
                         value={formData.addressLine2 || ''}
                         onChange={(e) => setFormData({ ...formData, addressLine2: e.target.value })}
-                        className="px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1769E0]/20 focus:border-[#1769E0]"
+                        className="px-3.5 py-2.5 bg-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1769E0]/20 focus:border-[#1769E0]"
                         placeholder="Landmark, Suite, Building"
                       />
                     </div>
                     <div className="flex flex-col gap-1">
-                      <label className="text-xs font-semibold text-gray-700">Area / Locality</label>
+                      <label className="text-xs font-semibold text-foreground/80">Area / Locality</label>
                       <input
                         type="text"
                         value={formData.area || ''}
                         onChange={(e) => setFormData({ ...formData, area: e.target.value })}
-                        className="px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1769E0]/20 focus:border-[#1769E0]"
+                        className="px-3.5 py-2.5 bg-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1769E0]/20 focus:border-[#1769E0]"
                         placeholder="e.g. Jubilee Hills"
                       />
                     </div>
                     <div className="flex flex-col gap-1">
-                      <label className="text-xs font-semibold text-gray-700">City</label>
+                      <label className="text-xs font-semibold text-foreground/80">City</label>
                       <input
                         type="text"
                         value={formData.city || ''}
                         onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                        className="px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1769E0]/20 focus:border-[#1769E0]"
+                        className="px-3.5 py-2.5 bg-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1769E0]/20 focus:border-[#1769E0]"
                         placeholder="e.g. Hyderabad"
                       />
                     </div>
                     <div className="flex flex-col gap-1">
-                      <label className="text-xs font-semibold text-gray-700">State</label>
+                      <label className="text-xs font-semibold text-foreground/80">State</label>
                       <input
                         type="text"
                         value={formData.state || ''}
                         onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                        className="px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1769E0]/20 focus:border-[#1769E0]"
+                        className="px-3.5 py-2.5 bg-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1769E0]/20 focus:border-[#1769E0]"
                         placeholder="e.g. Telangana"
                       />
                     </div>
                     <div className="flex flex-col gap-1">
-                      <label className="text-xs font-semibold text-gray-700">Pincode</label>
+                      <label className="text-xs font-semibold text-foreground/80">Pincode</label>
                       <input
                         type="text"
                         value={formData.pincode || ''}
                         onChange={(e) => setFormData({ ...formData, pincode: e.target.value })}
-                        className="px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1769E0]/20 focus:border-[#1769E0]"
+                        className="px-3.5 py-2.5 bg-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1769E0]/20 focus:border-[#1769E0]"
                         placeholder="e.g. 500033"
                       />
                     </div>
@@ -590,20 +590,20 @@ export function HospitalInfo() {
 
                 {/* 4. Clinical Services Tag Editor */}
                 <div className="flex flex-col gap-3">
-                  <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider">Clinical Services Offered</h4>
+                  <h4 className="text-xs font-bold text-muted/70 uppercase tracking-wider">Clinical Services Offered</h4>
                   <div className="flex gap-2">
                     <input
                       type="text"
                       value={serviceInput}
                       onChange={(e) => setServiceInput(e.target.value)}
                       onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleAddService(); } }}
-                      className="flex-1 px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1769E0]/20 focus:border-[#1769E0]"
+                      className="flex-1 px-3.5 py-2.5 bg-background border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1769E0]/20 focus:border-[#1769E0]"
                       placeholder="Type a service and click Add (e.g. Intensive Care, Cardiology)"
                     />
                     <button
                       type="button"
                       onClick={handleAddService}
-                      className="px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-bold rounded-xl transition-colors"
+                      className="px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-foreground text-xs font-bold rounded-xl transition-colors"
                     >
                       Add
                     </button>
@@ -630,12 +630,12 @@ export function HospitalInfo() {
                 </div>
 
                 {/* Submit Actions */}
-                <div className="pt-4 border-t border-gray-100 flex items-center justify-end gap-3">
+                <div className="pt-4 border-t border-border flex items-center justify-end gap-3">
                   <button
                     type="button"
                     onClick={handleCloseEdit}
                     disabled={isSaving}
-                    className="px-5 py-2.5 text-gray-600 hover:text-gray-900 text-sm font-semibold rounded-xl transition-colors"
+                    className="px-5 py-2.5 text-gray-600 hover:text-foreground text-sm font-semibold rounded-xl transition-colors"
                   >
                     Cancel
                   </button>

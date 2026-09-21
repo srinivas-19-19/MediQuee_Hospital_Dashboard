@@ -7,8 +7,10 @@ import { adminApi } from "@/services/adminApi"
 import { useToast } from "@/context/ToastContext"
 import { ConfirmationSheet } from "@/components/ui/ConfirmationSheet"
 import { usePermissions } from "@/hooks/usePermissions"
+import { useTranslation } from "react-i18next"
 
 export function DepartmentsList() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { toast } = useToast();
   const { hasPermission } = usePermissions();
@@ -46,13 +48,13 @@ export function DepartmentsList() {
   };
 
   return (
-    <div className="flex flex-col bg-gray-50 min-h-[calc(100vh-80px)]">
-      <div className="sticky top-0 z-30 bg-white pt-4 pb-3 px-4 border-b border-gray-100 flex items-center justify-between">
+    <div className="flex flex-col bg-background min-h-[calc(100vh-80px)]">
+      <div className="sticky top-0 z-30 bg-surface pt-4 pb-3 px-4 border-b border-border flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-gray-500 hover:text-gray-900 transition-colors">
+          <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-muted hover:text-foreground transition-colors">
             <ArrowLeft className="w-5 h-5" />
           </button>
-          <h1 className="text-xl font-bold text-gray-900">Departments</h1>
+          <h1 className="text-xl font-bold text-foreground">{t('departments_list')}</h1>
         </div>
         {hasPermission('departments.create') && (
           <button onClick={() => navigate('/add-department')} className="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center hover:bg-blue-200 transition-colors">
@@ -75,24 +77,24 @@ export function DepartmentsList() {
                 description="Departments will appear here once available."
               />
             ) : departments.map((dept) => (
-              <div key={dept.id} className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between">
+              <div key={dept.id} className="bg-surface p-4 rounded-xl border border-border shadow-sm flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center shrink-0">
                     <LayoutGrid className="w-6 h-6" />
                   </div>
                   <div className="flex flex-col">
-                    <span className="font-bold text-gray-900">{dept.name}</span>
-                    <span className="text-xs text-gray-500">Code: {dept.code || 'N/A'}</span>
+                    <span className="font-bold text-foreground">{dept.name}</span>
+                    <span className="text-xs text-muted">Code: {dept.code || 'N/A'}</span>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   {hasPermission('departments.update') && (
-                    <button onClick={() => navigate(`/edit-department/${dept.id}`)} className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                    <button onClick={() => navigate(`/edit-department/${dept.id}`)} className="p-2 text-muted/70 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
                       <Edit className="w-4 h-4" />
                     </button>
                   )}
                   {hasPermission('departments.delete') && (
-                    <button onClick={() => setDepartmentToDelete(dept.id)} className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                    <button onClick={() => setDepartmentToDelete(dept.id)} className="p-2 text-muted/70 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors">
                       <Trash2 className="w-4 h-4" />
                     </button>
                   )}

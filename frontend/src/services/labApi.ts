@@ -1,71 +1,106 @@
-// ----------------------------------------------------------------------------
-// LABORATORY API SERVICE LAYER
-// Note: These functions define the expected contracts with the backend.
-// They currently throw "BACKEND_MISSING" to prevent fake persistence, but
-// provide a clean integration point for the backend developer.
-// ----------------------------------------------------------------------------
+const API_BASE = 'http://localhost:5000/api/v1';
 
 export const labApi = {
-  /**
-   * POST /api/lab/tests
-   * Adds a test to the lab's catalog.
-   */
-  async createTest(payload: unknown): Promise<{ id: string }> {
-    console.log('[API Call] POST /api/lab/tests', payload);
-    throw new Error('BACKEND_MISSING: POST /api/lab/tests is not implemented.');
+  // --- Reference APIs ---
+  async getPlatformLabDepartments() {
+    const res = await fetch(`${API_BASE}/reference/lab-departments`);
+    if (!res.ok) throw new Error('Failed to fetch departments');
+    return res.json();
   },
 
-  /**
-   * PATCH /api/lab/tests/:id
-   * Enables or disables a catalog test.
-   */
-  async updateTestStatus(id: string, active: boolean): Promise<void> {
-    console.log('[API Call] PATCH /api/lab/tests/:id', { id, active });
-    throw new Error('BACKEND_MISSING: PATCH /api/lab/tests/:id is not implemented.');
+  async getPlatformLabTests(departmentId?: string, search?: string, homeCollectionOnly?: boolean) {
+    const params = new URLSearchParams();
+    if (departmentId) params.append('departmentId', departmentId);
+    if (search) params.append('search', search);
+    if (homeCollectionOnly) params.append('homeCollectionOnly', 'true');
+    
+    const url = `${API_BASE}/reference/lab-tests${params.toString() ? '?' + params.toString() : ''}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('Failed to fetch platform tests');
+    return res.json();
   },
 
-  /**
-   * POST /api/lab/orders
-   * Creates a lab test order for a patient.
-   */
+  // --- Hospital Lab APIs ---
+  async getHospitalLabMenu() {
+    const token = localStorage.getItem('token');
+    const res = await fetch(`${API_BASE}/hospital/lab-tests`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (!res.ok) throw new Error('Failed to fetch hospital tests');
+    return res.json();
+  },
+
+  async saveHospitalLabTestsBatch(payload: any[]) {
+    const token = localStorage.getItem('token');
+    const res = await fetch(`${API_BASE}/hospital/lab-tests/batch`, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}` 
+      },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (!res.ok || !data.success) throw new Error(data?.error?.message || 'Failed to save tests');
+    return data;
+  },
+
+  async updateTestStatus(id: string, active: boolean) {
+    const token = localStorage.getItem('token');
+    const res = await fetch(`${API_BASE}/hospital/lab-tests/${id}`, {
+      method: 'PATCH',
+      headers: { 
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}` 
+      },
+      body: JSON.stringify({ isActive: active })
+    });
+    if (!res.ok) throw new Error('Failed to update test status');
+    return res.json();
+  },
+
+  async getLabBookings(filters?: { status?: string; bookingType?: string }) {
+    const token = localStorage.getItem('token');
+    const params = new URLSearchParams();
+    if (filters?.status) params.append('status', filters.status);
+    if (filters?.bookingType) params.append('bookingType', filters.bookingType);
+
+    const url = `${API_BASE}/lab-bookings/hospital${params.toString() ? '?' + params.toString() : ''}`;
+    const res = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (!res.ok) throw new Error('Failed to fetch lab bookings');
+    return res.json();
+  },
+
+  async updateLabBookingStatus(id: string, payload: { status: string; phlebotomistName?: string; phlebotomistPhone?: string; sampleCollectedAt?: string }) {
+    const token = localStorage.getItem('token');
+    const res = await fetch(`${API_BASE}/lab-bookings/hospital/${id}/status`, {
+      method: 'PATCH',
+      headers: { 
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}` 
+      },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('Failed to update booking status');
+    return res.json();
+  },
+
+  // Stub for existing orders/reports in other parts of the app
   async createOrder(payload: unknown): Promise<{ id: string }> {
-    console.log('[API Call] POST /api/lab/orders', payload);
     throw new Error('BACKEND_MISSING: POST /api/lab/orders is not implemented.');
   },
-
-  /**
-   * POST /api/lab/orders/:id/report
-   * Uploads a report file and attaches it to an existing order.
-   */
   async uploadReport(orderId: string, payload: unknown): Promise<{ id: string }> {
-    console.log('[API Call] POST /api/lab/orders/:id/report', { orderId, payload });
     throw new Error('BACKEND_MISSING: POST /api/lab/orders/:id/report is not implemented.');
   },
-
-  /**
-   * POST /api/lab/packages
-   * Creates a bundled test package.
-   */
   async createPackage(payload: unknown): Promise<{ id: string }> {
-    console.log('[API Call] POST /api/lab/packages', payload);
     throw new Error('BACKEND_MISSING: POST /api/lab/packages is not implemented.');
   },
-
-  /**
-   * POST /api/lab/home-collections
-   * Schedules a home sample collection.
-   */
   async createHomeCollection(payload: unknown): Promise<{ id: string }> {
-    console.log('[API Call] POST /api/lab/home-collections', payload);
     throw new Error('BACKEND_MISSING: POST /api/lab/home-collections is not implemented.');
   },
-
-  /**
-   * PUT /api/lab/me
-   * Updates the laboratory profile and home-collection settings.
-   */
   async updateLabInfo(payload: unknown): Promise<void> {
-    console.log('[API Call] PUT /api/lab/me', payload);
     throw new Error('BACKEND_MISSING: PUT /api/lab/me is not implemented.');
-  },
+  }
 };

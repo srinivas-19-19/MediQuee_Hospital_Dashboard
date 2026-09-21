@@ -66,7 +66,7 @@ export function UploadReport() {
   const FileIcon = ({ type }: { type: string }) => {
     if (type === 'application/pdf') return <FileText className="w-5 h-5 text-red-500" />
     if (type.startsWith('image')) return <Image className="w-5 h-5 text-blue-500" />
-    return <File className="w-5 h-5 text-gray-500" />
+    return <File className="w-5 h-5 text-muted" />
   }
 
   if (step === 'success') {
@@ -82,7 +82,7 @@ export function UploadReport() {
         </motion.div>
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }} className="flex flex-col gap-2 w-full">
           <button onClick={() => navigate(`/lab/report/${selectedOrder?.id}`)} className="w-full bg-primary text-white font-semibold py-3.5 rounded-xl">View Report</button>
-          <button onClick={() => navigate('/lab/reports')} className="w-full bg-white border border-gray-200 text-[#172033] font-semibold py-3.5 rounded-xl">Done</button>
+          <button onClick={() => navigate('/lab/reports')} className="w-full bg-surface border border-border text-[#172033] font-semibold py-3.5 rounded-xl">Done</button>
         </motion.div>
       </div>
     )
@@ -91,7 +91,7 @@ export function UploadReport() {
   return (
     <div className="flex flex-col bg-background min-h-screen w-full">
       {/* Header */}
-      <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md pt-4 md:pt-6 pb-3 md:pb-4 px-4 md:px-6 flex items-center gap-4 border-b border-gray-100/50">
+      <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md pt-4 md:pt-6 pb-3 md:pb-4 px-4 md:px-6 flex items-center gap-4 border-b border-border/50">
         <button onClick={() => step === 1 ? navigate(-1) : setStep(s => (s as number) - 1 as UploadStep)} className="p-2 -ml-2 text-[#172033] rounded-full hover:bg-gray-100 transition-colors">
           <ArrowLeft className="w-5 h-5 md:w-6 md:h-6" />
         </button>
@@ -118,7 +118,7 @@ export function UploadReport() {
                 value={query}
                 onChange={e => setQuery(e.target.value)}
                 placeholder="e.g. Ramesh or MQ-10284"
-                className="w-full pl-10 md:pl-12 pr-4 py-3 md:py-3.5 bg-white border border-gray-200/60 rounded-xl md:rounded-2xl text-[14px] md:text-[15px] text-[#172033] placeholder:text-[#98A2B3] outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all shadow-sm"
+                className="w-full pl-10 md:pl-12 pr-4 py-3 md:py-3.5 bg-surface border border-border/60 rounded-xl md:rounded-2xl text-[14px] md:text-[15px] text-[#172033] placeholder:text-[#98A2B3] outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all shadow-sm"
               />
             </div>
             <div className="flex flex-col gap-2 md:gap-3">
@@ -128,7 +128,7 @@ export function UploadReport() {
                   onClick={() => { setSelectedOrder(o); setStep(2) }}
                   className={cn(
                     "flex items-center gap-3 md:gap-4 p-4 md:p-5 rounded-2xl border text-left transition-all active:scale-[0.98] hover:shadow-md hover:border-primary/20",
-                    selectedOrder?.id === o.id ? "bg-primary/5 border-primary shadow-sm" : "bg-white border-gray-200/60 shadow-sm"
+                    selectedOrder?.id === o.id ? "bg-primary/5 border-primary shadow-sm" : "bg-surface border-border/60 shadow-sm"
                   )}
                 >
                   <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center">
@@ -173,7 +173,7 @@ export function UploadReport() {
             {!selectedFile ? (
               <button
                 onClick={() => fileRef.current?.click()}
-                className="flex flex-col items-center justify-center gap-3 md:gap-4 py-10 md:py-16 border-2 border-dashed border-gray-200 rounded-2xl bg-white hover:border-primary/40 hover:bg-blue-50/30 transition-all active:scale-[0.98]"
+                className="flex flex-col items-center justify-center gap-3 md:gap-4 py-10 md:py-16 border-2 border-dashed border-border rounded-2xl bg-surface hover:border-primary/40 hover:bg-blue-50/30 transition-all active:scale-[0.98]"
               >
                 <div className="w-14 h-14 md:w-16 md:h-16 bg-blue-50 rounded-2xl flex items-center justify-center border border-blue-100">
                   <Upload className="w-7 h-7 md:w-8 md:h-8 text-primary" strokeWidth={1.5} />
@@ -184,8 +184,8 @@ export function UploadReport() {
                 </div>
               </button>
             ) : (
-              <div className="bg-white rounded-2xl border border-gray-200/60 p-4 md:p-5 flex items-center gap-3 md:gap-4 shadow-sm">
-                <div className="w-11 h-11 md:w-14 md:h-14 bg-gray-50 rounded-xl flex items-center justify-center border border-gray-100">
+              <div className="bg-surface rounded-2xl border border-border/60 p-4 md:p-5 flex items-center gap-3 md:gap-4 shadow-sm">
+                <div className="w-11 h-11 md:w-14 md:h-14 bg-gray-50 rounded-xl flex items-center justify-center border border-border">
                   <FileIcon type={selectedFile.type} />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -213,7 +213,7 @@ export function UploadReport() {
               <p className="text-[13px] md:text-[15px] text-[#667085] mt-1 md:mt-2">Confirm the details before uploading</p>
             </div>
 
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <div className="bg-surface rounded-2xl border border-border shadow-sm overflow-hidden">
               {[
                 { label: 'Patient', value: selectedOrder.patient },
                 { label: 'Test', value: selectedOrder.test },
@@ -229,7 +229,7 @@ export function UploadReport() {
             </div>
 
             {isUploading && (
-              <div className="bg-white rounded-2xl border border-gray-100 p-4 md:p-6 flex flex-col gap-2 md:gap-3">
+              <div className="bg-surface rounded-2xl border border-border p-4 md:p-6 flex flex-col gap-2 md:gap-3">
                 <div className="flex items-center justify-between text-[13px] md:text-[15px]">
                   <span className="text-[#667085] font-medium">Uploading…</span>
                   <span className="text-primary font-bold">{uploadProgress}%</span>
@@ -248,12 +248,12 @@ export function UploadReport() {
       </AnimatePresence>
 
       {/* Fixed Bottom Bar */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 md:p-6 bg-background/95 backdrop-blur-md border-t border-gray-100/50 pb-safe z-20">
+      <div className="fixed bottom-0 left-0 right-0 p-4 md:p-6 bg-background/95 backdrop-blur-md border-t border-border/50 pb-safe z-20">
         <div className="flex gap-3 md:gap-4 max-w-2xl mx-auto w-full">
           {(step as number) > 1 && !isUploading && (
             <button
               onClick={() => setStep(s => (s as number) - 1 as UploadStep)}
-              className="flex-1 bg-white border border-gray-200/60 text-[#172033] font-semibold py-3.5 md:py-4 rounded-xl md:rounded-2xl shadow-sm hover:bg-gray-50 transition-colors"
+              className="flex-1 bg-surface border border-border/60 text-[#172033] font-semibold py-3.5 md:py-4 rounded-xl md:rounded-2xl shadow-sm hover:bg-gray-50 transition-colors"
             >
               Back
             </button>

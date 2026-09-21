@@ -45,15 +45,18 @@ export function OnboardingLayout({
       <div className="fixed top-0 left-0 w-full h-[300px] bg-gradient-to-b from-[#1769E0]/5 to-transparent pointer-events-none lg:hidden" />
 
       {/* Main Container */}
-      <div className="w-full max-w-[1200px] flex bg-transparent lg:bg-white lg:shadow-2xl lg:shadow-black/5 lg:rounded-[40px] overflow-hidden min-h-screen lg:min-h-[800px] lg:h-[85vh]">
+      <div className="w-full max-w-[1200px] flex bg-transparent lg:bg-surface lg:shadow-2xl lg:shadow-black/5 lg:rounded-[40px] overflow-hidden min-h-screen lg:min-h-[800px] lg:h-[85vh]">
         
         {/* Left Branding Side (Desktop Only) */}
         <div className="hidden lg:flex lg:w-5/12 bg-gradient-to-br from-[#1769E0] to-[#0A4399] relative flex-col justify-between p-12 text-white overflow-hidden">
           {/* Decorative shapes */}
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/10 blur-[80px] rounded-full -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-white/5 blur-[60px] rounded-full translate-y-1/3 -translate-x-1/4 pointer-events-none" />
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-surface/10 blur-[80px] rounded-full -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-surface/5 blur-[60px] rounded-full translate-y-1/3 -translate-x-1/4 pointer-events-none" />
           
           <div className="relative z-10">
+            <div className="mb-6 bg-white/95 p-3 rounded-2xl w-fit shadow-md">
+              <img src={import.meta.env.BASE_URL + 'logo.png'} alt="MediQuee" className="h-8 w-auto object-contain" />
+            </div>
             <h1 className="text-[32px] font-black tracking-tight mb-4 leading-tight">
               Join the future of healthcare.
             </h1>
@@ -65,7 +68,7 @@ export function OnboardingLayout({
           <div className="relative z-10 flex flex-col gap-8">
             <div className="flex flex-col gap-6">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center border border-white/20">
+                <div className="w-12 h-12 rounded-2xl bg-surface/10 flex items-center justify-center border border-white/20">
                   <span className="text-xl font-bold">1</span>
                 </div>
                 <div className="flex flex-col">
@@ -75,7 +78,7 @@ export function OnboardingLayout({
               </div>
               
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center border border-white/20">
+                <div className="w-12 h-12 rounded-2xl bg-surface/10 flex items-center justify-center border border-white/20">
                   <span className="text-xl font-bold">2</span>
                 </div>
                 <div className="flex flex-col">
@@ -85,7 +88,7 @@ export function OnboardingLayout({
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center border border-white/20">
+                <div className="w-12 h-12 rounded-2xl bg-surface/10 flex items-center justify-center border border-white/20">
                   <span className="text-xl font-bold">3</span>
                 </div>
                 <div className="flex flex-col">
@@ -97,9 +100,9 @@ export function OnboardingLayout({
             
             <div className="flex items-center gap-3 pt-6 border-t border-white/10">
               <div className="flex -space-x-3">
-                <div className="w-10 h-10 rounded-full border-2 border-[#0A4399] bg-white/20" />
-                <div className="w-10 h-10 rounded-full border-2 border-[#0A4399] bg-white/30" />
-                <div className="w-10 h-10 rounded-full border-2 border-[#0A4399] bg-white/40" />
+                <div className="w-10 h-10 rounded-full border-2 border-[#0A4399] bg-surface/20" />
+                <div className="w-10 h-10 rounded-full border-2 border-[#0A4399] bg-surface/30" />
+                <div className="w-10 h-10 rounded-full border-2 border-[#0A4399] bg-surface/40" />
               </div>
               <span className="text-[13px] font-semibold text-white/80">
                 Join 500+ premium facilities
@@ -109,16 +112,16 @@ export function OnboardingLayout({
         </div>
         
         {/* Right Form Side */}
-        <div className="w-full lg:w-7/12 flex flex-col relative bg-white min-h-screen lg:min-h-0 md:my-8 md:min-h-[800px] md:h-auto md:rounded-[32px] lg:my-0 lg:rounded-none md:shadow-xl md:shadow-black/5 lg:shadow-none md:max-w-md md:mx-auto lg:max-w-none lg:mx-0 overflow-hidden">
+        <div className="w-full lg:w-7/12 flex flex-col relative bg-surface min-h-screen lg:min-h-0 md:my-8 md:min-h-[800px] md:h-auto md:rounded-[32px] lg:my-0 lg:rounded-none md:shadow-xl md:shadow-black/5 lg:shadow-none md:max-w-md md:mx-auto lg:max-w-none lg:mx-0 overflow-hidden">
           
           <div className="w-full lg:max-w-[480px] lg:mx-auto min-h-screen lg:min-h-0 flex flex-col relative h-full">
             {/* Header & Progress */}
-            <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-100">
+            <div className="sticky top-0 z-50 bg-surface/80 backdrop-blur-xl border-b border-border">
               <div className="flex items-center justify-between px-4 h-14">
                 {showBack && onBack ? (
                   <button 
                     onClick={onBack}
-                    className="w-10 h-10 flex items-center justify-center -ml-2 rounded-full text-gray-500 hover:bg-gray-100 active:bg-gray-200 transition-colors"
+                    className="w-10 h-10 flex items-center justify-center -ml-2 rounded-full text-muted hover:bg-gray-100 active:bg-gray-200 transition-colors"
                     aria-label="Go back"
                   >
                     <ChevronLeft className="w-6 h-6" />
@@ -128,8 +131,8 @@ export function OnboardingLayout({
                 )}
                 
                 <div className="flex flex-col items-center justify-center flex-1">
-                  <span className="text-[15px] font-bold text-[#172033] tracking-tight lg:hidden">MediQuee</span>
-                  <span className="text-[11px] font-semibold text-gray-500 mt-0.5">Step {currentStep} of {totalSteps}</span>
+                  <img src={import.meta.env.BASE_URL + 'logo.png'} alt="MediQuee" className="h-6 w-auto object-contain lg:hidden" />
+                  <span className="text-[11px] font-semibold text-muted mt-0.5">Step {currentStep} of {totalSteps}</span>
                 </div>
                 
                 <div className="flex items-center justify-end -mr-2 min-w-[60px]">
@@ -169,7 +172,7 @@ export function OnboardingLayout({
             </div>
 
             {/* Bottom Actions */}
-            <div className="absolute bottom-0 left-0 right-0 p-4 px-6 bg-white border-t border-gray-100 pb-safe">
+            <div className="absolute bottom-0 left-0 right-0 p-4 px-6 bg-surface border-t border-border pb-safe">
               <div className="flex gap-3">
                 {showBack && onBack && (
                   <button
@@ -184,7 +187,7 @@ export function OnboardingLayout({
                   disabled={isNextDisabled}
                   className={`flex-1 h-[52px] font-bold rounded-2xl transition-all flex items-center justify-center gap-2 ${
                     isNextDisabled 
-                      ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                      ? 'bg-gray-100 text-muted/70 cursor-not-allowed'
                       : 'bg-[#1769E0] hover:bg-blue-700 active:scale-[0.98] text-white shadow-lg shadow-blue-500/25'
                   }`}
                 >

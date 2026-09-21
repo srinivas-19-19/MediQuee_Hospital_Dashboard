@@ -21,8 +21,8 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>
 
 const inputClass = (err: boolean) => cn(
-  "w-full px-4 py-3 bg-white border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
-  err ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-gray-200/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
+  "w-full px-4 py-3 bg-surface border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
+  err ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
 )
 
 export function CreateHomeCollection() {
@@ -55,7 +55,7 @@ export function CreateHomeCollection() {
 
   return (
     <div className="flex flex-col bg-background min-h-screen w-full">
-      <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md pt-4 md:pt-6 pb-3 md:pb-4 px-4 md:px-6 flex items-center gap-4 border-b border-gray-100/50">
+      <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md pt-4 md:pt-6 pb-3 md:pb-4 px-4 md:px-6 flex items-center gap-4 border-b border-border/50">
         <button onClick={handleBack} className="p-2 -ml-2 text-[#172033] rounded-full hover:bg-gray-100 transition-colors">
           <ArrowLeft className="w-5 h-5 md:w-6 md:h-6" />
         </button>
@@ -71,7 +71,7 @@ export function CreateHomeCollection() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
             {[
               { label: 'Patient Name', name: 'patientName', type: 'text', placeholder: 'e.g. Sunita Patel' },
-              { label: 'Mobile Number', name: 'mobile', type: 'tel', placeholder: 'e.g. 9876543210' },
+              { label: 'Mobile Number', name: 'mobile', type: 'tel', placeholder: 'e.g. 8331045500' },
             ].map(f => (
               <div key={f.name} className="flex flex-col gap-1.5 md:gap-2">
                 <label className="text-[13px] md:text-[14px] font-semibold text-[#172033]">{f.label} <span className="text-destructive">*</span></label>
@@ -113,9 +113,9 @@ export function CreateHomeCollection() {
             </div>
           </div>
 
-          <div className="fixed bottom-0 left-0 right-0 p-4 md:p-6 bg-background/95 backdrop-blur-md border-t border-gray-100/50 pb-safe z-20">
+          <div className="fixed bottom-0 left-0 right-0 p-4 md:p-6 bg-background/95 backdrop-blur-md border-t border-border/50 pb-safe z-20">
             <div className="flex gap-3 md:gap-4 max-w-xl mx-auto w-full">
-              <button type="button" onClick={handleBack} className="flex-1 bg-white border border-gray-200/60 text-[#172033] font-semibold py-3.5 md:py-4 rounded-xl md:rounded-2xl shadow-sm hover:bg-gray-50 transition-colors">Back</button>
+              <button type="button" onClick={handleBack} className="flex-1 bg-surface border border-border/60 text-[#172033] font-semibold py-3.5 md:py-4 rounded-xl md:rounded-2xl shadow-sm hover:bg-gray-50 transition-colors">Back</button>
               <button type="submit" disabled={isSubmitting} className="flex-[2] bg-primary text-white font-semibold py-3.5 md:py-4 rounded-xl md:rounded-2xl flex items-center justify-center gap-2 disabled:opacity-70 hover:bg-blue-700 active:bg-blue-800 transition-colors">
                 {isSubmitting && <Loader2 className="w-5 h-5 md:w-6 md:h-6 animate-spin" />}
                 {isSubmitting ? 'Scheduling…' : 'Schedule Collection'}

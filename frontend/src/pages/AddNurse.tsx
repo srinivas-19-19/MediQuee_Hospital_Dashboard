@@ -95,7 +95,7 @@ export function AddNurse() {
     <div className="flex flex-col bg-background min-h-screen">
       
       {/* Header */}
-      <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md pt-4 pb-3 px-4 flex items-center gap-4 border-b border-gray-100/50 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
+      <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md pt-4 pb-3 px-4 flex items-center gap-4 border-b border-border/50 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
         <button onClick={handleBack} className="p-2 -ml-2 text-[#172033] interactive-element rounded-full hover:bg-gray-100">
           <ArrowLeft className="w-5 h-5" />
         </button>
@@ -113,7 +113,7 @@ export function AddNurse() {
             <div key={i} className="flex flex-col items-center gap-2 bg-background">
               <div className={cn(
                 "w-8 h-8 rounded-full flex items-center justify-center text-[13px] font-bold border-2 transition-colors duration-300 shadow-sm",
-                step >= i ? "bg-primary text-white border-primary" : "bg-white text-[#98A2B3] border-gray-200/80"
+                step >= i ? "bg-primary text-white border-primary" : "bg-surface text-[#98A2B3] border-border/80"
               )}>
                 {i}
               </div>
@@ -180,8 +180,8 @@ export function AddNurse() {
                     type="text" 
                     placeholder="e.g. Sarah Smith" 
                     className={cn(
-                      "px-4 py-3 bg-white border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
-                      errors.fullName ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-gray-200/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
+                      "px-4 py-3 bg-surface border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
+                      errors.fullName ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
                     )} 
                   />
                   {errors.fullName && <span className="text-destructive text-[12px] font-medium mt-0.5">{errors.fullName.message}</span>}
@@ -191,10 +191,10 @@ export function AddNurse() {
                   <input 
                     {...register("mobile")}
                     type="tel" 
-                    placeholder="e.g. 9876543210" 
+                    placeholder="e.g. 8331045500" 
                     className={cn(
-                      "px-4 py-3 bg-white border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
-                      errors.mobile ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-gray-200/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
+                      "px-4 py-3 bg-surface border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
+                      errors.mobile ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
                     )} 
                   />
                   {errors.mobile && <span className="text-destructive text-[12px] font-medium mt-0.5">{errors.mobile.message}</span>}
@@ -206,8 +206,8 @@ export function AddNurse() {
                     type="email" 
                     placeholder="e.g. nurse@hospital.com" 
                     className={cn(
-                      "px-4 py-3 bg-white border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
-                      errors.email ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-gray-200/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
+                      "px-4 py-3 bg-surface border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
+                      errors.email ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
                     )}
                   />
                   {errors.email && <span className="text-destructive text-[12px] font-medium mt-0.5">{errors.email.message}</span>}
@@ -220,8 +220,8 @@ export function AddNurse() {
                     type="password" 
                     placeholder="Create a password" 
                     className={cn(
-                      "px-4 py-3 bg-white border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
-                      errors.password ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-gray-200/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
+                      "px-4 py-3 bg-surface border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
+                      errors.password ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
                     )}
                   />
                   {errors.password && <span className="text-destructive text-[12px] font-medium mt-0.5">{errors.password.message}</span>}
@@ -239,8 +239,8 @@ export function AddNurse() {
                     type="text" 
                     placeholder="e.g. B.Sc Nursing" 
                     className={cn(
-                      "px-4 py-3 bg-white border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
-                      errors.qualification ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-gray-200/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
+                      "px-4 py-3 bg-surface border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
+                      errors.qualification ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
                     )} 
                   />
                   {errors.qualification && <span className="text-destructive text-[12px] font-medium mt-0.5">{errors.qualification.message}</span>}
@@ -252,8 +252,8 @@ export function AddNurse() {
                     type="number" 
                     placeholder="e.g. 3" 
                     className={cn(
-                      "px-4 py-3 bg-white border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
-                      errors.experience ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-gray-200/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
+                      "px-4 py-3 bg-surface border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
+                      errors.experience ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
                     )} 
                   />
                   {errors.experience && <span className="text-destructive text-[12px] font-medium mt-0.5">{errors.experience.message}</span>}
@@ -265,8 +265,8 @@ export function AddNurse() {
                     type="text" 
                     placeholder="e.g. RN9876" 
                     className={cn(
-                      "px-4 py-3 bg-white border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
-                      errors.licenseNumber ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-gray-200/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
+                      "px-4 py-3 bg-surface border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
+                      errors.licenseNumber ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
                     )} 
                   />
                   {errors.licenseNumber && <span className="text-destructive text-[12px] font-medium mt-0.5">{errors.licenseNumber.message}</span>}
@@ -278,8 +278,8 @@ export function AddNurse() {
                     type="text" 
                     placeholder="e.g. ICU" 
                     className={cn(
-                      "px-4 py-3 bg-white border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
-                      errors.department ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-gray-200/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
+                      "px-4 py-3 bg-surface border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
+                      errors.department ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
                     )} 
                   />
                   {errors.department && <span className="text-destructive text-[12px] font-medium mt-0.5">{errors.department.message}</span>}
@@ -295,8 +295,8 @@ export function AddNurse() {
                   <select 
                     {...register("shiftType")}
                     className={cn(
-                      "px-4 py-3 bg-white border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm appearance-none",
-                      errors.shiftType ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-gray-200/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
+                      "px-4 py-3 bg-surface border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm appearance-none",
+                      errors.shiftType ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
                     )} 
                   >
                     <option value="">Select Shift</option>
@@ -309,7 +309,7 @@ export function AddNurse() {
                 </div>
 
                 <div 
-                  className="bg-white border border-gray-200/60 rounded-xl p-4 flex items-center justify-between shadow-sm cursor-pointer hover:border-primary/50 transition-colors"
+                  className="bg-surface border border-border/60 rounded-xl p-4 flex items-center justify-between shadow-sm cursor-pointer hover:border-primary/50 transition-colors"
                   onClick={() => setValue("homeNursing", !homeNursing, { shouldDirty: true })}
                 >
                   <div className="flex flex-col">
@@ -329,7 +329,7 @@ export function AddNurse() {
             {/* Step 4: Review */}
             {step === 4 && (
               <motion.div key="step4" initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 10 }} className="flex flex-col gap-4">
-                <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex flex-col gap-3">
+                <div className="bg-surface p-4 rounded-2xl border border-border shadow-sm flex flex-col gap-3">
                   <h3 className="font-bold text-[#172033] border-b border-gray-50 pb-2 text-[15px]">Personal Info</h3>
                   <div className="grid grid-cols-[100px_1fr] gap-y-2 text-[14px]">
                     <span className="text-[#667085]">Name</span>
@@ -339,7 +339,7 @@ export function AddNurse() {
                   </div>
                 </div>
 
-                <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex flex-col gap-3">
+                <div className="bg-surface p-4 rounded-2xl border border-border shadow-sm flex flex-col gap-3">
                   <h3 className="font-bold text-[#172033] border-b border-gray-50 pb-2 text-[15px]">Professional Info</h3>
                   <div className="grid grid-cols-[100px_1fr] gap-y-2 text-[14px]">
                     <span className="text-[#667085]">Qual.</span>
@@ -351,7 +351,7 @@ export function AddNurse() {
                   </div>
                 </div>
                 
-                <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex flex-col gap-3">
+                <div className="bg-surface p-4 rounded-2xl border border-border shadow-sm flex flex-col gap-3">
                   <h3 className="font-bold text-[#172033] border-b border-gray-50 pb-2 text-[15px]">Availability</h3>
                   <div className="grid grid-cols-[100px_1fr] gap-y-2 text-[14px]">
                     <span className="text-[#667085]">Shift</span>
@@ -370,14 +370,14 @@ export function AddNurse() {
             )}
           </AnimatePresence>
 
-          <div className="fixed bottom-0 left-0 right-0 p-4 bg-background/95 backdrop-blur-md border-t border-gray-100/50 pb-safe z-20">
+          <div className="fixed bottom-0 left-0 right-0 p-4 bg-background/95 backdrop-blur-md border-t border-border/50 pb-safe z-20">
             <div className="flex gap-3 max-w-md mx-auto">
               {step > 1 && (
                 <button 
                   type="button" 
                   onClick={prevStep}
                   disabled={isSubmitting}
-                  className="flex-1 bg-white hover:bg-gray-50 border border-gray-200/60 text-[#172033] font-semibold py-3.5 rounded-xl transition-colors interactive-element shadow-sm"
+                  className="flex-1 bg-surface hover:bg-gray-50 border border-border/60 text-[#172033] font-semibold py-3.5 rounded-xl transition-colors interactive-element shadow-sm"
                 >
                   Back
                 </button>

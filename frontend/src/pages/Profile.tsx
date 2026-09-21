@@ -3,12 +3,14 @@ import { useNavigate } from "react-router-dom"
 import { motion } from "framer-motion"
 import { useAuth } from "@/context/AuthContext"
 import { useState } from "react"
+import { useTranslation } from "react-i18next"
 import { ConfirmationSheet } from "@/components/ui/ConfirmationSheet"
 import { cn } from "@/lib/utils"
 
 export function Profile() {
   const navigate = useNavigate();
   const { logout, role, user } = useAuth();
+  const { t } = useTranslation();
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
   const handleLogout = () => {
@@ -26,31 +28,31 @@ export function Profile() {
   };
 
   const appLinks = [
-    { icon: Bell, label: "Notifications", path: "/notifications" },
-    { icon: Shield, label: "Security & Privacy", path: "/security" },
-    { icon: Settings, label: "App Settings", path: "/settings" },
+    { icon: Bell, label: t('notifications', 'Notifications'), path: "/notifications" },
+    { icon: Shield, label: t('security', 'Security & Privacy'), path: "/security" },
+    { icon: Settings, label: t('app_settings', 'App Settings'), path: "/settings" },
   ];
 
   const supportLinks = [
-    { icon: HelpCircle, label: "Help & Support", path: "/support" },
-    { icon: MessageSquare, label: "Contact Support", path: "/contact" },
+    { icon: HelpCircle, label: t('help_support', 'Help & Support'), path: "/support" },
+    { icon: MessageSquare, label: t('contact_support', 'Contact Support'), path: "/contact" },
   ];
 
   const accountLinks = (role === 'doctor' || role === 'nurse' || role === 'receptionist') ? [
-    { icon: User, label: "Personal Information", path: "/profile/personal" },
+    { icon: User, label: t('personal_info', 'Personal Information'), path: "/profile/personal" },
   ] : [
-    { icon: Building2, label: "Hospital Information", path: "/profile/hospital" },
+    { icon: Building2, label: t('hospital_info', 'Hospital Information'), path: "/profile/hospital" },
   ];
 
   const professionalLinks = role === 'doctor' ? [
-    { icon: FileSignature, label: "E-Prescription Settings", path: "/profile/erx" },
-    { icon: Calendar, label: "Clinic Schedule", path: "/profile/schedule" },
-    { icon: History, label: "Consultation History", path: "/profile/history" },
+    { icon: FileSignature, label: t('eprescription_settings', 'E-Prescription Settings'), path: "/profile/erx" },
+    { icon: Calendar, label: t('clinic_schedule', 'Clinic Schedule'), path: "/profile/schedule" },
+    { icon: History, label: t('consultation_history', 'Consultation History'), path: "/profile/history" },
   ] : [];
 
   const operationLinks = ((role as string) === 'admin' || (role as string) === 'superadmin') ? [
-    { icon: Users, label: "Staff Management", path: "/profile/staff" },
-    { icon: LayoutGrid, label: "Departments", path: "/profile/departments" },
+    { icon: Users, label: t('staff_management', 'Staff Management'), path: "/profile/staff" },
+    { icon: LayoutGrid, label: t('departments_list', 'Departments'), path: "/profile/departments" },
     { icon: Key, label: "Permissions", path: "/profile/permissions" },
   ] : [];
 
@@ -58,8 +60,8 @@ export function Profile() {
 
   const renderSection = (title: string, links: any[]) => (
     <div className="flex flex-col gap-2 mb-6">
-      <h3 className={cn("text-[14px] font-semibold px-1 uppercase tracking-wider", isDoctor ? "text-gray-400" : "text-[#667085]")}>{title}</h3>
-      <div className={cn("bg-white rounded-2xl overflow-hidden", isDoctor ? "border border-gray-100 shadow-[0_2px_8px_rgba(0,0,0,0.02)]" : "border border-gray-200/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)]")}>
+      <h3 className="text-[14px] font-semibold px-1 uppercase tracking-wider text-muted">{title}</h3>
+      <div className="bg-surface rounded-2xl overflow-hidden border border-border shadow-sm">
         {links.map((link, index) => (
           <motion.button 
             key={index}
@@ -68,12 +70,12 @@ export function Profile() {
             className="w-full flex items-center justify-between p-4 border-b border-gray-100 last:border-0 interactive-element active:bg-gray-50/50 transition-colors"
           >
             <div className="flex items-center gap-3">
-              <div className={cn("w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border", isDoctor ? "bg-[#EBF5FF] text-[#1B5DF1] border-[#1B5DF1]/10" : "bg-gray-50 text-[#667085] border-gray-100")}>
+              <div className={cn("w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border", isDoctor ? "bg-blue-50/50 dark:bg-blue-900/20 text-primary border-blue-100 dark:border-blue-900/30" : "bg-gray-50 dark:bg-gray-800 text-muted border-border")}>
                 <link.icon className="w-4 h-4" />
               </div>
-              <span className={cn("font-semibold text-[15px]", isDoctor ? "text-[#0A1A3D]" : "text-[#172033]")}>{link.label}</span>
+              <span className="font-semibold text-[15px] text-foreground">{link.label}</span>
             </div>
-            <ChevronRight className={cn("w-4 h-4", isDoctor ? "text-gray-400" : "text-[#98A2B3]")} />
+            <ChevronRight className="w-4 h-4 text-muted/70" />
           </motion.button>
         ))}
       </div>
@@ -81,11 +83,11 @@ export function Profile() {
   );
 
   return (
-    <div className={cn("flex flex-col min-h-full pb-[120px]", isDoctor ? "bg-gray-50/30" : "bg-background")}>
+    <div className="flex flex-col min-h-full pb-[120px] bg-background">
       
       {/* Sticky Top Controls */}
-      <div className={cn("sticky top-0 z-30 pt-4 pb-3 px-4 flex justify-between items-center", isDoctor ? "bg-white/80 backdrop-blur-xl border-b border-gray-100 shadow-[0_1px_2px_rgba(0,0,0,0.02)]" : "bg-background/95 backdrop-blur-md border-b border-gray-100/50 shadow-[0_4px_24px_rgba(0,0,0,0.02)]")}>
-        <h1 className={cn("text-[22px]", isDoctor ? "font-black text-[#0A1A3D] tracking-tight" : "font-semibold text-[#172033]")}>Profile</h1>
+      <div className="sticky top-0 z-30 pt-4 pb-3 px-4 flex justify-between items-center bg-background/95 backdrop-blur-md border-b border-border shadow-sm">
+        <h1 className="text-[22px] font-semibold text-foreground">{t('profile', 'Profile')}</h1>
       </div>
 
       <div className="flex flex-col px-4 pt-5">
@@ -95,17 +97,17 @@ export function Profile() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           onClick={() => navigate('/profile/edit')}
-          className={cn("w-full text-left bg-white rounded-2xl p-5 mb-6 flex items-center justify-between interactive-element active:bg-gray-50/50", isDoctor ? "shadow-md border border-gray-100" : "shadow-[0_1px_2px_rgba(0,0,0,0.02)] border border-gray-200/60")}
+          className="w-full text-left bg-surface rounded-2xl p-5 mb-6 flex items-center justify-between interactive-element active:bg-gray-50/50 dark:active:bg-gray-800/50 shadow-sm border border-border"
         >
           <div className="flex items-center gap-4">
-            <div className={cn("w-16 h-16 rounded-full flex items-center justify-center shrink-0 overflow-hidden", isDoctor ? "bg-[#1B5DF1] text-white border-2 border-[#0A1A3D] shadow-lg text-xl font-black" : "bg-blue-50 text-primary border border-blue-100")}>
+            <div className={cn("w-16 h-16 rounded-full flex items-center justify-center shrink-0 overflow-hidden", isDoctor ? "bg-primary text-white border-2 border-foreground shadow-lg text-xl font-black" : "bg-blue-50/50 dark:bg-blue-900/20 text-primary border border-blue-100 dark:border-blue-900/30")}>
               <User className="w-7 h-7" />
             </div>
             <div className="flex flex-col">
-              <h2 className={cn("text-[18px]", isDoctor ? "font-black text-[#0A1A3D] tracking-tight" : "font-bold text-[#172033]")}>
+              <h2 className="text-[18px] font-bold text-foreground">
                 {user?.name || "—"}
               </h2>
-              <p className={cn("text-[13px] font-medium", isDoctor ? "text-gray-500" : "text-[#667085]")}>
+              <p className="text-[13px] font-medium text-muted">
                 {user?.email || "—"}
               </p>
               <div className="mt-1.5 flex items-center">
@@ -129,7 +131,7 @@ export function Profile() {
               </div>
             </div>
           </div>
-          <ChevronRight className={cn("w-5 h-5", isDoctor ? "text-gray-400" : "text-[#98A2B3]")} />
+          <ChevronRight className="w-5 h-5 text-muted/70" />
         </motion.button>
 
         {/* Menu Sections */}
@@ -153,10 +155,10 @@ export function Profile() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
             onClick={() => setShowLogoutConfirm(true)}
-            className="w-full flex items-center justify-center gap-2 p-4 bg-white rounded-2xl border border-red-200 text-red-600 font-bold shadow-[0_2px_8px_rgba(220,38,38,0.05)] active:bg-red-50 transition-colors"
+            className="w-full flex items-center justify-center gap-2 p-4 bg-surface rounded-2xl border border-red-200 dark:border-red-900/50 text-red-600 dark:text-red-400 font-bold shadow-sm hover:bg-red-50 dark:hover:bg-red-900/10 active:scale-95 transition-all"
           >
             <LogOut className="w-5 h-5" />
-            <span>Logout</span>
+            <span>{t('logout')}</span>
           </motion.button>
         </div>
       </div>
@@ -164,10 +166,10 @@ export function Profile() {
       <ConfirmationSheet 
         isOpen={showLogoutConfirm}
         onClose={() => setShowLogoutConfirm(false)}
-        title="Logout?"
+        title={t('logout') + "?"}
         description="Are you sure you want to log out of your account?"
-        confirmLabel="Logout"
-        cancelLabel="Cancel"
+        confirmLabel={t('logout')}
+        cancelLabel={t('cancel')}
         isDestructive={true}
         onConfirm={handleLogout}
       />

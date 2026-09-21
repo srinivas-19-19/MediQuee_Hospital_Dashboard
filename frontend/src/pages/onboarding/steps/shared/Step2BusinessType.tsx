@@ -26,7 +26,7 @@ export function Step2BusinessType() {
           className={`relative p-5 rounded-[20px] text-left transition-all duration-200 border-2 ${
             selectedType === 'hospital' 
               ? 'border-[#1769E0] bg-[#1769E0]/5 shadow-sm shadow-[#1769E0]/10' 
-              : 'border-gray-200 bg-white hover:border-gray-300'
+              : 'border-border bg-surface hover:border-gray-300'
           }`}
         >
           {selectedType === 'hospital' && (
@@ -36,7 +36,7 @@ export function Step2BusinessType() {
           )}
           
           <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-4 transition-colors ${
-            selectedType === 'hospital' ? 'bg-[#1769E0] text-white' : 'bg-gray-100 text-gray-500'
+            selectedType === 'hospital' ? 'bg-[#1769E0] text-white' : 'bg-gray-100 text-muted'
           }`}>
             <Building2 className="w-6 h-6" />
           </div>
@@ -58,7 +58,7 @@ export function Step2BusinessType() {
           className={`relative p-5 rounded-[20px] text-left transition-all duration-200 border-2 ${
             selectedType === 'laboratory' 
               ? 'border-[#1769E0] bg-[#1769E0]/5 shadow-sm shadow-[#1769E0]/10' 
-              : 'border-gray-200 bg-white hover:border-gray-300'
+              : 'border-border bg-surface hover:border-gray-300'
           }`}
         >
           {selectedType === 'laboratory' && (
@@ -68,7 +68,7 @@ export function Step2BusinessType() {
           )}
           
           <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-4 transition-colors ${
-            selectedType === 'laboratory' ? 'bg-[#1769E0] text-white' : 'bg-gray-100 text-gray-500'
+            selectedType === 'laboratory' ? 'bg-[#1769E0] text-white' : 'bg-gray-100 text-muted'
           }`}>
             <Microscope className="w-6 h-6" />
           </div>

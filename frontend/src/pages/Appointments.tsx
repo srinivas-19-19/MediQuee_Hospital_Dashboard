@@ -9,8 +9,10 @@ import { EmptyState } from "../components/ui/EmptyState"
 import { cn } from "@/lib/utils"
 import { useNavigate, useLocation } from "react-router-dom"
 import { adminApi } from "@/services/adminApi"
+import { useTranslation } from "react-i18next"
 
 export function Appointments() {
+  const { t } = useTranslation();
   const location = useLocation();
   const locationState = location.state as { date?: string; status?: string; filter?: string } | undefined;
 
@@ -184,56 +186,56 @@ export function Appointments() {
   };
 
   return (
-    <div className="flex flex-col bg-gray-50/30 min-h-full pb-8" onClick={() => setActiveDropdown(null)}>
+    <div className="flex flex-col bg-background min-h-full pb-8 transition-colors" onClick={() => setActiveDropdown(null)}>
       
       {/* Header Section (Not sticky so appointments get full viewport space on scroll) */}
-      <div className="bg-white pt-5 pb-3 px-4 flex flex-col gap-4 border-b border-gray-100 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
+      <div className="bg-surface pt-5 pb-3 px-4 flex flex-col gap-4 border-b border-border shadow-sm">
         
         {/* Header Block */}
         <div className="flex items-center gap-3">
-          <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-[#0A1A3D] hover:bg-gray-100 rounded-xl transition-colors">
+          <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-foreground hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors">
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div className="flex-1">
-            <h1 className="text-[22px] font-black text-[#0A1A3D] tracking-tight">Appointments</h1>
+            <h1 className="text-[22px] font-black text-foreground tracking-tight">{t('appointments')}</h1>
           </div>
           <button 
             onClick={() => setIsWalkInModalOpen(true)}
             className="flex items-center gap-1.5 bg-[#1B5DF1] hover:bg-blue-700 text-white px-3 py-2 rounded-xl text-sm font-bold shadow-sm transition-colors active:scale-95"
           >
             <Plus className="w-4 h-4" />
-            Walk-In
+            {t('walk_in_registration', 'Walk-In')}
           </button>
         </div>
 
         {/* Search Bar & Filter Button */}
         <div className="flex flex-col gap-4">
           <div className="relative group flex items-center">
-            <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-[#1B5DF1] transition-colors">
+            <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-muted/70 group-focus-within:text-[#1B5DF1] transition-colors">
               <Search className="w-4 h-4" />
             </div>
             <input 
               type="text" 
-              placeholder="Search by name, ID, or phone..." 
+              placeholder={t('search_placeholder', 'Search by name, ID, or phone...')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-11 pr-24 py-3.5 bg-white border border-gray-200 rounded-[16px] outline-none focus:border-[#1B5DF1] focus:ring-4 focus:ring-[#1B5DF1]/10 transition-all text-[15px] font-medium text-[#0A1A3D] placeholder:text-gray-400 shadow-[0_2px_10px_rgba(0,0,0,0.02)]"
+              className="w-full pl-11 pr-24 py-3.5 bg-surface border border-border rounded-[16px] outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all text-[15px] font-medium text-foreground placeholder:text-muted shadow-sm"
             />
             <button 
               type="button"
               onClick={() => setIsFilterModalOpen(prev => !prev)}
-              title="Open Filters"
+              title={t('filter', 'Filters')}
               className={cn(
                 "absolute right-2.5 px-3 py-1.5 rounded-xl flex items-center gap-1.5 transition-all text-xs font-bold active:scale-95",
                 activeFiltersCount > 0 
                   ? "bg-[#1B5DF1] text-white shadow-sm" 
-                  : "bg-gray-50 hover:bg-blue-50 text-[#1B5DF1] border border-gray-200/80"
+                  : "bg-gray-50 hover:bg-blue-50 text-[#1B5DF1] border border-border/80"
               )}
             >
               <Filter className="w-3.5 h-3.5" />
-              <span>Filters</span>
+              <span>{t('filter', 'Filters')}</span>
               {activeFiltersCount > 0 && (
-                <span className="w-4 h-4 rounded-full bg-white text-[#1B5DF1] text-[10px] flex items-center justify-center font-black">
+                <span className="w-4 h-4 rounded-full bg-surface text-[#1B5DF1] text-[10px] flex items-center justify-center font-black">
                   {activeFiltersCount}
                 </span>
               )}
@@ -251,7 +253,7 @@ export function Appointments() {
                 onClick={() => setSelectedFilter(type.id)}
                 className={cn(
                   "px-5 py-2 rounded-full flex-shrink-0 transition-all active:scale-95 font-bold text-[13px]",
-                  isActive ? "bg-[#1B5DF1] text-white shadow-md shadow-[#1B5DF1]/20" : "bg-white text-[#667085] border border-gray-200"
+                  isActive ? "bg-primary text-white shadow-md shadow-primary/20" : "bg-surface text-muted border border-border"
                 )}
               >
                 {type.label}
@@ -292,7 +294,7 @@ export function Appointments() {
                 "flex items-center justify-center w-[52px] h-[52px] rounded-[16px] flex-shrink-0 active:scale-95 transition-all shadow-[0_2px_8px_rgba(0,0,0,0.02)] border",
                 selectedDate !== 'upcoming' && !dates.some(d => d.iso === selectedDate)
                   ? "bg-[#1B5DF1] text-white border-[#1B5DF1] shadow-md shadow-[#1B5DF1]/20"
-                  : "bg-white border-gray-200 text-[#0A1A3D] hover:bg-gray-50 hover:border-gray-300"
+                  : "bg-surface border-border text-[#0A1A3D] hover:bg-gray-50 hover:border-gray-300"
               )}
             >
               <Calendar className={cn("w-5 h-5", selectedDate !== 'upcoming' && !dates.some(d => d.iso === selectedDate) ? "text-white" : "text-primary")} />
@@ -306,11 +308,11 @@ export function Appointments() {
                 "flex flex-col items-center justify-center min-w-[76px] h-[52px] rounded-[16px] flex-shrink-0 transition-all active:scale-95 px-3 border",
                 selectedDate === 'upcoming' 
                   ? "bg-[#1B5DF1] text-white shadow-lg shadow-[#1B5DF1]/30 border-[#1B5DF1]" 
-                  : "bg-white border-gray-200 text-[#0A1A3D] hover:bg-gray-50"
+                  : "bg-surface border-border text-[#0A1A3D] hover:bg-gray-50"
               )}
             >
               <span className={cn("text-[13px] font-bold leading-tight", selectedDate === 'upcoming' ? "text-white" : "text-[#0A1A3D]")}>Upcoming</span>
-              <span className={cn("text-[10px] font-semibold leading-tight", selectedDate === 'upcoming' ? "text-[#EBF5FF]" : "text-gray-400")}>All Dates</span>
+              <span className={cn("text-[10px] font-semibold leading-tight", selectedDate === 'upcoming' ? "text-[#EBF5FF]" : "text-muted/70")}>All Dates</span>
             </button>
 
             {/* Custom picked date pill if not in standard 14 dates */}
@@ -336,11 +338,11 @@ export function Appointments() {
                     "flex flex-col items-center justify-center min-w-[56px] h-[52px] rounded-[16px] flex-shrink-0 transition-all active:scale-95 border",
                     isActive 
                       ? "bg-[#1B5DF1] text-white shadow-lg shadow-[#1B5DF1]/30 border-[#1B5DF1]" 
-                      : "bg-white border-gray-200 text-gray-500 hover:bg-gray-50"
+                      : "bg-surface border-border text-muted hover:bg-gray-50"
                   )}
                 >
                   <span className={cn("text-[13px] font-bold leading-tight", isActive ? "text-white" : "text-[#0A1A3D]")}>{d.date.split(' ')[0]} {d.date.split(' ')[1]}</span>
-                  <span className={cn("text-[11px] font-semibold leading-tight", isActive ? "text-[#EBF5FF]" : "text-gray-400")}>{d.day}</span>
+                  <span className={cn("text-[11px] font-semibold leading-tight", isActive ? "text-[#EBF5FF]" : "text-muted/70")}>{d.day}</span>
                 </button>
               )
             })}
@@ -353,19 +355,19 @@ export function Appointments() {
         {/* Summary Block */}
         <div className="flex flex-col gap-3">
           <div className="flex items-center justify-between px-1">
-            <h3 className="text-[15px] font-bold text-[#0A1A3D]">
+            <h3 className="text-[15px] font-bold text-foreground">
               {selectedDate === 'upcoming' 
                 ? 'Upcoming Consultations' 
                 : selectedDate === todayIso 
                   ? "Today's Consultations" 
                   : `Consultations on ${dates.find(d => d.iso === selectedDate)?.date || selectedDate}`}
             </h3>
-            <span className="text-[#1B5DF1] text-[13px] font-bold">
+            <span className="text-primary text-[13px] font-bold">
               {filteredAppointments.length} Bookings
             </span>
           </div>
 
-          <div className="bg-white rounded-[20px] p-2 sm:p-3 flex items-center justify-between border border-gray-100 shadow-[0_2px_12px_rgba(0,0,0,0.03)]">
+          <div className="bg-surface rounded-[20px] p-2 sm:p-3 flex items-center justify-between border border-border shadow-sm">
             <button 
               onClick={() => setSelectedStatus('ALL')}
               className={cn(
@@ -377,7 +379,7 @@ export function Appointments() {
               <span className={cn("text-[20px] sm:text-[22px] font-black", selectedStatus === 'ALL' ? "text-[#1B5DF1]" : "text-[#0A1A3D]")}>
                 {appointmentsList.length}
               </span>
-              <span className="text-[11px] font-bold text-gray-500">Total</span>
+              <span className="text-[11px] font-bold text-muted">Total</span>
             </button>
             <div className="w-px h-8 bg-gray-100" />
             <button 
@@ -391,7 +393,7 @@ export function Appointments() {
               <span className={cn("text-[20px] sm:text-[22px] font-black", selectedStatus === 'WAITING' ? "text-amber-600" : "text-[#0A1A3D]")}>
                 {appointmentsList.filter(a => a.status === 'WAITING' || a.status === 'PENDING').length}
               </span>
-              <span className="text-[11px] font-bold text-gray-500">Waiting</span>
+              <span className="text-[11px] font-bold text-muted">Waiting</span>
             </button>
             <div className="w-px h-8 bg-gray-100" />
             <button 
@@ -405,7 +407,7 @@ export function Appointments() {
               <span className={cn("text-[20px] sm:text-[22px] font-black", selectedStatus === 'IN_CONSULTATION' ? "text-blue-600" : "text-[#0A1A3D]")}>
                 {appointmentsList.filter(a => a.status === 'IN_CONSULTATION').length}
               </span>
-              <span className="text-[11px] font-bold text-gray-500">In Consult</span>
+              <span className="text-[11px] font-bold text-muted">In Consult</span>
             </button>
             <div className="w-px h-8 bg-gray-100" />
             <button 
@@ -419,7 +421,7 @@ export function Appointments() {
               <span className={cn("text-[20px] sm:text-[22px] font-black", selectedStatus === 'COMPLETED' ? "text-emerald-600" : "text-[#0A1A3D]")}>
                 {appointmentsList.filter(a => a.status === 'COMPLETED').length}
               </span>
-              <span className="text-[11px] font-bold text-gray-500">Completed</span>
+              <span className="text-[11px] font-bold text-muted">Completed</span>
             </button>
           </div>
 
@@ -430,7 +432,7 @@ export function Appointments() {
               </span>
               <button 
                 onClick={() => setSelectedStatus('ALL')}
-                className="text-[11px] font-bold text-gray-500 hover:text-primary underline ml-2 cursor-pointer"
+                className="text-[11px] font-bold text-muted hover:text-primary underline ml-2 cursor-pointer"
               >
                 Reset to All
               </button>
@@ -440,14 +442,14 @@ export function Appointments() {
 
         {/* Appointment List */}
         <div className="flex flex-col gap-4">
-          <h2 className="font-bold text-[#0A1A3D] text-[17px] px-1">Appointment List</h2>
+          <h2 className="font-bold text-foreground text-[17px] px-1">Appointment List</h2>
 
           <div className="flex flex-col relative gap-3">
             <AnimatePresence mode="wait">
               {isLoading ? (
                 <motion.div key="skeletons" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex flex-col gap-3">
                   {[1, 2, 3].map((i) => (
-                    <Skeleton key={i} className="h-32 rounded-2xl bg-white border border-gray-100" />
+                    <Skeleton key={i} className="h-32 rounded-2xl bg-surface border border-border" />
                   ))}
                 </motion.div>
               ) : filteredAppointments.length > 0 ? (
@@ -463,14 +465,14 @@ export function Appointments() {
                           navigate(`/patients/${apt.id}`);
                         }
                       }}
-                      className="flex flex-col bg-white border border-gray-100 hover:border-[#1B5DF1]/40 rounded-2xl p-4 shadow-[0_2px_8px_rgba(0,0,0,0.02)] hover:shadow-[0_4px_16px_rgba(27,93,241,0.08)] transition-all cursor-pointer group active:scale-[0.99]"
+                      className="flex flex-col bg-surface border border-border hover:border-primary/40 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all cursor-pointer group active:scale-[0.99]"
                       title="Click to view detailed patient profile"
                     >
                       <div className="flex gap-4">
                         {/* Time */}
                         <div className="flex flex-col items-center min-w-[60px] pt-1">
-                          <span className="text-[16px] font-black text-[#0A1A3D] leading-none">{apt.time}</span>
-                          <span className="text-[11px] font-bold text-gray-400 mt-1">{apt.period}</span>
+                          <span className="text-[16px] font-black text-foreground leading-none">{apt.time}</span>
+                          <span className="text-[11px] font-bold text-muted mt-1">{apt.period}</span>
                           {apt.date && (
                             <span className="text-[10px] font-bold text-primary bg-blue-50 px-1.5 py-0.5 rounded mt-1.5 text-center whitespace-nowrap">
                               {apt.date}
@@ -478,22 +480,22 @@ export function Appointments() {
                           )}
                         </div>
                         
-                        <div className="flex flex-col flex-1 gap-1 border-l border-gray-100 pl-4">
+                        <div className="flex flex-col flex-1 gap-1 border-l border-border pl-4">
                           {/* Info & Status */}
                           <div className="flex justify-between items-start">
                             <div className="flex flex-col">
                               <div className="flex items-center gap-2">
-                                <span className="text-[16px] font-bold text-[#0A1A3D] group-hover:text-[#1B5DF1] transition-colors">
+                                <span className="text-[16px] font-bold text-foreground group-hover:text-primary transition-colors">
                                   {apt.patientName}
                                 </span>
-                                <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-[#1B5DF1] group-hover:translate-x-0.5 transition-all" />
+                                <ChevronRight className="w-4 h-4 text-muted/50 group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
                               </div>
                               <div className="flex items-center gap-1.5 mt-0.5 flex-wrap">
-                                <span className="text-[12px] font-medium text-gray-500">ID: {apt.mqId}</span>
-                                <span className="w-1 h-1 rounded-full bg-gray-300"></span>
-                                <span className="text-[12px] font-medium text-gray-500">{apt.doctor}</span>
-                                <span className="w-1 h-1 rounded-full bg-gray-300"></span>
-                                <span className="text-[12px] font-medium text-gray-500">{apt.type}</span>
+                                <span className="text-[12px] font-medium text-muted">ID: {apt.mqId}</span>
+                                <span className="w-1 h-1 rounded-full bg-muted/40"></span>
+                                <span className="text-[12px] font-medium text-muted">{apt.doctor}</span>
+                                <span className="w-1 h-1 rounded-full bg-muted/40"></span>
+                                <span className="text-[12px] font-medium text-muted">{apt.type}</span>
                               </div>
                             </div>
                             
@@ -521,7 +523,7 @@ export function Appointments() {
                               )}
 
                               {activeDropdown === apt.id && (
-                                <div className="absolute top-full right-0 mt-1 w-36 bg-white rounded-xl shadow-xl border border-gray-100 py-1.5 z-50 overflow-hidden">
+                                <div className="absolute top-full right-0 mt-1 w-36 bg-surface rounded-xl shadow-xl border border-border py-1.5 z-50 overflow-hidden">
                                   {['PENDING', 'WAITING', 'IN_CONSULTATION', 'COMPLETED', 'CANCELLED'].map(status => (
                                     <button
                                       key={status}
@@ -540,8 +542,8 @@ export function Appointments() {
                           </div>
 
                           {/* Footer Actions */}
-                          <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-50">
-                            <div className="flex items-center gap-1.5 text-gray-500 text-[12px] font-semibold">
+                          <div className="flex items-center justify-between mt-3 pt-3 border-t border-border/50">
+                            <div className="flex items-center gap-1.5 text-muted text-[12px] font-semibold">
                               <FileText className="w-3.5 h-3.5" />
                               <span>Consultation</span>
                             </div>
@@ -601,22 +603,22 @@ export function Appointments() {
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              className="bg-white rounded-3xl p-6 w-full max-w-md shadow-2xl border border-gray-100 flex flex-col gap-5 max-h-[90vh] overflow-y-auto"
+              className="bg-surface rounded-3xl p-6 w-full max-w-md shadow-2xl border border-border flex flex-col gap-5 max-h-[90vh] overflow-y-auto"
             >
               {/* Header */}
-              <div className="flex items-center justify-between border-b border-gray-100 pb-3">
+              <div className="flex items-center justify-between border-b border-border pb-3">
                 <div className="flex items-center gap-2">
                   <div className="p-2 bg-blue-50 text-[#1B5DF1] rounded-xl">
                     <SlidersHorizontal className="w-4 h-4" />
                   </div>
                   <div>
                     <h3 className="text-base font-bold text-[#0A1A3D]">Filter Appointments</h3>
-                    <p className="text-xs text-gray-500">Refine the queue by status, service, or doctor</p>
+                    <p className="text-xs text-muted">Refine the queue by status, service, or doctor</p>
                   </div>
                 </div>
                 <button 
                   onClick={() => setIsFilterModalOpen(false)}
-                  className="p-2 hover:bg-gray-100 rounded-full text-gray-400 hover:text-gray-700 transition-colors"
+                  className="p-2 hover:bg-gray-100 rounded-full text-muted/70 hover:text-foreground/80 transition-colors"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -624,7 +626,7 @@ export function Appointments() {
 
               {/* Status Filter */}
               <div className="flex flex-col gap-2">
-                <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">Status</label>
+                <label className="text-xs font-bold text-foreground/80 uppercase tracking-wider">Status</label>
                 <div className="grid grid-cols-2 gap-2">
                   {[
                     { id: 'ALL', label: 'All Statuses' },
@@ -640,7 +642,7 @@ export function Appointments() {
                         "px-3 py-2 rounded-xl text-xs font-bold transition-all text-left flex items-center justify-between border",
                         selectedStatus === st.id
                           ? "bg-[#1B5DF1] text-white border-[#1B5DF1] shadow-sm"
-                          : "bg-gray-50 hover:bg-gray-100 text-gray-700 border-gray-100"
+                          : "bg-gray-50 hover:bg-gray-100 text-foreground/80 border-border"
                       )}
                     >
                       <span>{st.label}</span>
@@ -652,7 +654,7 @@ export function Appointments() {
 
               {/* Service Type Filter */}
               <div className="flex flex-col gap-2">
-                <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">Service Type</label>
+                <label className="text-xs font-bold text-foreground/80 uppercase tracking-wider">Service Type</label>
                 <div className="flex flex-wrap gap-1.5">
                   {filterTypes.map((type) => (
                     <button
@@ -662,7 +664,7 @@ export function Appointments() {
                         "px-3 py-1.5 rounded-xl text-xs font-bold transition-all border",
                         selectedFilter === type.id
                           ? "bg-[#1B5DF1] text-white border-[#1B5DF1]"
-                          : "bg-gray-50 hover:bg-gray-100 text-gray-700 border-gray-100"
+                          : "bg-gray-50 hover:bg-gray-100 text-foreground/80 border-border"
                       )}
                     >
                       {type.label}
@@ -674,11 +676,11 @@ export function Appointments() {
               {/* Doctor Filter */}
               {uniqueDoctors.length > 0 && (
                 <div className="flex flex-col gap-2">
-                  <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">Assigned Doctor</label>
+                  <label className="text-xs font-bold text-foreground/80 uppercase tracking-wider">Assigned Doctor</label>
                   <select
                     value={selectedDoctor}
                     onChange={(e) => setSelectedDoctor(e.target.value)}
-                    className="w-full bg-gray-50 border border-gray-200 text-gray-800 text-sm font-medium rounded-xl p-2.5 outline-none focus:border-[#1B5DF1] focus:ring-2 focus:ring-[#1B5DF1]/10"
+                    className="w-full bg-gray-50 border border-border text-foreground text-sm font-medium rounded-xl p-2.5 outline-none focus:border-[#1B5DF1] focus:ring-2 focus:ring-[#1B5DF1]/10"
                   >
                     <option value="ALL">All Doctors</option>
                     {uniqueDoctors.map((doc) => (
@@ -690,7 +692,7 @@ export function Appointments() {
 
               {/* Sort Order */}
               <div className="flex flex-col gap-2">
-                <label className="text-xs font-bold text-gray-700 uppercase tracking-wider">Sort by Time</label>
+                <label className="text-xs font-bold text-foreground/80 uppercase tracking-wider">Sort by Time</label>
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     onClick={() => setSortOrder('earliest')}
@@ -698,7 +700,7 @@ export function Appointments() {
                       "px-3 py-2 rounded-xl text-xs font-bold border transition-all text-center",
                       sortOrder === 'earliest'
                         ? "bg-[#1B5DF1] text-white border-[#1B5DF1]"
-                        : "bg-gray-50 hover:bg-gray-100 text-gray-700 border-gray-100"
+                        : "bg-gray-50 hover:bg-gray-100 text-foreground/80 border-border"
                     )}
                   >
                     Earliest First
@@ -709,7 +711,7 @@ export function Appointments() {
                       "px-3 py-2 rounded-xl text-xs font-bold border transition-all text-center",
                       sortOrder === 'latest'
                         ? "bg-[#1B5DF1] text-white border-[#1B5DF1]"
-                        : "bg-gray-50 hover:bg-gray-100 text-gray-700 border-gray-100"
+                        : "bg-gray-50 hover:bg-gray-100 text-foreground/80 border-border"
                     )}
                   >
                     Latest First
@@ -718,7 +720,7 @@ export function Appointments() {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex items-center justify-between pt-3 border-t border-gray-100 gap-3">
+              <div className="flex items-center justify-between pt-3 border-t border-border gap-3">
                 <button
                   onClick={() => {
                     setSelectedFilter('ops');
@@ -727,7 +729,7 @@ export function Appointments() {
                     setSortOrder('earliest');
                     setSearchQuery('');
                   }}
-                  className="flex items-center gap-1.5 text-xs font-bold text-gray-500 hover:text-red-500 py-2 px-3 rounded-xl hover:bg-red-50 transition-colors"
+                  className="flex items-center gap-1.5 text-xs font-bold text-muted hover:text-red-500 py-2 px-3 rounded-xl hover:bg-red-50 transition-colors"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
                   Reset All

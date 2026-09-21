@@ -43,11 +43,11 @@ export function Step5HospitalServices() {
               className={`flex items-center gap-4 p-4 rounded-2xl border-2 transition-all ${
                 isSelected 
                   ? 'border-[#1769E0] bg-[#1769E0]/5 shadow-sm shadow-[#1769E0]/10' 
-                  : 'border-gray-200 bg-white hover:border-gray-300'
+                  : 'border-border bg-surface hover:border-gray-300'
               }`}
             >
               <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
-                isSelected ? 'bg-[#1769E0] text-white' : 'bg-gray-100 text-gray-500'
+                isSelected ? 'bg-[#1769E0] text-white' : 'bg-gray-100 text-muted'
               }`}>
                 <Icon className="w-5 h-5" />
               </div>

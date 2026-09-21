@@ -17,11 +17,12 @@ module.exports = {
     },
     extend: {
       colors: {
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
+        border: "rgb(var(--border) / <alpha-value>)",
+        input: "rgb(var(--border) / <alpha-value>)",
         ring: "hsl(var(--ring))",
-        background: "#F7F8FA",
-        foreground: "#172033",
+        background: "rgb(var(--background) / <alpha-value>)",
+        surface: "rgb(var(--surface) / <alpha-value>)",
+        foreground: "rgb(var(--foreground) / <alpha-value>)",
         primary: {
           DEFAULT: '#1769E0',
           foreground: '#ffffff',
@@ -31,8 +32,8 @@ module.exports = {
           foreground: "#ffffff",
         },
         muted: {
-          DEFAULT: "#98A2B3",
-          foreground: "#172033",
+          DEFAULT: "rgb(var(--muted) / <alpha-value>)",
+          foreground: "rgb(var(--background) / <alpha-value>)",
         },
         success: {
           DEFAULT: "#16A34A",

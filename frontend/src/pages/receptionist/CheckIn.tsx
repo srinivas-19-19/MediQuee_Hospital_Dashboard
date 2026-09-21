@@ -69,14 +69,14 @@ export function CheckIn() {
   };
 
   return (
-    <div className="flex flex-col bg-white min-h-[calc(100vh-80px)] pb-24">
+    <div className="flex flex-col bg-surface min-h-[calc(100vh-80px)] pb-24">
       
       {/* Header */}
-      <div className="sticky top-0 z-30 bg-white border-b border-gray-100 shadow-sm px-4 py-3 flex items-center gap-3">
+      <div className="sticky top-0 z-30 bg-surface border-b border-border shadow-sm px-4 py-3 flex items-center gap-3">
         <button onClick={() => step > 1 ? setStep(step - 1) : navigate('/receptionist')} className="p-2 -ml-2 rounded-full hover:bg-gray-50 transition-colors">
           <ArrowLeft className="w-5 h-5 text-gray-600" />
         </button>
-        <h1 className="text-[18px] font-bold text-gray-900">Check-In Patient</h1>
+        <h1 className="text-[18px] font-bold text-foreground">Check-In Patient</h1>
       </div>
 
       <div className="p-4 flex flex-col flex-1">
@@ -86,11 +86,11 @@ export function CheckIn() {
           {[1, 2, 3].map((s) => (
             <div key={s} className="flex flex-col items-center gap-1">
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors ${
-                step >= s ? 'bg-primary text-white' : 'bg-gray-100 text-gray-400'
+                step >= s ? 'bg-primary text-white' : 'bg-gray-100 text-muted/70'
               }`}>
                 {s}
               </div>
-              <span className={`text-[10px] font-bold uppercase ${step >= s ? 'text-primary' : 'text-gray-400'}`}>
+              <span className={`text-[10px] font-bold uppercase ${step >= s ? 'text-primary' : 'text-muted/70'}`}>
                 {s === 1 ? 'Patient' : s === 2 ? 'Details' : 'Confirm'}
               </span>
             </div>
@@ -106,10 +106,10 @@ export function CheckIn() {
             <motion.div key="step1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="flex flex-col gap-6">
               
               <div className="flex bg-gray-50 p-1 rounded-xl">
-                <button onClick={() => setIsNewPatient(false)} className={`flex-1 py-2 text-sm font-bold rounded-lg transition-colors ${!isNewPatient ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500'}`}>
+                <button onClick={() => setIsNewPatient(false)} className={`flex-1 py-2 text-sm font-bold rounded-lg transition-colors ${!isNewPatient ? 'bg-surface text-foreground shadow-sm' : 'text-muted'}`}>
                   Existing Patient
                 </button>
-                <button onClick={() => setIsNewPatient(true)} className={`flex-1 py-2 text-sm font-bold rounded-lg transition-colors ${isNewPatient ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500'}`}>
+                <button onClick={() => setIsNewPatient(true)} className={`flex-1 py-2 text-sm font-bold rounded-lg transition-colors ${isNewPatient ? 'bg-surface text-foreground shadow-sm' : 'text-muted'}`}>
                   New Patient
                 </button>
               </div>
@@ -117,14 +117,14 @@ export function CheckIn() {
               {!isNewPatient ? (
                 <div className="flex flex-col gap-4">
                   <div className="relative">
-                    <Search className="w-5 h-5 absolute left-3 top-3 text-gray-400" />
+                    <Search className="w-5 h-5 absolute left-3 top-3 text-muted/70" />
                     <input 
                       type="text" 
                       placeholder="Search phone number or ID..." 
                       value={searchQuery}
                       onChange={e => setSearchQuery(e.target.value)}
                       onKeyDown={e => e.key === 'Enter' && handleSearch()}
-                      className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl outline-none focus:border-primary transition-colors text-sm"
+                      className="w-full pl-10 pr-4 py-3 bg-surface border border-border rounded-xl outline-none focus:border-primary transition-colors text-sm"
                     />
                     <button onClick={handleSearch} className="absolute right-2 top-2 bg-primary text-white px-3 py-1 rounded-lg text-xs font-bold">
                       Search
@@ -137,13 +137,13 @@ export function CheckIn() {
                         <div 
                           key={p.id} 
                           onClick={() => setSelectedPatient(p)}
-                          className={`p-4 rounded-xl border flex items-center justify-between cursor-pointer transition-colors ${selectedPatient?.id === p.id ? 'bg-blue-50 border-primary' : 'bg-white border-gray-100 hover:border-gray-200'}`}
+                          className={`p-4 rounded-xl border flex items-center justify-between cursor-pointer transition-colors ${selectedPatient?.id === p.id ? 'bg-blue-50 border-primary' : 'bg-surface border-border hover:border-border'}`}
                         >
                           <div>
-                            <h4 className="font-bold text-gray-900">{p.name}</h4>
-                            <p className="text-xs text-gray-500">{p.phone} • {p.age}Y • {p.gender}</p>
+                            <h4 className="font-bold text-foreground">{p.name}</h4>
+                            <p className="text-xs text-muted">{p.phone} • {p.age}Y • {p.gender}</p>
                           </div>
-                          {selectedPatient?.id === p.id && <div className="w-4 h-4 rounded-full bg-primary flex items-center justify-center"><div className="w-2 h-2 rounded-full bg-white" /></div>}
+                          {selectedPatient?.id === p.id && <div className="w-4 h-4 rounded-full bg-primary flex items-center justify-center"><div className="w-2 h-2 rounded-full bg-surface" /></div>}
                         </div>
                       ))}
                     </div>
@@ -151,11 +151,11 @@ export function CheckIn() {
                 </div>
               ) : (
                 <div className="flex flex-col gap-4">
-                  <input type="text" placeholder="Full Name" value={newPatientData.name} onChange={e => setNewPatientData({...newPatientData, name: e.target.value})} className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm outline-none focus:border-primary" />
-                  <input type="tel" placeholder="Phone Number" value={newPatientData.phone} onChange={e => setNewPatientData({...newPatientData, phone: e.target.value})} className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm outline-none focus:border-primary" />
+                  <input type="text" placeholder="Full Name" value={newPatientData.name} onChange={e => setNewPatientData({...newPatientData, name: e.target.value})} className="w-full px-4 py-3 border border-border rounded-xl text-sm outline-none focus:border-primary" />
+                  <input type="tel" placeholder="Phone Number" value={newPatientData.phone} onChange={e => setNewPatientData({...newPatientData, phone: e.target.value})} className="w-full px-4 py-3 border border-border rounded-xl text-sm outline-none focus:border-primary" />
                   <div className="flex gap-4">
-                    <input type="number" placeholder="Age" value={newPatientData.age} onChange={e => setNewPatientData({...newPatientData, age: e.target.value})} className="w-1/2 px-4 py-3 border border-gray-200 rounded-xl text-sm outline-none focus:border-primary" />
-                    <select value={newPatientData.gender} onChange={e => setNewPatientData({...newPatientData, gender: e.target.value})} className="w-1/2 px-4 py-3 border border-gray-200 rounded-xl text-sm outline-none focus:border-primary bg-white">
+                    <input type="number" placeholder="Age" value={newPatientData.age} onChange={e => setNewPatientData({...newPatientData, age: e.target.value})} className="w-1/2 px-4 py-3 border border-border rounded-xl text-sm outline-none focus:border-primary" />
+                    <select value={newPatientData.gender} onChange={e => setNewPatientData({...newPatientData, gender: e.target.value})} className="w-1/2 px-4 py-3 border border-border rounded-xl text-sm outline-none focus:border-primary bg-surface">
                       <option>Male</option>
                       <option>Female</option>
                       <option>Other</option>
@@ -169,10 +169,10 @@ export function CheckIn() {
           {step === 2 && (
             <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="flex flex-col gap-6">
               <div className="flex flex-col gap-2">
-                <label className="text-xs font-bold text-gray-500 uppercase">Department</label>
+                <label className="text-xs font-bold text-muted uppercase">Department</label>
                 <div className="grid grid-cols-2 gap-2">
                   {departments.map(dept => (
-                    <button key={dept.id} onClick={() => { setSelectedDept(dept.id); setSelectedDoctor(''); }} className={`p-3 rounded-xl border text-sm font-semibold text-left transition-colors ${selectedDept === dept.id ? 'bg-blue-50 border-primary text-primary' : 'bg-white border-gray-200 text-gray-700'}`}>
+                    <button key={dept.id} onClick={() => { setSelectedDept(dept.id); setSelectedDoctor(''); }} className={`p-3 rounded-xl border text-sm font-semibold text-left transition-colors ${selectedDept === dept.id ? 'bg-blue-50 border-primary text-primary' : 'bg-surface border-border text-foreground/80'}`}>
                       {dept.name}
                     </button>
                   ))}
@@ -181,8 +181,8 @@ export function CheckIn() {
 
               {selectedDept && (
                 <div className="flex flex-col gap-2">
-                  <label className="text-xs font-bold text-gray-500 uppercase">Doctor *</label>
-                  <select value={selectedDoctor} onChange={e => setSelectedDoctor(e.target.value)} className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm font-semibold text-gray-900 bg-white outline-none focus:border-primary">
+                  <label className="text-xs font-bold text-muted uppercase">Doctor *</label>
+                  <select value={selectedDoctor} onChange={e => setSelectedDoctor(e.target.value)} className="w-full px-4 py-3 border border-border rounded-xl text-sm font-semibold text-foreground bg-surface outline-none focus:border-primary">
                     <option value="">Any Available Doctor</option>
                     {doctors.map(doc => <option key={doc.id} value={doc.id}>{doc.name}</option>)}
                   </select>
@@ -190,10 +190,10 @@ export function CheckIn() {
               )}
 
               <div className="flex flex-col gap-2">
-                <label className="text-xs font-bold text-gray-500 uppercase">OP Type</label>
+                <label className="text-xs font-bold text-muted uppercase">OP Type</label>
                 <div className="flex gap-2">
                   {['Normal', 'Emergency', 'Follow-up'].map(type => (
-                    <button key={type} onClick={() => setOpType(type)} className={`flex-1 p-3 rounded-xl border text-sm font-semibold transition-colors ${opType === type ? 'bg-blue-50 border-primary text-primary' : 'bg-white border-gray-200 text-gray-700'}`}>
+                    <button key={type} onClick={() => setOpType(type)} className={`flex-1 p-3 rounded-xl border text-sm font-semibold transition-colors ${opType === type ? 'bg-blue-50 border-primary text-primary' : 'bg-surface border-border text-foreground/80'}`}>
                       {type}
                     </button>
                   ))}
@@ -205,29 +205,29 @@ export function CheckIn() {
           {step === 3 && (
             <motion.div key="step3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="flex flex-col gap-6">
               
-              <div className="bg-gray-50 rounded-2xl p-5 border border-gray-100 flex flex-col gap-4">
-                <h3 className="font-bold text-gray-900 border-b border-gray-200 pb-2">Confirm Check-In</h3>
+              <div className="bg-gray-50 rounded-2xl p-5 border border-border flex flex-col gap-4">
+                <h3 className="font-bold text-foreground border-b border-border pb-2">Confirm Check-In</h3>
                 
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div className="flex flex-col">
-                    <span className="text-gray-500 text-xs font-semibold">Patient</span>
-                    <span className="font-bold text-gray-900">{isNewPatient ? newPatientData.name : selectedPatient?.name}</span>
+                    <span className="text-muted text-xs font-semibold">Patient</span>
+                    <span className="font-bold text-foreground">{isNewPatient ? newPatientData.name : selectedPatient?.name}</span>
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-gray-500 text-xs font-semibold">Contact</span>
-                    <span className="font-bold text-gray-900">{isNewPatient ? newPatientData.phone : selectedPatient?.phone}</span>
+                    <span className="text-muted text-xs font-semibold">Contact</span>
+                    <span className="font-bold text-foreground">{isNewPatient ? newPatientData.phone : selectedPatient?.phone}</span>
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-gray-500 text-xs font-semibold">Department</span>
-                    <span className="font-bold text-gray-900">{departments.find(d => d.id === selectedDept)?.name}</span>
+                    <span className="text-muted text-xs font-semibold">Department</span>
+                    <span className="font-bold text-foreground">{departments.find(d => d.id === selectedDept)?.name}</span>
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-gray-500 text-xs font-semibold">Doctor</span>
-                    <span className="font-bold text-gray-900">{selectedDoctor ? doctors.find(d => d.id === selectedDoctor)?.name : 'Any'}</span>
+                    <span className="text-muted text-xs font-semibold">Doctor</span>
+                    <span className="font-bold text-foreground">{selectedDoctor ? doctors.find(d => d.id === selectedDoctor)?.name : 'Any'}</span>
                   </div>
                   <div className="flex flex-col col-span-2">
-                    <span className="text-gray-500 text-xs font-semibold">OP Type</span>
-                    <span className="font-bold text-gray-900">{opType}</span>
+                    <span className="text-muted text-xs font-semibold">OP Type</span>
+                    <span className="font-bold text-foreground">{opType}</span>
                   </div>
                 </div>
               </div>
@@ -248,8 +248,8 @@ export function CheckIn() {
                 <CheckCircle className="w-10 h-10 text-green-600" />
               </div>
               <div className="text-center">
-                <h2 className="text-2xl font-black text-gray-900">Patient Checked In!</h2>
-                <p className="text-gray-500 mt-1 text-sm">Token has been generated successfully</p>
+                <h2 className="text-2xl font-black text-foreground">Patient Checked In!</h2>
+                <p className="text-muted mt-1 text-sm">Token has been generated successfully</p>
               </div>
               <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl px-8 py-5 text-center">
                 <span className="text-xs font-bold text-blue-500 uppercase tracking-widest">OP Token</span>
@@ -268,7 +268,7 @@ export function CheckIn() {
 
       {/* Bottom Sticky Action */}
       {!successToken && (
-        <div className="sticky bottom-[80px] p-4 bg-white border-t border-gray-100 z-30">
+        <div className="sticky bottom-[80px] p-4 bg-surface border-t border-border z-30">
           {step < 3 ? (
             <button 
               onClick={handleNext} 

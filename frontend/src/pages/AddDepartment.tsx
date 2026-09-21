@@ -85,7 +85,7 @@ export function AddDepartment() {
     <div className="flex flex-col bg-background min-h-screen">
       
       {/* Header */}
-      <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md pt-4 pb-3 px-4 flex items-center gap-4 border-b border-gray-100/50 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
+      <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md pt-4 pb-3 px-4 flex items-center gap-4 border-b border-border/50 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
         <button onClick={handleBack} className="p-2 -ml-2 text-[#172033] interactive-element rounded-full hover:bg-gray-100">
           <ArrowLeft className="w-5 h-5" />
         </button>
@@ -105,8 +105,8 @@ export function AddDepartment() {
             {/* Custom Searchable Dropdown Trigger */}
             <div 
               className={cn(
-                "w-full px-4 py-3 bg-white border rounded-xl flex items-center justify-between cursor-pointer transition-all shadow-sm",
-                errors.specialtyId ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-gray-200/60 hover:border-gray-300',
+                "w-full px-4 py-3 bg-surface border rounded-xl flex items-center justify-between cursor-pointer transition-all shadow-sm",
+                errors.specialtyId ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-border/60 hover:border-gray-300',
                 (isLoadingSpecialties || specialtiesError) && "opacity-70 bg-gray-50 cursor-not-allowed"
               )}
               onClick={() => {
@@ -128,13 +128,13 @@ export function AddDepartment() {
 
             {/* Dropdown Menu */}
             {isDropdownOpen && !isLoadingSpecialties && (
-              <div className="absolute top-[100%] left-0 right-0 mt-2 bg-white border border-gray-200/60 rounded-xl shadow-lg z-50 overflow-hidden flex flex-col">
-                <div className="flex items-center px-3 py-2.5 border-b border-gray-100 bg-gray-50/50">
-                  <Search className="w-4 h-4 text-gray-400 mr-2" />
+              <div className="absolute top-[100%] left-0 right-0 mt-2 bg-surface border border-border/60 rounded-xl shadow-lg z-50 overflow-hidden flex flex-col">
+                <div className="flex items-center px-3 py-2.5 border-b border-border bg-gray-50/50">
+                  <Search className="w-4 h-4 text-muted/70 mr-2" />
                   <input 
                     type="text"
                     placeholder="Search specialties..."
-                    className="flex-1 bg-transparent outline-none text-[14px] text-[#172033] placeholder:text-gray-400"
+                    className="flex-1 bg-transparent outline-none text-[14px] text-[#172033] placeholder:text-muted/70"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     autoFocus
@@ -142,7 +142,7 @@ export function AddDepartment() {
                 </div>
                 <div className="max-h-[250px] overflow-y-auto py-1">
                   {filteredSpecialties.length === 0 ? (
-                    <div className="px-4 py-8 text-center text-[14px] text-gray-500">
+                    <div className="px-4 py-8 text-center text-[14px] text-muted">
                       No specialties found matching "{searchQuery}"
                     </div>
                   ) : (
@@ -174,11 +174,11 @@ export function AddDepartment() {
                           <div className="flex flex-col pr-2">
                             <span className={cn(
                               "text-[14px] font-medium transition-colors",
-                              isAlreadyAdded ? "text-gray-500" : "text-[#172033] group-hover:text-primary"
+                              isAlreadyAdded ? "text-muted" : "text-[#172033] group-hover:text-primary"
                             )}>
                               {s.name}
                             </span>
-                            {s.description && <span className="text-[12px] text-gray-500 line-clamp-1">{s.description}</span>}
+                            {s.description && <span className="text-[12px] text-muted line-clamp-1">{s.description}</span>}
                           </div>
                           {isAlreadyAdded && (
                             <span className="shrink-0 px-2 py-0.5 bg-gray-200/80 text-gray-600 text-[10px] font-bold uppercase rounded-md tracking-wider">
@@ -202,14 +202,14 @@ export function AddDepartment() {
               {...register("description")}
               placeholder="Enter department description" 
               rows={4}
-              className="px-4 py-3 bg-white border border-gray-200/60 rounded-xl outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm resize-none"
+              className="px-4 py-3 bg-surface border border-border/60 rounded-xl outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm resize-none"
             />
           </div>
 
           <div className="flex flex-col gap-1.5">
             <label className="text-[13px] font-semibold text-[#172033]">Status</label>
             <div className="relative">
-              <select {...register("status")} className="w-full px-4 py-3 bg-white border border-gray-200/60 rounded-xl outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-[15px] appearance-none shadow-sm text-[#172033] font-medium">
+              <select {...register("status")} className="w-full px-4 py-3 bg-surface border border-border/60 rounded-xl outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-[15px] appearance-none shadow-sm text-[#172033] font-medium">
                 <option value="active">Active</option>
                 <option value="inactive">Inactive</option>
               </select>
@@ -219,12 +219,12 @@ export function AddDepartment() {
             </div>
           </div>
           
-          <div className="fixed bottom-0 left-0 right-0 p-4 bg-background/95 backdrop-blur-md border-t border-gray-100/50 pb-safe z-20">
+          <div className="fixed bottom-0 left-0 right-0 p-4 bg-background/95 backdrop-blur-md border-t border-border/50 pb-safe z-20">
             <div className="flex gap-3 max-w-md mx-auto">
               <button 
                 type="button" 
                 onClick={handleBack}
-                className="flex-1 bg-white hover:bg-gray-50 border border-gray-200/60 text-[#172033] font-semibold py-3.5 rounded-xl transition-colors interactive-element shadow-sm"
+                className="flex-1 bg-surface hover:bg-gray-50 border border-border/60 text-[#172033] font-semibold py-3.5 rounded-xl transition-colors interactive-element shadow-sm"
               >
                 Back
               </button>

@@ -24,7 +24,7 @@ export function SuccessModal({ isOpen, title, description, onClose }: SuccessMod
             initial={{ scale: 0.95, opacity: 0, y: 10 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.95, opacity: 0, y: 10 }}
-            className="bg-white rounded-3xl shadow-xl w-full max-w-sm overflow-hidden relative z-10 flex flex-col items-center p-8 text-center"
+            className="bg-surface rounded-3xl shadow-xl w-full max-w-sm overflow-hidden relative z-10 flex flex-col items-center p-8 text-center"
           >
             <div className="w-20 h-20 bg-green-50 text-green-500 rounded-full flex items-center justify-center mb-5 border-[8px] border-green-50/50">
               <CheckCircle2 className="w-10 h-10" />

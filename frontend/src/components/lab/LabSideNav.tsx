@@ -6,12 +6,10 @@ export function LabSideNav({ onQuickAdd }: { onQuickAdd: () => void }) {
   const location = useLocation()
 
   return (
-    <div className="hidden md:flex flex-col w-64 bg-white border-r border-gray-100 h-screen sticky top-0 p-4 shrink-0 shadow-[1px_0_2px_rgba(0,0,0,0.02)] z-50">
+    <div className="hidden md:flex flex-col w-64 bg-surface border-r border-border h-screen sticky top-0 p-4 shrink-0 shadow-[1px_0_2px_rgba(0,0,0,0.02)] z-50">
       
       <div className="flex items-center gap-2 mb-8 px-4 pt-4">
-        <div className="text-primary font-bold text-xl flex items-center tracking-tight">
-          MediQuee
-        </div>
+        <img src={import.meta.env.BASE_URL + 'logo.png'} alt="MediQuee" className="h-8 w-auto object-contain" />
         <div className="px-2 py-0.5 bg-emerald-50 text-emerald-700 text-[10px] font-bold rounded-full uppercase tracking-wider border border-emerald-200/60">
           LAB
         </div>

@@ -101,8 +101,8 @@ export function EditStaff() {
   }
 
   return (
-    <div className="flex flex-col bg-gray-50 min-h-[calc(100vh-80px)] pb-8">
-      <div className="sticky top-0 z-30 bg-white pt-4 pb-3 px-4 flex items-center gap-4 border-b border-gray-100/50 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
+    <div className="flex flex-col bg-background min-h-[calc(100vh-80px)] pb-8">
+      <div className="sticky top-0 z-30 bg-surface pt-4 pb-3 px-4 flex items-center gap-4 border-b border-border/50 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
         <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-[#172033] interactive-element rounded-full hover:bg-gray-100">
           <ArrowLeft className="w-5 h-5" />
         </button>
@@ -136,46 +136,46 @@ export function EditStaff() {
           </label>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col gap-5">
-          <h3 className="font-bold text-[#0A1A3D] border-b border-gray-100 pb-2">Profile Information</h3>
+        <form onSubmit={handleSubmit(onSubmit)} className="bg-surface rounded-2xl border border-border shadow-sm p-5 flex flex-col gap-5">
+          <h3 className="font-bold text-[#0A1A3D] border-b border-border pb-2">Profile Information</h3>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-semibold text-gray-700">Full Name</label>
+            <label className="text-sm font-semibold text-foreground/80">Full Name</label>
             <input 
               {...register("name")}
               type="text" 
               placeholder="Full name" 
-              className={cn("bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:border-primary focus:ring-primary/50", errors.name && "border-red-500")}
+              className={cn("bg-background border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:border-primary focus:ring-primary/50", errors.name && "border-red-500")}
             />
             {errors.name && <span className="text-red-500 text-xs">{errors.name.message}</span>}
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-semibold text-gray-700">Phone Number</label>
+            <label className="text-sm font-semibold text-foreground/80">Phone Number</label>
             <input 
               {...register("phone")}
               type="tel" 
               placeholder="Phone number" 
-              className={cn("bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:border-primary focus:ring-primary/50", errors.phone && "border-red-500")}
+              className={cn("bg-background border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:border-primary focus:ring-primary/50", errors.phone && "border-red-500")}
             />
             {errors.phone && <span className="text-red-500 text-xs">{errors.phone.message}</span>}
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-semibold text-gray-700">Designation / Qualification</label>
+            <label className="text-sm font-semibold text-foreground/80">Designation / Qualification</label>
             <input 
               {...register("designation")}
               type="text" 
               placeholder="Designation" 
-              className={cn("bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:border-primary focus:ring-primary/50", errors.designation && "border-red-500")}
+              className={cn("bg-background border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:border-primary focus:ring-primary/50", errors.designation && "border-red-500")}
             />
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-semibold text-gray-700">Department</label>
+            <label className="text-sm font-semibold text-foreground/80">Department</label>
             <select 
               {...register("departmentId")}
-              className={cn("bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:border-primary focus:ring-primary/50", errors.departmentId && "border-red-500")}
+              className={cn("bg-background border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:border-primary focus:ring-primary/50", errors.departmentId && "border-red-500")}
             >
               <option value="">Select a department</option>
               {departments.map((dept) => (

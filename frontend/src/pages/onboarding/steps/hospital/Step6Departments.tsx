@@ -56,7 +56,7 @@ export function Step6Departments() {
               className={`px-4 py-2 rounded-full border-2 text-[13px] font-bold transition-all flex items-center gap-2 ${
                 isSelected 
                   ? 'border-[#1769E0] bg-[#1769E0]/5 text-[#1769E0]' 
-                  : 'border-gray-200 bg-white text-[#667085] hover:border-gray-300'
+                  : 'border-border bg-surface text-[#667085] hover:border-gray-300'
               }`}
             >
               {isSelected && <CheckCircle2 className="w-4 h-4" />}
@@ -70,10 +70,10 @@ export function Step6Departments() {
         <div className="flex flex-col gap-3 mt-2">
           <h3 className="text-[14px] font-bold text-[#172033]">Custom Departments</h3>
           {fields.map((field, index) => (
-            <div key={field.id} className="flex items-center justify-between p-3 bg-gray-50 border border-gray-200 rounded-xl">
+            <div key={field.id} className="flex items-center justify-between p-3 bg-gray-50 border border-border rounded-xl">
               <div className="flex flex-col">
                 <span className="text-[14px] font-bold text-[#172033]">{field.name}</span>
-                {field.code && <span className="text-[12px] font-medium text-gray-500">Code: {field.code}</span>}
+                {field.code && <span className="text-[12px] font-medium text-muted">Code: {field.code}</span>}
               </div>
               <button 
                 type="button" 
@@ -97,33 +97,33 @@ export function Step6Departments() {
           Add Custom Department
         </button>
       ) : (
-        <div className="flex flex-col gap-4 p-4 border border-gray-200 rounded-2xl bg-gray-50 mt-2">
+        <div className="flex flex-col gap-4 p-4 border border-border rounded-2xl bg-gray-50 mt-2">
           <h4 className="text-[14px] font-bold text-[#172033]">New Custom Department</h4>
           <input 
             type="text" 
             placeholder="Department Name" 
             value={customDept.name}
             onChange={(e) => setCustomDept({ ...customDept, name: e.target.value })}
-            className="w-full px-4 py-3 bg-white border border-gray-200 focus:border-[#1769E0] rounded-xl outline-none focus:ring-2 focus:ring-[#1769E0]/10 transition-all text-[14px] font-medium placeholder:text-gray-400"
+            className="w-full px-4 py-3 bg-surface border border-border focus:border-[#1769E0] rounded-xl outline-none focus:ring-2 focus:ring-[#1769E0]/10 transition-all text-[14px] font-medium placeholder:text-muted/70"
           />
           <input 
             type="text" 
             placeholder="Department Code (Optional)" 
             value={customDept.code}
             onChange={(e) => setCustomDept({ ...customDept, code: e.target.value })}
-            className="w-full px-4 py-3 bg-white border border-gray-200 focus:border-[#1769E0] rounded-xl outline-none focus:ring-2 focus:ring-[#1769E0]/10 transition-all text-[14px] font-medium placeholder:text-gray-400"
+            className="w-full px-4 py-3 bg-surface border border-border focus:border-[#1769E0] rounded-xl outline-none focus:ring-2 focus:ring-[#1769E0]/10 transition-all text-[14px] font-medium placeholder:text-muted/70"
           />
           <textarea 
             placeholder="Description (Optional)" 
             value={customDept.description}
             onChange={(e) => setCustomDept({ ...customDept, description: e.target.value })}
-            className="w-full px-4 py-3 bg-white border border-gray-200 focus:border-[#1769E0] rounded-xl outline-none focus:ring-2 focus:ring-[#1769E0]/10 transition-all text-[14px] font-medium placeholder:text-gray-400 resize-none h-20"
+            className="w-full px-4 py-3 bg-surface border border-border focus:border-[#1769E0] rounded-xl outline-none focus:ring-2 focus:ring-[#1769E0]/10 transition-all text-[14px] font-medium placeholder:text-muted/70 resize-none h-20"
           />
           <div className="flex gap-2 justify-end">
             <button 
               type="button" 
               onClick={() => setShowCustomForm(false)}
-              className="px-4 py-2 font-bold text-gray-500 hover:bg-gray-200 rounded-lg transition-colors text-[13px]"
+              className="px-4 py-2 font-bold text-muted hover:bg-gray-200 rounded-lg transition-colors text-[13px]"
             >
               Cancel
             </button>

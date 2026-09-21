@@ -92,7 +92,7 @@ export function EditDepartment() {
     <div className="flex flex-col bg-background min-h-screen">
       
       {/* Header */}
-      <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md pt-4 pb-3 px-4 flex items-center gap-4 border-b border-gray-100/50 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
+      <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md pt-4 pb-3 px-4 flex items-center gap-4 border-b border-border/50 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
         <button onClick={handleBack} className="p-2 -ml-2 text-[#172033] interactive-element rounded-full hover:bg-gray-100">
           <ArrowLeft className="w-5 h-5" />
         </button>
@@ -113,8 +113,8 @@ export function EditDepartment() {
               type="text" 
               placeholder="e.g. Cardiology" 
               className={cn(
-                "px-4 py-3 bg-white border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
-                errors.name ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-gray-200/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
+                "px-4 py-3 bg-surface border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
+                errors.name ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
               )}
             />
             {errors.name && <span className="text-destructive text-[12px] font-medium mt-0.5">{errors.name.message}</span>}
@@ -127,8 +127,8 @@ export function EditDepartment() {
               type="text" 
               placeholder="e.g. CARD" 
               className={cn(
-                "px-4 py-3 bg-white border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm uppercase",
-                errors.code ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-gray-200/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
+                "px-4 py-3 bg-surface border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm uppercase",
+                errors.code ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
               )}
             />
             {errors.code && <span className="text-destructive text-[12px] font-medium mt-0.5">{errors.code.message}</span>}
@@ -140,14 +140,14 @@ export function EditDepartment() {
               {...register("description")}
               placeholder="Enter department description" 
               rows={4}
-              className="px-4 py-3 bg-white border border-gray-200/60 rounded-xl outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm resize-none"
+              className="px-4 py-3 bg-surface border border-border/60 rounded-xl outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm resize-none"
             />
           </div>
 
           <div className="flex flex-col gap-1.5">
             <label className="text-[13px] font-semibold text-[#172033]">Status</label>
             <div className="relative">
-              <select {...register("status")} className="w-full px-4 py-3 bg-white border border-gray-200/60 rounded-xl outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-[15px] appearance-none shadow-sm text-[#172033] font-medium">
+              <select {...register("status")} className="w-full px-4 py-3 bg-surface border border-border/60 rounded-xl outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-[15px] appearance-none shadow-sm text-[#172033] font-medium">
                 <option value="active">Active</option>
                 <option value="inactive">Inactive</option>
               </select>
@@ -157,12 +157,12 @@ export function EditDepartment() {
             </div>
           </div>
           
-          <div className="fixed bottom-0 left-0 right-0 p-4 bg-background/95 backdrop-blur-md border-t border-gray-100/50 pb-safe z-20">
+          <div className="fixed bottom-0 left-0 right-0 p-4 bg-background/95 backdrop-blur-md border-t border-border/50 pb-safe z-20">
             <div className="flex gap-3 max-w-md mx-auto">
               <button 
                 type="button" 
                 onClick={handleBack}
-                className="flex-1 bg-white hover:bg-gray-50 border border-gray-200/60 text-[#172033] font-semibold py-3.5 rounded-xl transition-colors interactive-element shadow-sm"
+                className="flex-1 bg-surface hover:bg-gray-50 border border-border/60 text-[#172033] font-semibold py-3.5 rounded-xl transition-colors interactive-element shadow-sm"
               >
                 Back
               </button>

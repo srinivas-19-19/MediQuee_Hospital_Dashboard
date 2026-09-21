@@ -39,14 +39,14 @@ export function Step4Location() {
         <div className="flex flex-col gap-1.5">
           <label className="text-[13px] font-semibold text-[#172033] ml-1">Address Line 1</label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-gray-400">
+            <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-muted/70">
               <MapPin className="w-5 h-5" />
             </div>
             <input 
               {...register(`${fieldPrefix}.address1` as any)}
               type="text" 
               placeholder="Building, Street, etc." 
-              className={`w-full pl-11 pr-4 py-3.5 bg-white border ${entityErrors?.address1 ? 'border-red-500' : 'border-gray-200 focus:border-[#1769E0]'} rounded-2xl outline-none focus:ring-4 transition-all text-[15px] font-medium placeholder:text-gray-400`}
+              className={`w-full pl-11 pr-4 py-3.5 bg-surface border ${entityErrors?.address1 ? 'border-red-500' : 'border-border focus:border-[#1769E0]'} rounded-2xl outline-none focus:ring-4 transition-all text-[15px] font-medium placeholder:text-muted/70`}
             />
           </div>
           {entityErrors?.address1 && <span className="text-red-500 text-[12px] ml-1 font-medium">{entityErrors.address1.message as string}</span>}
@@ -58,7 +58,7 @@ export function Step4Location() {
             {...register(`${fieldPrefix}.address2` as any)}
             type="text" 
             placeholder="Apartment, suite, unit, etc." 
-            className="w-full px-4 py-3.5 bg-white border border-gray-200 focus:border-[#1769E0] rounded-2xl outline-none focus:ring-4 transition-all text-[15px] font-medium placeholder:text-gray-400"
+            className="w-full px-4 py-3.5 bg-surface border border-border focus:border-[#1769E0] rounded-2xl outline-none focus:ring-4 transition-all text-[15px] font-medium placeholder:text-muted/70"
           />
         </div>
 
@@ -70,7 +70,7 @@ export function Step4Location() {
               {...register(`${fieldPrefix}.area` as any)}
               type="text" 
               placeholder="Area" 
-              className={`w-full px-4 py-3.5 bg-white border ${entityErrors?.area ? 'border-red-500' : 'border-gray-200 focus:border-[#1769E0]'} rounded-2xl outline-none focus:ring-4 transition-all text-[15px] font-medium placeholder:text-gray-400`}
+              className={`w-full px-4 py-3.5 bg-surface border ${entityErrors?.area ? 'border-red-500' : 'border-border focus:border-[#1769E0]'} rounded-2xl outline-none focus:ring-4 transition-all text-[15px] font-medium placeholder:text-muted/70`}
             />
           </div>
           <div className="flex flex-col gap-1.5">
@@ -79,7 +79,7 @@ export function Step4Location() {
               {...register(`${fieldPrefix}.city` as any)}
               type="text" 
               placeholder="City" 
-              className={`w-full px-4 py-3.5 bg-white border ${entityErrors?.city ? 'border-red-500' : 'border-gray-200 focus:border-[#1769E0]'} rounded-2xl outline-none focus:ring-4 transition-all text-[15px] font-medium placeholder:text-gray-400`}
+              className={`w-full px-4 py-3.5 bg-surface border ${entityErrors?.city ? 'border-red-500' : 'border-border focus:border-[#1769E0]'} rounded-2xl outline-none focus:ring-4 transition-all text-[15px] font-medium placeholder:text-muted/70`}
             />
           </div>
         </div>
@@ -92,7 +92,7 @@ export function Step4Location() {
               {...register(`${fieldPrefix}.state` as any)}
               type="text" 
               placeholder="State" 
-              className={`w-full px-4 py-3.5 bg-white border ${entityErrors?.state ? 'border-red-500' : 'border-gray-200 focus:border-[#1769E0]'} rounded-2xl outline-none focus:ring-4 transition-all text-[15px] font-medium placeholder:text-gray-400`}
+              className={`w-full px-4 py-3.5 bg-surface border ${entityErrors?.state ? 'border-red-500' : 'border-border focus:border-[#1769E0]'} rounded-2xl outline-none focus:ring-4 transition-all text-[15px] font-medium placeholder:text-muted/70`}
             />
           </div>
           <div className="flex flex-col gap-1.5">
@@ -101,7 +101,7 @@ export function Step4Location() {
               {...register(`${fieldPrefix}.pincode` as any)}
               type="text" 
               placeholder="000000" 
-              className={`w-full px-4 py-3.5 bg-white border ${entityErrors?.pincode ? 'border-red-500' : 'border-gray-200 focus:border-[#1769E0]'} rounded-2xl outline-none focus:ring-4 transition-all text-[15px] font-medium placeholder:text-gray-400`}
+              className={`w-full px-4 py-3.5 bg-surface border ${entityErrors?.pincode ? 'border-red-500' : 'border-border focus:border-[#1769E0]'} rounded-2xl outline-none focus:ring-4 transition-all text-[15px] font-medium placeholder:text-muted/70`}
             />
           </div>
         </div>
@@ -112,11 +112,11 @@ export function Step4Location() {
             {...register(`${fieldPrefix}.country` as any)}
             type="text" 
             placeholder="Country" 
-            className={`w-full px-4 py-3.5 bg-white border ${entityErrors?.country ? 'border-red-500' : 'border-gray-200 focus:border-[#1769E0]'} rounded-2xl outline-none focus:ring-4 transition-all text-[15px] font-medium placeholder:text-gray-400`}
+            className={`w-full px-4 py-3.5 bg-surface border ${entityErrors?.country ? 'border-red-500' : 'border-border focus:border-[#1769E0]'} rounded-2xl outline-none focus:ring-4 transition-all text-[15px] font-medium placeholder:text-muted/70`}
           />
         </div>
 
-        <hr className="my-2 border-gray-100" />
+        <hr className="my-2 border-border" />
 
         {/* Contact Info */}
         <div className="flex flex-col gap-1.5">
@@ -125,7 +125,7 @@ export function Step4Location() {
             {...register(`${fieldPrefix}.contactNumber` as any)}
             type="tel" 
             placeholder="Contact Number" 
-            className={`w-full px-4 py-3.5 bg-white border ${entityErrors?.contactNumber ? 'border-red-500' : 'border-gray-200 focus:border-[#1769E0]'} rounded-2xl outline-none focus:ring-4 transition-all text-[15px] font-medium placeholder:text-gray-400`}
+            className={`w-full px-4 py-3.5 bg-surface border ${entityErrors?.contactNumber ? 'border-red-500' : 'border-border focus:border-[#1769E0]'} rounded-2xl outline-none focus:ring-4 transition-all text-[15px] font-medium placeholder:text-muted/70`}
           />
           {entityErrors?.contactNumber && <span className="text-red-500 text-[12px] ml-1 font-medium">{entityErrors.contactNumber.message as string}</span>}
         </div>
@@ -136,7 +136,7 @@ export function Step4Location() {
             {...register(`${fieldPrefix}.email` as any)}
             type="email" 
             placeholder="Facility Email" 
-            className={`w-full px-4 py-3.5 bg-white border ${entityErrors?.email ? 'border-red-500' : 'border-gray-200 focus:border-[#1769E0]'} rounded-2xl outline-none focus:ring-4 transition-all text-[15px] font-medium placeholder:text-gray-400`}
+            className={`w-full px-4 py-3.5 bg-surface border ${entityErrors?.email ? 'border-red-500' : 'border-border focus:border-[#1769E0]'} rounded-2xl outline-none focus:ring-4 transition-all text-[15px] font-medium placeholder:text-muted/70`}
           />
           {entityErrors?.email && <span className="text-red-500 text-[12px] ml-1 font-medium">{entityErrors.email.message as string}</span>}
         </div>
@@ -147,7 +147,7 @@ export function Step4Location() {
             {...register(`${fieldPrefix}.emergencyContact` as any)}
             type="tel" 
             placeholder="Emergency Number" 
-            className="w-full px-4 py-3.5 bg-white border border-gray-200 focus:border-[#1769E0] rounded-2xl outline-none focus:ring-4 transition-all text-[15px] font-medium placeholder:text-gray-400"
+            className="w-full px-4 py-3.5 bg-surface border border-border focus:border-[#1769E0] rounded-2xl outline-none focus:ring-4 transition-all text-[15px] font-medium placeholder:text-muted/70"
           />
         </div>
       </div>

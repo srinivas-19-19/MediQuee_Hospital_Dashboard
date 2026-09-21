@@ -47,11 +47,11 @@ export function BookMedicalCamp() {
   return (
     <div className="flex flex-col bg-gray-50 min-h-[calc(100vh-80px)] pb-24">
       {/* Header */}
-      <div className="sticky top-0 z-30 bg-white border-b border-gray-100 shadow-sm px-4 py-3 flex items-center gap-3">
+      <div className="sticky top-0 z-30 bg-surface border-b border-border shadow-sm px-4 py-3 flex items-center gap-3">
         <button onClick={() => navigate(-1)} className="p-2 -ml-2 rounded-full hover:bg-gray-50 transition-colors">
           <ArrowLeft className="w-5 h-5 text-gray-600" />
         </button>
-        <h1 className="text-[18px] font-bold text-gray-900">Book Medical Camp</h1>
+        <h1 className="text-[18px] font-bold text-foreground">Book Medical Camp</h1>
       </div>
 
       <div className="p-4 flex flex-col flex-1">
@@ -68,12 +68,12 @@ export function BookMedicalCamp() {
         </motion.div>
 
         {isSubmitted ? (
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="bg-white rounded-3xl p-8 flex flex-col items-center justify-center text-center shadow-sm border border-gray-100 flex-1">
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="bg-surface rounded-3xl p-8 flex flex-col items-center justify-center text-center shadow-sm border border-border flex-1">
             <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-4">
               <Send className="w-8 h-8" />
             </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">Request Received!</h3>
-            <p className="text-gray-500 mb-6 text-sm">
+            <h3 className="text-xl font-bold text-foreground mb-2">Request Received!</h3>
+            <p className="text-muted mb-6 text-sm">
               Our team will contact you shortly to confirm the dates and logistical details for your medical camp.
             </p>
             <button onClick={() => navigate(-1)} className="bg-indigo-600 text-white font-semibold py-3 px-8 rounded-xl shadow-md shadow-indigo-200">
@@ -83,36 +83,36 @@ export function BookMedicalCamp() {
         ) : (
           <motion.form initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} onSubmit={handleSubmit} className="flex flex-col gap-4 flex-1">
             
-            <div className="bg-white rounded-3xl p-5 shadow-sm border border-gray-100 flex flex-col gap-4">
-              <h3 className="font-bold text-gray-800 border-b border-gray-50 pb-2">Camp Details</h3>
+            <div className="bg-surface rounded-3xl p-5 shadow-sm border border-border flex flex-col gap-4">
+              <h3 className="font-bold text-foreground border-b border-gray-50 pb-2">Camp Details</h3>
               
               <div>
-                <label className="text-xs font-semibold text-gray-500 mb-1.5 block">Location / Village / Area</label>
+                <label className="text-xs font-semibold text-muted mb-1.5 block">Location / Village / Area</label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted/70">
                     <MapPin className="w-5 h-5" />
                   </div>
-                  <input type="text" name="location" required placeholder="e.g. Community Hall, Andheri East" className="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-sm" />
+                  <input type="text" name="location" required placeholder="e.g. Community Hall, Andheri East" className="w-full bg-gray-50 border border-border text-foreground rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-sm" />
                 </div>
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-gray-500 mb-1.5 block">Expected Date</label>
+                <label className="text-xs font-semibold text-muted mb-1.5 block">Expected Date</label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted/70">
                     <Calendar className="w-5 h-5" />
                   </div>
-                  <input type="date" name="expectedDate" required className="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-sm" />
+                  <input type="date" name="expectedDate" required className="w-full bg-gray-50 border border-border text-foreground rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-sm" />
                 </div>
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-gray-500 mb-1.5 block">Expected Footfall</label>
+                <label className="text-xs font-semibold text-muted mb-1.5 block">Expected Footfall</label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted/70">
                     <Users className="w-5 h-5" />
                   </div>
-                  <select name="expectedFootfall" required className="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-sm appearance-none">
+                  <select name="expectedFootfall" required className="w-full bg-gray-50 border border-border text-foreground rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-sm appearance-none">
                     <option value="">Select expected crowd</option>
                     <option value="50-100">50 - 100 people</option>
                     <option value="100-300">100 - 300 people</option>
@@ -123,8 +123,8 @@ export function BookMedicalCamp() {
               </div>
               
               <div>
-                <label className="text-xs font-semibold text-gray-500 mb-1.5 block">Target Speciality (Optional)</label>
-                <input type="text" name="speciality" placeholder="e.g. Eye Camp, Cardiac checkup" className="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-sm" />
+                <label className="text-xs font-semibold text-muted mb-1.5 block">Target Speciality (Optional)</label>
+                <input type="text" name="speciality" placeholder="e.g. Eye Camp, Cardiac checkup" className="w-full bg-gray-50 border border-border text-foreground rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-sm" />
               </div>
             </div>
 

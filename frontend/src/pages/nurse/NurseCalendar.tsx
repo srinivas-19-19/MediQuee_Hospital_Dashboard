@@ -16,19 +16,19 @@ export function NurseCalendar() {
 
   return (
     <div className="flex flex-col bg-gray-50/30 min-h-screen pb-[120px]">
-      <div className="sticky top-0 z-30 bg-white/95 backdrop-blur-xl pt-6 pb-4 px-4 flex flex-col gap-5 shadow-[0_4px_24px_rgba(0,0,0,0.02)] border-b border-gray-100">
+      <div className="sticky top-0 z-30 bg-surface/95 backdrop-blur-xl pt-6 pb-4 px-4 flex flex-col gap-5 shadow-[0_4px_24px_rgba(0,0,0,0.02)] border-b border-border">
         <h2 className="text-[22px] font-black text-[#0A1A3D] tracking-tight">Calendar</h2>
         
         <div className="flex bg-gray-100/80 p-1 rounded-xl">
           <button 
             onClick={() => setView('day')}
-            className={cn("flex-1 py-2 text-[14px] font-bold rounded-lg transition-all", view === 'day' ? "bg-white text-[#1B5DF1] shadow-sm" : "text-[#667085] hover:text-[#172033]")}
+            className={cn("flex-1 py-2 text-[14px] font-bold rounded-lg transition-all", view === 'day' ? "bg-surface text-[#1B5DF1] shadow-sm" : "text-[#667085] hover:text-[#172033]")}
           >
             Day
           </button>
           <button 
             onClick={() => setView('week')}
-            className={cn("flex-1 py-2 text-[14px] font-bold rounded-lg transition-all", view === 'week' ? "bg-white text-[#1B5DF1] shadow-sm" : "text-[#667085] hover:text-[#172033]")}
+            className={cn("flex-1 py-2 text-[14px] font-bold rounded-lg transition-all", view === 'week' ? "bg-surface text-[#1B5DF1] shadow-sm" : "text-[#667085] hover:text-[#172033]")}
           >
             Week
           </button>

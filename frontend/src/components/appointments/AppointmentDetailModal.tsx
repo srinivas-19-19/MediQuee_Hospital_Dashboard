@@ -57,13 +57,13 @@ export function AppointmentDetailModal({ isOpen, onClose, appointment, onUpdateS
           initial={{ scale: 0.95, opacity: 0, y: 20 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.95, opacity: 0, y: 20 }}
-          className="bg-white rounded-3xl w-full max-w-md p-6 relative z-10 shadow-2xl overflow-hidden"
+          className="bg-surface rounded-3xl w-full max-w-md p-6 relative z-10 shadow-2xl overflow-hidden"
         >
           {/* Decorative background element */}
           <div className="absolute top-0 right-0 w-32 h-32 bg-blue-100 rounded-full blur-3xl -z-10 translate-x-10 -translate-y-10" />
 
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-bold text-gray-800">Consultation Details</h2>
+            <h2 className="text-xl font-bold text-foreground">Consultation Details</h2>
             <button onClick={onClose} className="p-2 bg-gray-100 hover:bg-gray-200 rounded-full text-gray-600 transition-colors">
               <X className="w-5 h-5" />
             </button>
@@ -71,13 +71,13 @@ export function AppointmentDetailModal({ isOpen, onClose, appointment, onUpdateS
 
           <div className="flex flex-col gap-5">
             {/* Patient Info */}
-            <div className="flex items-center gap-4 bg-gray-50 p-4 rounded-2xl border border-gray-100">
+            <div className="flex items-center gap-4 bg-gray-50 p-4 rounded-2xl border border-border">
               <div className="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0 font-bold">
                 <User className="w-6 h-6" />
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="font-bold text-gray-800 text-lg truncate">{appointment.patientName}</h3>
-                <div className="flex items-center gap-1.5 text-sm text-gray-500 mt-1">
+                <h3 className="font-bold text-foreground text-lg truncate">{appointment.patientName}</h3>
+                <div className="flex items-center gap-1.5 text-sm text-muted mt-1">
                   <Phone className="w-3.5 h-3.5" />
                   {appointment.patientPhone || 'No phone provided'}
                 </div>
@@ -94,8 +94,8 @@ export function AppointmentDetailModal({ isOpen, onClose, appointment, onUpdateS
                   <Calendar className="w-4 h-4" />
                 </div>
                 <p className="text-[10px] text-orange-600/80 font-bold uppercase tracking-wider mb-0.5">Date & Time</p>
-                <p className="font-bold text-gray-800 text-sm">{appointment.time}</p>
-                <p className="text-xs text-gray-500 mt-0.5">{appointment.date || 'Today'}</p>
+                <p className="font-bold text-foreground text-sm">{appointment.time}</p>
+                <p className="text-xs text-muted mt-0.5">{appointment.date || 'Today'}</p>
               </div>
               
               <div className="bg-purple-50/70 border border-purple-100 p-3.5 rounded-2xl">
@@ -103,14 +103,14 @@ export function AppointmentDetailModal({ isOpen, onClose, appointment, onUpdateS
                   <User className="w-4 h-4" />
                 </div>
                 <p className="text-[10px] text-purple-600/80 font-bold uppercase tracking-wider mb-0.5">Assigned Doctor</p>
-                <p className="font-bold text-gray-800 text-sm truncate">{appointment.doctor}</p>
-                <p className="text-xs text-gray-500 mt-0.5 truncate">{appointment.type}</p>
+                <p className="font-bold text-foreground text-sm truncate">{appointment.doctor}</p>
+                <p className="text-xs text-muted mt-0.5 truncate">{appointment.type}</p>
               </div>
             </div>
 
             {/* Consultation Notes / Clinical Findings */}
             <div>
-              <label className="text-xs font-bold text-gray-700 mb-1.5 flex items-center gap-1.5">
+              <label className="text-xs font-bold text-foreground/80 mb-1.5 flex items-center gap-1.5">
                 <FileText className="w-3.5 h-3.5 text-blue-600" />
                 Clinical Notes & Prescription
               </label>
@@ -119,7 +119,7 @@ export function AppointmentDetailModal({ isOpen, onClose, appointment, onUpdateS
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder="Enter diagnosis, symptoms, or prescription advice..."
                 rows={3}
-                className="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all resize-none"
+                className="w-full bg-gray-50 border border-border text-foreground rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all resize-none"
               />
             </div>
 

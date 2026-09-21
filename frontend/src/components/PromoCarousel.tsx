@@ -189,7 +189,7 @@ export function PromoCarousel() {
             className={`w-full h-full bg-gradient-to-r ${currentSlideData.accentBg} p-3.5 sm:p-4.5 flex items-center justify-between gap-3 sm:gap-5 cursor-pointer text-white relative`}
           >
             {/* Background Pattern Accent */}
-            <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-white/5 skew-x-[-15deg] pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-surface/5 skew-x-[-15deg] pointer-events-none" />
 
             {/* Left Content Column */}
             <div className="flex flex-col justify-center flex-1 z-10 pr-1">
@@ -218,7 +218,7 @@ export function PromoCarousel() {
               <div className="mt-2.5 flex items-center gap-2">
                 <button 
                   onClick={handleActionClick}
-                  className="bg-white hover:bg-blue-50 text-indigo-900 text-[12px] font-bold px-3.5 py-1.5 rounded-xl flex items-center gap-1.5 shadow-sm active:scale-95 transition-all"
+                  className="bg-surface hover:bg-blue-50 text-indigo-900 text-[12px] font-bold px-3.5 py-1.5 rounded-xl flex items-center gap-1.5 shadow-sm active:scale-95 transition-all"
                 >
                   <span>{currentSlideData.buttonText}</span>
                   <ChevronRight className="w-3.5 h-3.5" />
@@ -235,7 +235,7 @@ export function PromoCarousel() {
                 loading="eager"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-              <div className="absolute bottom-1.5 right-1.5 w-7 h-7 rounded-lg bg-white/90 backdrop-blur-sm flex items-center justify-center text-indigo-700 shadow-sm">
+              <div className="absolute bottom-1.5 right-1.5 w-7 h-7 rounded-lg bg-surface/90 backdrop-blur-sm flex items-center justify-center text-indigo-700 shadow-sm">
                 <IconComponent className="w-4 h-4" />
               </div>
             </div>
@@ -268,8 +268,8 @@ export function PromoCarousel() {
             onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
             className={`h-1.5 rounded-full transition-all duration-300 ${
               activeIndex === idx 
-                ? 'w-5 bg-white shadow-sm' 
-                : 'w-1.5 bg-white/40 hover:bg-white/70'
+                ? 'w-5 bg-surface shadow-sm' 
+                : 'w-1.5 bg-surface/40 hover:bg-surface/70'
             }`}
             aria-label={`Go to slide ${idx + 1}`}
           />

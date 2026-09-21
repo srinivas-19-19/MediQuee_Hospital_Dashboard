@@ -2,6 +2,7 @@ import { Bell, Menu } from "lucide-react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { useAuth } from "@/context/AuthContext"
 import { useNotifications } from "@/context/NotificationContext"
+import { useTranslation } from "react-i18next"
 import { cn } from "@/lib/utils"
 
 export function Header({ 
@@ -13,6 +14,7 @@ export function Header({
 }) {
   const { role, user } = useAuth()
   const { unreadCount } = useNotifications()
+  const { t } = useTranslation()
   const location = useLocation()
   const navigate = useNavigate()
 
@@ -21,7 +23,10 @@ export function Header({
   const getScreenName = () => {
     const path = location.pathname.substring(1);
     if (!path) return '';
-    return path.charAt(0).toUpperCase() + path.slice(1);
+    // Normalize path for translation keys (e.g. 'appointments', 'payouts' -> 'payout')
+    const key = path === 'payouts' ? 'payout' : path.replace('-', '_');
+    const translated = t(key);
+    return translated !== key ? translated : path.charAt(0).toUpperCase() + path.slice(1);
   };
 
   const hideOnRoutes = ['/add-department', '/edit-department', '/add-doctor', '/add-lab', '/add-nurse', '/add-receptionist', '/edit-staff'];
@@ -55,26 +60,26 @@ export function Header({
   const primaryBg = role === 'doctor' ? "bg-[#1B5DF1]" : "bg-[#1A56DB]";
 
   return (
-    <header className={cn("bg-white px-4 z-40 flex flex-col gap-3 shrink-0 relative", role === 'doctor' ? "pt-10 pb-1" : "pt-10 pb-3 border-b border-gray-100 shadow-[0_1px_2px_rgba(0,0,0,0.02)]")}>
+    <header className={cn("bg-surface px-4 z-40 flex flex-col gap-3 shrink-0 relative", role === 'doctor' ? "pt-10 pb-1" : "pt-10 pb-3 border-b border-border shadow-sm")}>
       <div className="flex items-center justify-between">
         {isDashboard ? (
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
               <button 
                 onClick={onToggleSidebar}
-                className="hidden md:flex p-1 -ml-1 text-gray-700 hover:text-[#0A1A3D] transition-colors rounded-lg hover:bg-gray-100 mr-1"
+                className="hidden md:flex p-1 -ml-1 text-muted hover:text-foreground transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 mr-1"
               >
                 <Menu className="w-6 h-6" />
               </button>
-              <div className="text-[#0A1A3D] font-bold text-[22px] flex items-center tracking-tight">
-                MediQuee
+              <div className="flex items-center gap-1.5">
+                <img src={import.meta.env.BASE_URL + 'logo.png'} alt="MediQuee" className="h-7 md:h-8 w-auto object-contain" />
               </div>
-              <div className={cn("px-2.5 py-0.5 bg-[#EBF5FF] text-[10px] font-bold rounded-full uppercase tracking-wider", primaryColor)}>
+              <div className={cn("px-2.5 py-0.5 bg-primary/10 text-[10px] font-bold rounded-full uppercase tracking-wider", primaryColor)}>
                 {subTitle}
               </div>
             </div>
             {role !== 'doctor' && (
-              <div className="text-[13px] text-[#333333] font-semibold ml-0.5 mt-0.5">
+              <div className="text-[13px] text-muted-foreground font-semibold ml-0.5 mt-0.5 opacity-80">
                 {greeting}
               </div>
             )}
@@ -83,11 +88,11 @@ export function Header({
           <div className="flex items-center justify-center w-full relative h-8">
             <button 
               onClick={onToggleSidebar}
-              className="hidden md:flex absolute left-0 p-1 -ml-1 text-gray-700 hover:text-[#0A1A3D] transition-colors rounded-lg hover:bg-gray-100"
+              className="hidden md:flex absolute left-0 p-1 -ml-1 text-muted hover:text-foreground transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
             >
               <Menu className="w-6 h-6" />
             </button>
-            <h1 className="text-[17px] font-semibold text-[#0A1A3D]">{getScreenName()}</h1>
+            <h1 className="text-[17px] font-semibold text-foreground">{getScreenName()}</h1>
           </div>
         )}
 
@@ -95,13 +100,13 @@ export function Header({
           <div className="flex items-center gap-3 relative">
             <button 
               onClick={() => navigate('/notifications')} 
-              className="relative p-1 text-gray-700 hover:text-[#0A1A3D] transition-colors interactive-element group"
-              title="Notifications"
+              className="relative p-1 text-muted hover:text-foreground transition-colors interactive-element group"
+              title={t('notifications')}
             >
               <Bell className="w-6 h-6 group-hover:scale-105 transition-transform" strokeWidth={2} />
               {unreadCount > 0 && (
                 <span className={cn(
-                  "absolute -top-0.5 -right-1 min-w-[18px] h-[18px] px-1 text-white text-[9px] font-black flex items-center justify-center rounded-full border-2 border-white shadow-sm animate-pulse",
+                  "absolute -top-0.5 -right-1 min-w-[18px] h-[18px] px-1 text-primary-foreground text-[9px] font-black flex items-center justify-center rounded-full border-2 border-surface shadow-sm animate-pulse",
                   primaryBg
                 )}>
                   {unreadCount > 99 ? '99+' : unreadCount}

@@ -27,7 +27,7 @@ export function LabOrderDetail() {
   }
 
   const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+    <div className="bg-surface rounded-2xl border border-border shadow-sm overflow-hidden">
       <div className="px-4 py-3 border-b border-gray-50">
         <p className="text-[13px] font-bold text-[#667085] uppercase tracking-wide">{title}</p>
       </div>
@@ -45,7 +45,7 @@ export function LabOrderDetail() {
   return (
     <div className="flex flex-col bg-background min-h-screen">
       {/* Header */}
-      <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md pt-4 md:pt-6 pb-3 md:pb-4 px-4 md:px-6 flex items-center gap-4 border-b border-gray-100/50">
+      <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md pt-4 md:pt-6 pb-3 md:pb-4 px-4 md:px-6 flex items-center gap-4 border-b border-border/50">
         <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-[#172033] rounded-full hover:bg-gray-100 transition-colors">
           <ArrowLeft className="w-5 h-5 md:w-6 md:h-6" />
         </button>
@@ -148,7 +148,7 @@ export function LabOrderDetail() {
                 </button>
               )}
               <button className={cn(
-                "w-full flex items-center justify-center gap-2 bg-white border border-gray-200/60 text-[#172033] font-semibold py-3.5 md:py-4 rounded-xl md:rounded-2xl shadow-sm transition-colors hover:bg-gray-50",
+                "w-full flex items-center justify-center gap-2 bg-surface border border-border/60 text-[#172033] font-semibold py-3.5 md:py-4 rounded-xl md:rounded-2xl shadow-sm transition-colors hover:bg-gray-50",
                 (order.reportStatus !== 'ready' && order.reportStatus !== 'delivered') && "opacity-40 pointer-events-none"
               )}>
                 <Share2 className="w-5 h-5 md:w-6 md:h-6" />

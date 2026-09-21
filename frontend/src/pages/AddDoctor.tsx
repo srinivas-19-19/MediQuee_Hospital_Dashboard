@@ -123,7 +123,7 @@ export function AddDoctor() {
     <div className="flex flex-col bg-background min-h-screen">
       
       {/* Header */}
-      <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md pt-4 pb-3 px-4 flex items-center gap-4 border-b border-gray-100/50 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
+      <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md pt-4 pb-3 px-4 flex items-center gap-4 border-b border-border/50 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
         <button onClick={handleBack} className="p-2 -ml-2 text-[#172033] interactive-element rounded-full hover:bg-gray-100">
           <ArrowLeft className="w-5 h-5" />
         </button>
@@ -141,7 +141,7 @@ export function AddDoctor() {
             <div key={i} className="flex flex-col items-center gap-2 bg-background">
               <div className={cn(
                 "w-8 h-8 rounded-full flex items-center justify-center text-[13px] font-bold border-2 transition-colors duration-300 shadow-sm",
-                step >= i ? "bg-primary text-white border-primary" : "bg-white text-[#98A2B3] border-gray-200/80"
+                step >= i ? "bg-primary text-white border-primary" : "bg-surface text-[#98A2B3] border-border/80"
               )}>
                 {i}
               </div>
@@ -207,8 +207,8 @@ export function AddDoctor() {
                     type="text" 
                     placeholder="e.g. Dr. John Doe" 
                     className={cn(
-                      "px-4 py-3 bg-white border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
-                      errors.fullName ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-gray-200/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
+                      "px-4 py-3 bg-surface border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
+                      errors.fullName ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
                     )}
                   />
                   {errors.fullName && <span className="text-destructive text-[12px] font-medium mt-0.5">{errors.fullName.message}</span>}
@@ -219,10 +219,10 @@ export function AddDoctor() {
                   <input 
                     {...register("mobile")}
                     type="tel" 
-                    placeholder="e.g. 9876543210" 
+                    placeholder="e.g. 8331045500" 
                     className={cn(
-                      "px-4 py-3 bg-white border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
-                      errors.mobile ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-gray-200/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
+                      "px-4 py-3 bg-surface border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
+                      errors.mobile ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
                     )}
                   />
                   {errors.mobile && <span className="text-destructive text-[12px] font-medium mt-0.5">{errors.mobile.message}</span>}
@@ -235,8 +235,8 @@ export function AddDoctor() {
                     type="email" 
                     placeholder="e.g. doctor@hospital.com" 
                     className={cn(
-                      "px-4 py-3 bg-white border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
-                      errors.email ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-gray-200/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
+                      "px-4 py-3 bg-surface border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
+                      errors.email ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
                     )}
                   />
                   {errors.email && <span className="text-destructive text-[12px] font-medium mt-0.5">{errors.email.message}</span>}
@@ -249,8 +249,8 @@ export function AddDoctor() {
                     type="password" 
                     placeholder="Create a password" 
                     className={cn(
-                      "px-4 py-3 bg-white border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
-                      errors.password ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-gray-200/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
+                      "px-4 py-3 bg-surface border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
+                      errors.password ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
                     )}
                   />
                   {errors.password && <span className="text-destructive text-[12px] font-medium mt-0.5">{errors.password.message}</span>}
@@ -267,8 +267,8 @@ export function AddDoctor() {
                   {/* Custom Searchable Dropdown Trigger */}
                   <div 
                     className={cn(
-                      "w-full px-4 py-3 bg-white border rounded-xl flex items-center justify-between cursor-pointer transition-all shadow-sm",
-                      errors.departmentId ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-gray-200/60 hover:border-gray-300',
+                      "w-full px-4 py-3 bg-surface border rounded-xl flex items-center justify-between cursor-pointer transition-all shadow-sm",
+                      errors.departmentId ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-border/60 hover:border-gray-300',
                       (isLoadingDepartments || departments.length === 0) && "opacity-70 bg-gray-50 cursor-not-allowed"
                     )}
                     onClick={() => {
@@ -290,13 +290,13 @@ export function AddDoctor() {
 
                   {/* Dropdown Menu */}
                   {isDropdownOpen && !isLoadingDepartments && departments.length > 0 && (
-                    <div className="absolute top-[100%] left-0 right-0 mt-2 bg-white border border-gray-200/60 rounded-xl shadow-lg z-50 overflow-hidden flex flex-col">
-                      <div className="flex items-center px-3 py-2.5 border-b border-gray-100 bg-gray-50/50">
-                        <Search className="w-4 h-4 text-gray-400 mr-2" />
+                    <div className="absolute top-[100%] left-0 right-0 mt-2 bg-surface border border-border/60 rounded-xl shadow-lg z-50 overflow-hidden flex flex-col">
+                      <div className="flex items-center px-3 py-2.5 border-b border-border bg-gray-50/50">
+                        <Search className="w-4 h-4 text-muted/70 mr-2" />
                         <input 
                           type="text"
                           placeholder="Search departments..."
-                          className="flex-1 bg-transparent outline-none text-[14px] text-[#172033] placeholder:text-gray-400"
+                          className="flex-1 bg-transparent outline-none text-[14px] text-[#172033] placeholder:text-muted/70"
                           value={searchQuery}
                           onChange={(e) => setSearchQuery(e.target.value)}
                           autoFocus
@@ -304,7 +304,7 @@ export function AddDoctor() {
                       </div>
                       <div className="max-h-[250px] overflow-y-auto py-1">
                         {filteredDepartments.length === 0 ? (
-                          <div className="px-4 py-8 text-center text-[14px] text-gray-500">
+                          <div className="px-4 py-8 text-center text-[14px] text-muted">
                             No departments found matching "{searchQuery}"
                           </div>
                         ) : (
@@ -322,7 +322,7 @@ export function AddDoctor() {
                             >
                               <div className="flex flex-col">
                                 <span className="text-[14px] font-medium text-[#172033] group-hover:text-primary transition-colors">{dept.name}</span>
-                                {dept.code && <span className="text-[12px] text-gray-500">{dept.code}</span>}
+                                {dept.code && <span className="text-[12px] text-muted">{dept.code}</span>}
                               </div>
                             </div>
                           ))
@@ -341,8 +341,8 @@ export function AddDoctor() {
                     type="number" 
                     placeholder="e.g. 5" 
                     className={cn(
-                      "px-4 py-3 bg-white border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
-                      errors.experience ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-gray-200/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
+                      "px-4 py-3 bg-surface border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
+                      errors.experience ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
                     )}
                   />
                   {errors.experience && <span className="text-destructive text-[12px] font-medium mt-0.5">{errors.experience.message}</span>}
@@ -355,8 +355,8 @@ export function AddDoctor() {
                     type="text" 
                     placeholder="e.g. MD12345" 
                     className={cn(
-                      "px-4 py-3 bg-white border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
-                      errors.licenseNumber ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-gray-200/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
+                      "px-4 py-3 bg-surface border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
+                      errors.licenseNumber ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
                     )}
                   />
                   {errors.licenseNumber && <span className="text-destructive text-[12px] font-medium mt-0.5">{errors.licenseNumber.message}</span>}
@@ -369,8 +369,8 @@ export function AddDoctor() {
                     type="number" 
                     placeholder="e.g. 500" 
                     className={cn(
-                      "px-4 py-3 bg-white border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
-                      errors.consultationFee ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-gray-200/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
+                      "px-4 py-3 bg-surface border rounded-xl outline-none transition-all text-[15px] placeholder:text-[#98A2B3] shadow-sm",
+                      errors.consultationFee ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
                     )}
                   />
                   {errors.consultationFee && <span className="text-destructive text-[12px] font-medium mt-0.5">{errors.consultationFee.message}</span>}
@@ -397,7 +397,7 @@ export function AddDoctor() {
                           }}
                           className={cn(
                             "px-4 py-2 rounded-xl text-[14px] font-semibold border transition-all shadow-sm",
-                            isSelected ? "bg-primary text-white border-primary" : "bg-white text-[#667085] border-gray-200 hover:border-primary/50"
+                            isSelected ? "bg-primary text-white border-primary" : "bg-surface text-[#667085] border-border hover:border-primary/50"
                           )}
                         >
                           {day}
@@ -419,8 +419,8 @@ export function AddDoctor() {
                         value={startTime}
                         onChange={(e) => setStartTime(e.target.value)}
                         className={cn(
-                          "w-full px-4 py-3 bg-white border rounded-xl outline-none transition-all text-[15px] shadow-sm",
-                          errors.shiftTiming ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-gray-200/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
+                          "w-full px-4 py-3 bg-surface border rounded-xl outline-none transition-all text-[15px] shadow-sm",
+                          errors.shiftTiming ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
                         )}
                       />
                     </div>
@@ -431,8 +431,8 @@ export function AddDoctor() {
                         value={endTime}
                         onChange={(e) => setEndTime(e.target.value)}
                         className={cn(
-                          "w-full px-4 py-3 bg-white border rounded-xl outline-none transition-all text-[15px] shadow-sm",
-                          errors.shiftTiming ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-gray-200/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
+                          "w-full px-4 py-3 bg-surface border rounded-xl outline-none transition-all text-[15px] shadow-sm",
+                          errors.shiftTiming ? 'border-destructive focus:ring-2 focus:ring-destructive/20' : 'border-border/60 focus:border-primary focus:ring-2 focus:ring-primary/20'
                         )}
                       />
                     </div>
@@ -446,7 +446,7 @@ export function AddDoctor() {
             {/* Step 4: Review */}
             {step === 4 && (
               <motion.div key="step4" initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 10 }} className="flex flex-col gap-4">
-                <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex flex-col gap-3">
+                <div className="bg-surface p-4 rounded-2xl border border-border shadow-sm flex flex-col gap-3">
                   <h3 className="font-bold text-[#172033] border-b border-gray-50 pb-2 text-[15px]">Personal Info</h3>
                   <div className="grid grid-cols-[100px_1fr] gap-y-2 text-[14px]">
                     <span className="text-[#667085]">Name</span>
@@ -458,7 +458,7 @@ export function AddDoctor() {
                   </div>
                 </div>
 
-                <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex flex-col gap-3">
+                <div className="bg-surface p-4 rounded-2xl border border-border shadow-sm flex flex-col gap-3">
                   <h3 className="font-bold text-[#172033] border-b border-gray-50 pb-2 text-[15px]">Professional Info</h3>
                   <div className="grid grid-cols-[100px_1fr] gap-y-2 text-[14px]">
                     <span className="text-[#667085]">Department</span>
@@ -472,7 +472,7 @@ export function AddDoctor() {
                   </div>
                 </div>
 
-                <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex flex-col gap-3">
+                <div className="bg-surface p-4 rounded-2xl border border-border shadow-sm flex flex-col gap-3">
                   <h3 className="font-bold text-[#172033] border-b border-gray-50 pb-2 text-[15px]">Availability</h3>
                   <div className="grid grid-cols-[100px_1fr] gap-y-2 text-[14px]">
                     <span className="text-[#667085]">Days</span>
@@ -485,14 +485,14 @@ export function AddDoctor() {
             )}
           </AnimatePresence>
 
-          <div className="fixed bottom-0 left-0 right-0 p-4 bg-background/95 backdrop-blur-md border-t border-gray-100/50 pb-safe z-20">
+          <div className="fixed bottom-0 left-0 right-0 p-4 bg-background/95 backdrop-blur-md border-t border-border/50 pb-safe z-20">
             <div className="flex gap-3 max-w-md mx-auto">
               {step > 1 && (
                 <button 
                   type="button" 
                   onClick={prevStep}
                   disabled={isSubmitting}
-                  className="flex-1 bg-white hover:bg-gray-50 border border-gray-200/60 text-[#172033] font-semibold py-3.5 rounded-xl transition-colors interactive-element shadow-sm"
+                  className="flex-1 bg-surface hover:bg-gray-50 border border-border/60 text-[#172033] font-semibold py-3.5 rounded-xl transition-colors interactive-element shadow-sm"
                 >
                   Back
                 </button>

@@ -134,7 +134,7 @@ export function DoctorOPs() {
     <div className="flex flex-col bg-gray-50/30 min-h-full pb-8" onClick={() => setActiveDropdown(null)}>
       
       {/* Header Section */}
-      <div className="sticky top-0 z-30 bg-white/95 backdrop-blur-xl pt-6 pb-4 px-4 flex flex-col gap-6 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
+      <div className="sticky top-0 z-30 bg-surface/95 backdrop-blur-xl pt-6 pb-4 px-4 flex flex-col gap-6 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
         
         <div className="flex items-center gap-3">
           <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-[#0A1A3D] hover:bg-gray-100 rounded-xl transition-colors">
@@ -142,14 +142,14 @@ export function DoctorOPs() {
           </button>
           <div className="flex flex-col">
             <h1 className="text-[22px] font-black text-[#0A1A3D] tracking-tight">OP Consultations</h1>
-            <span className="text-[13px] font-bold text-gray-500">Today</span>
+            <span className="text-[13px] font-bold text-muted">Today</span>
           </div>
         </div>
 
         {/* Search Bar */}
         <div className="flex flex-col gap-4">
           <div className="relative group">
-            <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-[#1B5DF1] transition-colors">
+            <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-muted/70 group-focus-within:text-[#1B5DF1] transition-colors">
               <Search className="w-4 h-4" />
             </div>
             <input 
@@ -157,7 +157,7 @@ export function DoctorOPs() {
               placeholder="Search by name or ID..." 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-11 pr-12 py-3.5 bg-white border border-gray-200 rounded-[16px] outline-none focus:border-[#1B5DF1] focus:ring-4 focus:ring-[#1B5DF1]/10 transition-all text-[15px] font-medium text-[#0A1A3D] placeholder:text-gray-400 shadow-[0_2px_10px_rgba(0,0,0,0.02)]"
+              className="w-full pl-11 pr-12 py-3.5 bg-surface border border-border rounded-[16px] outline-none focus:border-[#1B5DF1] focus:ring-4 focus:ring-[#1B5DF1]/10 transition-all text-[15px] font-medium text-[#0A1A3D] placeholder:text-muted/70 shadow-[0_2px_10px_rgba(0,0,0,0.02)]"
             />
             <button className="absolute inset-y-0 right-4 flex items-center text-[#1B5DF1]">
               <Filter className="w-5 h-5" />
@@ -175,7 +175,7 @@ export function DoctorOPs() {
                 onClick={() => setSelectedFilter(type.id)}
                 className={cn(
                   "px-5 py-2 rounded-full flex-shrink-0 transition-all active:scale-95 font-bold text-[13px]",
-                  isActive ? "bg-[#1B5DF1] text-white shadow-md shadow-[#1B5DF1]/20" : "bg-white text-[#667085] border border-gray-200"
+                  isActive ? "bg-[#1B5DF1] text-white shadow-md shadow-[#1B5DF1]/20" : "bg-surface text-[#667085] border border-border"
                 )}
               >
                 {type.label}
@@ -189,7 +189,7 @@ export function DoctorOPs() {
           <button 
             onClick={() => setSelectedDate('upcoming')}
             title="View all upcoming consultations"
-            className="flex items-center justify-center w-[52px] h-[52px] bg-white border border-gray-200 text-[#0A1A3D] rounded-[16px] flex-shrink-0 active:scale-95 transition-transform shadow-[0_2px_8px_rgba(0,0,0,0.02)]"
+            className="flex items-center justify-center w-[52px] h-[52px] bg-surface border border-border text-[#0A1A3D] rounded-[16px] flex-shrink-0 active:scale-95 transition-transform shadow-[0_2px_8px_rgba(0,0,0,0.02)]"
           >
             <Calendar className="w-6 h-6 text-[#1B5DF1]" />
           </button>
@@ -200,11 +200,11 @@ export function DoctorOPs() {
                 "flex flex-col items-center justify-center min-w-[76px] h-[52px] rounded-[16px] flex-shrink-0 transition-all active:scale-95 px-3 border",
                 selectedDate === 'upcoming' 
                   ? "bg-[#1B5DF1] text-white shadow-lg shadow-[#1B5DF1]/30 border-[#1B5DF1]" 
-                  : "bg-white border-gray-200 text-[#0A1A3D] hover:bg-gray-50"
+                  : "bg-surface border-border text-[#0A1A3D] hover:bg-gray-50"
               )}
             >
               <span className={cn("text-[13px] font-bold leading-tight", selectedDate === 'upcoming' ? "text-white" : "text-[#0A1A3D]")}>Upcoming</span>
-              <span className={cn("text-[10px] font-semibold leading-tight", selectedDate === 'upcoming' ? "text-[#EBF5FF]" : "text-gray-400")}>All Dates</span>
+              <span className={cn("text-[10px] font-semibold leading-tight", selectedDate === 'upcoming' ? "text-[#EBF5FF]" : "text-muted/70")}>All Dates</span>
             </button>
 
             {dates.map((d) => {
@@ -217,11 +217,11 @@ export function DoctorOPs() {
                     "flex flex-col items-center justify-center min-w-[56px] h-[52px] rounded-[16px] flex-shrink-0 transition-all active:scale-95 border",
                     isActive 
                       ? "bg-[#1B5DF1] text-white shadow-lg shadow-[#1B5DF1]/30 border-[#1B5DF1]" 
-                      : "bg-white border-gray-200 text-gray-500 hover:bg-gray-50"
+                      : "bg-surface border-border text-muted hover:bg-gray-50"
                   )}
                 >
                   <span className={cn("text-[13px] font-bold leading-tight", isActive ? "text-white" : "text-[#0A1A3D]")}>{d.date.split(' ')[0]} {d.date.split(' ')[1]}</span>
-                  <span className={cn("text-[11px] font-semibold leading-tight", isActive ? "text-[#EBF5FF]" : "text-gray-400")}>{d.day}</span>
+                  <span className={cn("text-[11px] font-semibold leading-tight", isActive ? "text-[#EBF5FF]" : "text-muted/70")}>{d.day}</span>
                 </button>
               )
             })}
@@ -246,10 +246,10 @@ export function DoctorOPs() {
             </span>
           </div>
 
-          <div className="bg-white rounded-[20px] p-4 flex items-center justify-between border border-gray-100 shadow-[0_2px_12px_rgba(0,0,0,0.03)]">
+          <div className="bg-surface rounded-[20px] p-4 flex items-center justify-between border border-border shadow-[0_2px_12px_rgba(0,0,0,0.03)]">
             <div className="flex flex-col items-center flex-1">
               <span className="text-[22px] font-black text-[#0A1A3D]">{filteredAppointments.length}</span>
-              <span className="text-[11px] font-bold text-gray-500">Total</span>
+              <span className="text-[11px] font-bold text-muted">Total</span>
             </div>
             <div className="w-px h-10 bg-gray-100" />
             <div className="flex flex-col items-center flex-1">
@@ -263,14 +263,14 @@ export function DoctorOPs() {
               <span className="text-[22px] font-black text-blue-600">
                 {filteredAppointments.filter(a => a.status === 'IN_CONSULTATION').length}
               </span>
-              <span className="text-[11px] font-bold text-gray-500">In Progress</span>
+              <span className="text-[11px] font-bold text-muted">In Progress</span>
             </div>
             <div className="w-px h-10 bg-gray-100" />
             <div className="flex flex-col items-center flex-1">
               <span className="text-[22px] font-black text-emerald-600">
                 {filteredAppointments.filter(a => a.status === 'COMPLETED').length}
               </span>
-              <span className="text-[11px] font-bold text-gray-500">Completed</span>
+              <span className="text-[11px] font-bold text-muted">Completed</span>
             </div>
           </div>
         </div>
@@ -284,7 +284,7 @@ export function DoctorOPs() {
               {isLoading ? (
                 <motion.div key="skeletons" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex flex-col gap-3">
                   {[1, 2, 3].map((i) => (
-                    <Skeleton key={i} className="h-32 rounded-2xl bg-white border border-gray-100" />
+                    <Skeleton key={i} className="h-32 rounded-2xl bg-surface border border-border" />
                   ))}
                 </motion.div>
               ) : filteredAppointments.length > 0 ? (
@@ -292,13 +292,13 @@ export function DoctorOPs() {
                   {filteredAppointments.map((apt) => (
                     <div 
                       key={apt.id} 
-                      className="flex flex-col bg-white border border-gray-100 rounded-2xl p-4 shadow-[0_2px_8px_rgba(0,0,0,0.02)]"
+                      className="flex flex-col bg-surface border border-border rounded-2xl p-4 shadow-[0_2px_8px_rgba(0,0,0,0.02)]"
                     >
                       <div className="flex gap-4">
                         {/* Time & Date */}
                         <div className="flex flex-col items-center min-w-[60px] pt-1">
                           <span className="text-[16px] font-black text-[#0A1A3D] leading-none">{apt.time}</span>
-                          <span className="text-[11px] font-bold text-gray-400 mt-1">{apt.period}</span>
+                          <span className="text-[11px] font-bold text-muted/70 mt-1">{apt.period}</span>
                           {apt.date && (
                             <span className="text-[9px] font-bold text-[#1B5DF1] bg-[#EBF5FF] px-1.5 py-0.5 rounded mt-1.5 text-center whitespace-nowrap">
                               {apt.date}
@@ -306,15 +306,15 @@ export function DoctorOPs() {
                           )}
                         </div>
                         
-                        <div className="flex flex-col flex-1 gap-1 border-l border-gray-100 pl-4">
+                        <div className="flex flex-col flex-1 gap-1 border-l border-border pl-4">
                           {/* Info & Status */}
                           <div className="flex justify-between items-start">
                             <div className="flex flex-col">
                               <span className="text-[16px] font-bold text-[#0A1A3D]">{apt.patientName}</span>
                               <div className="flex items-center gap-1.5 mt-0.5">
-                                <span className="text-[12px] font-medium text-gray-500">ID: {apt.mqId}</span>
+                                <span className="text-[12px] font-medium text-muted">ID: {apt.mqId}</span>
                                 <span className="w-1 h-1 rounded-full bg-gray-300"></span>
-                                <span className="text-[12px] font-medium text-gray-500">{apt.type}</span>
+                                <span className="text-[12px] font-medium text-muted">{apt.type}</span>
                               </div>
                             </div>
                             
@@ -342,7 +342,7 @@ export function DoctorOPs() {
                               )}
 
                                 {activeDropdown === apt.id && (
-                                  <div className="absolute top-full right-0 mt-1 w-44 bg-white rounded-xl shadow-xl border border-gray-100 py-1.5 z-50 overflow-hidden">
+                                  <div className="absolute top-full right-0 mt-1 w-44 bg-surface rounded-xl shadow-xl border border-border py-1.5 z-50 overflow-hidden">
                                     {['WAITING', 'IN_CONSULTATION', 'COMPLETED', 'CANCELLED'].map(status => (
                                       <button
                                         key={status}
@@ -359,7 +359,7 @@ export function DoctorOPs() {
 
                           {/* Footer Actions */}
                           <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-50">
-                            <div className="flex items-center gap-1.5 text-gray-500 text-[12px] font-semibold">
+                            <div className="flex items-center gap-1.5 text-muted text-[12px] font-semibold">
                               <FileText className="w-3.5 h-3.5" />
                               Consultation
                             </div>
@@ -373,7 +373,7 @@ export function DoctorOPs() {
                                 Start
                               </button>
                             ) : (
-                              <div className="px-5 py-1.5 rounded-lg bg-gray-50 border border-gray-200 text-gray-400 font-bold">
+                              <div className="px-5 py-1.5 rounded-lg bg-gray-50 border border-border text-muted/70 font-bold">
                                 --
                               </div>
                             )}

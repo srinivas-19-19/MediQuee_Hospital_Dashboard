@@ -23,7 +23,7 @@ export function LabProfile() {
   )
 
   const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+    <div className="bg-surface rounded-2xl border border-border shadow-sm overflow-hidden">
       <p className="text-[12px] font-bold text-[#98A2B3] uppercase tracking-widest px-4 pt-4 pb-2">{title}</p>
       <div className="divide-y divide-gray-50">{children}</div>
     </div>
@@ -31,7 +31,7 @@ export function LabProfile() {
 
   return (
     <div className="flex flex-col bg-background min-h-screen w-full">
-      <div className="sticky top-0 z-20 bg-background/95 backdrop-blur-md px-4 md:px-6 pt-5 md:pt-6 pb-3 md:pb-4 border-b border-gray-100/50">
+      <div className="sticky top-0 z-20 bg-background/95 backdrop-blur-md px-4 md:px-6 pt-5 md:pt-6 pb-3 md:pb-4 border-b border-border/50">
         <h1 className="text-[22px] md:text-[28px] font-bold text-[#172033]">Profile</h1>
       </div>
 
@@ -72,8 +72,8 @@ export function LabProfile() {
         {/* Support Section */}
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.16 }}>
           <Section title="Support">
-            <MenuRow icon={HelpCircle} label="Help & Support" iconBg="bg-teal-50" color="text-teal-600" onClick={() => {}} />
-            <MenuRow icon={Phone} label="Contact Support" iconBg="bg-green-50" color="text-green-600" onClick={() => {}} />
+            <MenuRow icon={HelpCircle} label="Help & Support" iconBg="bg-teal-50" color="text-teal-600" onClick={() => navigate('/support')} />
+            <MenuRow icon={Phone} label="Contact Support (8331045500)" iconBg="bg-green-50" color="text-green-600" onClick={() => navigate('/contact')} />
           </Section>
         </motion.div>
 

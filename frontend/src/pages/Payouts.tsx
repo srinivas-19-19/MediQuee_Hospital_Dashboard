@@ -18,10 +18,12 @@ import { cn } from "@/lib/utils"
 import { EmptyState } from "../components/ui/EmptyState"
 import { Skeleton } from "../components/ui/Skeleton"
 import { payoutsApi, type PayoutsResponse } from "../services/payoutsApi"
+import { useTranslation } from "react-i18next"
 
 type DatePreset = 'thisMonth' | 'today' | 'last7' | 'last30' | 'custom';
 
 export function Payouts() {
+  const { t } = useTranslation();
   const [selectedPreset, setSelectedPreset] = useState<DatePreset>('thisMonth');
   const [startDate, setStartDate] = useState<string>('');
   const [endDate, setEndDate] = useState<string>('');
@@ -141,15 +143,15 @@ export function Payouts() {
     <div className="flex flex-col bg-background min-h-full pb-32 sm:pb-36">
       
       {/* Sticky Top Controls */}
-      <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md pt-4 pb-3 px-4 flex justify-between items-center border-b border-gray-100/50 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
+      <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md pt-4 pb-3 px-4 flex justify-between items-center border-b border-border shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
         <div>
-          <h1 className="text-[22px] font-semibold text-[#172033]">Payouts & Revenue</h1>
-          <span className="text-[12px] text-[#667085] font-medium">Hospital Share: 80% &middot; Platform Fee: 20%</span>
+          <h1 className="text-[22px] font-semibold text-foreground">{t('payout')}</h1>
+          <span className="text-[12px] text-muted font-medium">Hospital Share: 80% &middot; Platform Fee: 20%</span>
         </div>
         <button 
           onClick={() => fetchPayouts(startDate, endDate, true)}
           disabled={isLoading}
-          className="p-2 -mr-2 text-[#172033] hover:text-primary active:scale-95 transition-all"
+          className="p-2 -mr-2 text-foreground hover:text-primary active:scale-95 transition-all"
           title="Refresh data"
         >
           <RefreshCw className={`w-5 h-5 ${isLoading ? 'animate-spin text-primary' : ''}`} />
@@ -167,12 +169,12 @@ export function Payouts() {
                 setTempEnd(endDate);
                 setIsCustomModalOpen(true);
               }}
-              className="flex items-center gap-2 bg-white rounded-xl px-3.5 py-2 shadow-sm border border-gray-200/80 w-max interactive-element active:scale-95 transition-all hover:border-primary/40"
+              className="flex items-center gap-2 bg-surface rounded-xl px-3.5 py-2 shadow-sm border border-border w-max interactive-element active:scale-95 transition-all hover:border-primary/40"
             >
               <CalendarIcon className="w-4 h-4 text-primary" />
-              <span className="text-[13px] font-semibold text-[#172033]">{getPresetLabel()}</span>
+              <span className="text-[13px] font-semibold text-foreground">{getPresetLabel()}</span>
             </button>
-            <span className="text-[11px] font-medium text-[#667085]">
+            <span className="text-[11px] font-medium text-muted">
               {startDate && endDate ? `${startDate} ~ ${endDate}` : ''}
             </span>
           </div>
@@ -193,7 +195,7 @@ export function Payouts() {
                   "px-3 py-1.5 rounded-lg text-[12px] font-semibold whitespace-nowrap transition-all",
                   selectedPreset === p.key
                     ? "bg-primary text-white shadow-sm"
-                    : "bg-white text-[#667085] border border-gray-200/60 hover:text-[#172033]"
+                    : "bg-surface text-muted border border-border hover:text-foreground"
                 )}
               >
                 {p.label}
@@ -210,7 +212,7 @@ export function Payouts() {
         )}
 
         {/* Total Hospital Payout Summary Card with 20% Admin Deduction */}
-        <div className="bg-white rounded-2xl p-5 shadow-[0_1px_3px_rgba(0,0,0,0.03)] border border-emerald-200/70 relative overflow-hidden flex flex-col gap-3">
+        <div className="bg-surface rounded-2xl p-5 shadow-[0_1px_3px_rgba(0,0,0,0.03)] border border-emerald-200/70 relative overflow-hidden flex flex-col gap-3">
           <div className="absolute top-0 right-0 p-4 opacity-5 text-emerald-600 pointer-events-none">
             <TrendingUp className="w-28 h-28 -mt-4 -mr-4" strokeWidth={1} />
           </div>
@@ -221,8 +223,8 @@ export function Payouts() {
                 80%
               </div>
               <div>
-                <span className="text-[14px] font-semibold text-[#172033]">Hospital Net Payout</span>
-                <span className="text-[11px] text-[#667085] block">After 20% platform admin fee</span>
+                <span className="text-[14px] font-semibold text-foreground">Hospital Net Payout</span>
+                <span className="text-[11px] text-muted block">After 20% platform admin fee</span>
               </div>
             </div>
             <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200/60 px-2 py-0.5 rounded-full">
@@ -241,8 +243,8 @@ export function Payouts() {
           {/* 2-Column Split: Gross Revenue vs 20% Admin Cut */}
           <div className="grid grid-cols-2 gap-2 pt-2 border-t border-gray-100 relative z-10">
             <div className="flex flex-col bg-gray-50/90 rounded-xl p-2.5">
-              <span className="text-[11px] font-medium text-[#667085]">Total Gross Booked</span>
-              <span className="text-[16px] font-bold text-[#172033] mt-0.5">
+              <span className="text-[11px] font-medium text-muted">Total Gross Booked</span>
+              <span className="text-[16px] font-bold text-foreground mt-0.5">
                 {isLoading && !payoutsData ? (
                   <Skeleton className="h-5 w-16" />
                 ) : (
@@ -269,13 +271,13 @@ export function Payouts() {
         {/* Payout by Service with 20% Admin Deduction */}
         <div className="flex flex-col gap-3">
           <div className="flex justify-between items-center px-1">
-            <h3 className="text-[17px] font-semibold text-[#172033]">Payout by Service</h3>
+            <h3 className="text-[17px] font-semibold text-foreground">Payout by Service</h3>
             <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/50">
               80% Net Payout
             </span>
           </div>
 
-          <div className="bg-white rounded-2xl border border-gray-200/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] overflow-hidden flex flex-col">
+          <div className="bg-surface rounded-2xl border border-border shadow-[0_1px_2px_rgba(0,0,0,0.02)] overflow-hidden flex flex-col">
             
             {/* 1. OP */}
             <div className="flex items-center justify-between p-3.5 border-b border-gray-100 last:border-0 interactive-element active:bg-gray-50/50">
@@ -284,8 +286,8 @@ export function Payouts() {
                   <Stethoscope className="w-5 h-5" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[14px] font-semibold text-[#172033]">OP Consultation</span>
-                  <span className="text-[11px] text-[#667085]">
+                  <span className="text-[14px] font-semibold text-foreground">OP Consultation</span>
+                  <span className="text-[11px] text-muted">
                     {isLoading && !payoutsData ? "Loading..." : `${byService?.op.count ?? 0} bookings`}
                   </span>
                 </div>
@@ -301,7 +303,7 @@ export function Payouts() {
                       </span>
                       <span className="text-[9px] font-bold text-emerald-700 bg-emerald-50 px-1 py-0.2 rounded border border-emerald-200/60">80%</span>
                     </div>
-                    <span className="text-[10px] text-[#667085] mt-0.5 text-right">
+                    <span className="text-[10px] text-muted mt-0.5 text-right">
                       Gross: {formatCurrency(byService?.op.revenue ?? 0)} &middot; <span className="text-amber-700 font-medium">Admin: -{formatCurrency(byService?.op.adminCommission ?? Math.round((byService?.op.revenue ?? 0) * 0.2))}</span>
                     </span>
                   </>
@@ -316,8 +318,8 @@ export function Payouts() {
                   <Video className="w-5 h-5" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[14px] font-semibold text-[#172033]">Video Consultation</span>
-                  <span className="text-[11px] text-[#667085]">
+                  <span className="text-[14px] font-semibold text-foreground">Video Consultation</span>
+                  <span className="text-[11px] text-muted">
                     {isLoading && !payoutsData ? "Loading..." : `${byService?.videoConsultation.count ?? 0} consults`}
                   </span>
                 </div>
@@ -333,7 +335,7 @@ export function Payouts() {
                       </span>
                       <span className="text-[9px] font-bold text-emerald-700 bg-emerald-50 px-1 py-0.2 rounded border border-emerald-200/60">80%</span>
                     </div>
-                    <span className="text-[10px] text-[#667085] mt-0.5 text-right">
+                    <span className="text-[10px] text-muted mt-0.5 text-right">
                       Gross: {formatCurrency(byService?.videoConsultation.revenue ?? 0)} &middot; <span className="text-amber-700 font-medium">Admin: -{formatCurrency(byService?.videoConsultation.adminCommission ?? Math.round((byService?.videoConsultation.revenue ?? 0) * 0.2))}</span>
                     </span>
                   </>
@@ -348,8 +350,8 @@ export function Payouts() {
                   <Home className="w-5 h-5" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[14px] font-semibold text-[#172033]">Home Nursing</span>
-                  <span className="text-[11px] text-[#667085]">
+                  <span className="text-[14px] font-semibold text-foreground">Home Nursing</span>
+                  <span className="text-[11px] text-muted">
                     {isLoading && !payoutsData ? "Loading..." : `${byService?.homeNursing.count ?? 0} visits`}
                   </span>
                 </div>
@@ -365,7 +367,7 @@ export function Payouts() {
                       </span>
                       <span className="text-[9px] font-bold text-emerald-700 bg-emerald-50 px-1 py-0.2 rounded border border-emerald-200/60">80%</span>
                     </div>
-                    <span className="text-[10px] text-[#667085] mt-0.5 text-right">
+                    <span className="text-[10px] text-muted mt-0.5 text-right">
                       Gross: {formatCurrency(byService?.homeNursing.revenue ?? 0)} &middot; <span className="text-amber-700 font-medium">Admin: -{formatCurrency(byService?.homeNursing.adminCommission ?? Math.round((byService?.homeNursing.revenue ?? 0) * 0.2))}</span>
                     </span>
                   </>
@@ -380,8 +382,8 @@ export function Payouts() {
                   <FlaskConical className="w-5 h-5" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[14px] font-semibold text-[#172033]">Lab Tests</span>
-                  <span className="text-[11px] text-[#667085]">
+                  <span className="text-[14px] font-semibold text-foreground">Lab Tests</span>
+                  <span className="text-[11px] text-muted">
                     {isLoading && !payoutsData ? "Loading..." : `${byService?.labTests.count ?? 0} orders`}
                   </span>
                 </div>
@@ -397,7 +399,7 @@ export function Payouts() {
                       </span>
                       <span className="text-[9px] font-bold text-emerald-700 bg-emerald-50 px-1 py-0.2 rounded border border-emerald-200/60">80%</span>
                     </div>
-                    <span className="text-[10px] text-[#667085] mt-0.5 text-right">
+                    <span className="text-[10px] text-muted mt-0.5 text-right">
                       Gross: {formatCurrency(byService?.labTests.revenue ?? 0)} &middot; <span className="text-amber-700 font-medium">Admin: -{formatCurrency(byService?.labTests.adminCommission ?? Math.round((byService?.labTests.revenue ?? 0) * 0.2))}</span>
                     </span>
                   </>
@@ -412,8 +414,8 @@ export function Payouts() {
                   <TestTube className="w-5 h-5" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[14px] font-semibold text-[#172033] line-clamp-1">Home Sample Collection</span>
-                  <span className="text-[11px] text-[#667085]">
+                  <span className="text-[14px] font-semibold text-foreground line-clamp-1">Home Sample Collection</span>
+                  <span className="text-[11px] text-muted">
                     {isLoading && !payoutsData ? "Loading..." : `${byService?.homeSampleCollection.count ?? 0} orders`}
                   </span>
                 </div>
@@ -429,7 +431,7 @@ export function Payouts() {
                       </span>
                       <span className="text-[9px] font-bold text-emerald-700 bg-emerald-50 px-1 py-0.2 rounded border border-emerald-200/60">80%</span>
                     </div>
-                    <span className="text-[10px] text-[#667085] mt-0.5 text-right">
+                    <span className="text-[10px] text-muted mt-0.5 text-right">
                       Gross: {formatCurrency(byService?.homeSampleCollection.revenue ?? 0)} &middot; <span className="text-amber-700 font-medium">Admin: -{formatCurrency(byService?.homeSampleCollection.adminCommission ?? Math.round((byService?.homeSampleCollection.revenue ?? 0) * 0.2))}</span>
                     </span>
                   </>
@@ -442,16 +444,16 @@ export function Payouts() {
 
         {/* Payout Summary KPI Grid */}
         <div className="flex flex-col gap-3">
-          <h3 className="text-[17px] font-semibold text-[#172033] px-1">Payout Summary</h3>
+          <h3 className="text-[17px] font-semibold text-foreground px-1">Payout Summary</h3>
           <div className="grid grid-cols-2 gap-3">
             {/* Total Transactions */}
-            <div className="bg-white rounded-2xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.02)] border border-gray-200/60 flex flex-col gap-1">
-              <span className="text-[12px] font-semibold text-[#667085]">Total Transactions</span>
+            <div className="bg-surface rounded-2xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.02)] border border-border flex flex-col gap-1">
+              <span className="text-[12px] font-semibold text-muted">Total Transactions</span>
               <div className="min-h-[28px] flex items-center">
                 {isLoading && !payoutsData ? (
                   <Skeleton className="h-6 w-14" />
                 ) : (
-                  <span className="text-[20px] font-bold text-[#172033]">
+                  <span className="text-[20px] font-bold text-foreground">
                     {summary?.totalTransactions ?? 0}
                   </span>
                 )}
@@ -459,8 +461,8 @@ export function Payouts() {
             </div>
 
             {/* Average Net Hospital Payout */}
-            <div className="bg-white rounded-2xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.02)] border border-gray-200/60 flex flex-col gap-1">
-              <span className="text-[12px] font-semibold text-[#667085]">Avg Hospital Net</span>
+            <div className="bg-surface rounded-2xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.02)] border border-border flex flex-col gap-1">
+              <span className="text-[12px] font-semibold text-muted">Avg Hospital Net</span>
               <div className="min-h-[28px] flex items-center">
                 {isLoading && !payoutsData ? (
                   <Skeleton className="h-6 w-16" />
@@ -476,8 +478,8 @@ export function Payouts() {
             </div>
 
             {/* This Month Net */}
-            <div className="bg-white rounded-2xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.02)] border border-gray-200/60 flex flex-col gap-1">
-              <span className="text-[12px] font-semibold text-[#667085]">This Month (Net 80%)</span>
+            <div className="bg-surface rounded-2xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.02)] border border-border flex flex-col gap-1">
+              <span className="text-[12px] font-semibold text-muted">This Month (Net 80%)</span>
               <div className="min-h-[28px] flex items-center">
                 {isLoading && !payoutsData ? (
                   <Skeleton className="h-6 w-16" />
@@ -493,13 +495,13 @@ export function Payouts() {
             </div>
 
             {/* Last Month Net */}
-            <div className="bg-white rounded-2xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.02)] border border-gray-200/60 flex flex-col gap-1">
-              <span className="text-[12px] font-semibold text-[#667085]">Last Month (Net 80%)</span>
+            <div className="bg-surface rounded-2xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.02)] border border-border flex flex-col gap-1">
+              <span className="text-[12px] font-semibold text-muted">Last Month (Net 80%)</span>
               <div className="min-h-[28px] flex items-center">
                 {isLoading && !payoutsData ? (
                   <Skeleton className="h-6 w-16" />
                 ) : (
-                  <span className="text-[20px] font-bold text-[#172033]">
+                  <span className="text-[20px] font-bold text-foreground">
                     {formatCurrency(summary?.lastMonthHospitalPayout ?? Math.round((summary?.lastMonth ?? 0) * 0.8))}
                   </span>
                 )}
@@ -512,11 +514,11 @@ export function Payouts() {
         </div>
 
         {/* Payout Trend Chart */}
-        <div className="bg-white rounded-2xl border border-gray-200/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] p-4 flex flex-col gap-4 mt-1">
+        <div className="bg-surface rounded-2xl border border-border shadow-[0_1px_2px_rgba(0,0,0,0.02)] p-4 flex flex-col gap-4 mt-1">
           <div className="flex items-center justify-between">
             <div className="flex flex-col">
-              <h3 className="text-[15px] font-semibold text-[#172033]">Hospital Net Payout Trend</h3>
-              <span className="text-[11px] text-[#667085]">Daily 80% net earnings for selected period</span>
+              <h3 className="text-[15px] font-semibold text-foreground">Hospital Net Payout Trend</h3>
+              <span className="text-[11px] text-muted">Daily 80% net earnings for selected period</span>
             </div>
           </div>
           
@@ -535,10 +537,10 @@ export function Payouts() {
                     </linearGradient>
                   </defs>
                   <Tooltip
-                    contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.08)', fontSize: '12px' }}
+                    contentStyle={{ background: 'var(--surface, #1E293B)', borderRadius: '12px', border: '1px solid var(--border, #334155)', boxShadow: '0 4px 12px rgba(0,0,0,0.08)', fontSize: '12px', color: 'var(--foreground, #F8FAFC)' }}
                     itemStyle={{ color: '#059669', fontWeight: '700' }}
                     formatter={(val: any) => [formatCurrency(Number(val) || 0), 'Hospital Net (80%)']}
-                    cursor={{ stroke: '#E5E7EB', strokeWidth: 1, strokeDasharray: '4 4' }}
+                    cursor={{ stroke: 'var(--border, #334155)', strokeWidth: 1, strokeDasharray: '4 4' }}
                   />
                   <Area type="monotone" dataKey="value" stroke="#10b981" strokeWidth={2.5} fillOpacity={1} fill="url(#colorPayout)" />
                 </AreaChart>
@@ -554,11 +556,11 @@ export function Payouts() {
         {/* Recent Payouts List */}
         <div className="flex flex-col gap-3 mt-1">
           <div className="flex justify-between items-center px-1">
-            <h3 className="text-[17px] font-semibold text-[#172033]">Recent Payouts</h3>
-            <span className="text-[12px] font-medium text-[#667085]">{transactions.length} transactions</span>
+            <h3 className="text-[17px] font-semibold text-foreground">Recent Payouts</h3>
+            <span className="text-[12px] font-medium text-muted">{transactions.length} transactions</span>
           </div>
 
-          <div className="bg-white rounded-2xl border border-gray-200/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] overflow-hidden">
+          <div className="bg-surface rounded-2xl border border-border shadow-[0_1px_2px_rgba(0,0,0,0.02)] overflow-hidden">
             {isLoading && !payoutsData ? (
               <div className="p-4 flex flex-col gap-3">
                 <Skeleton className="h-14 w-full rounded-xl" />
@@ -572,7 +574,7 @@ export function Payouts() {
               />
             ) : transactions.map((txn, idx) => (
               <div key={idx} className="flex items-start gap-3 p-3.5 border-b border-gray-100 last:border-0 interactive-element active:bg-gray-50/50 transition-colors">
-                <div className="w-10 h-10 rounded-full bg-gray-50 text-[#667085] flex items-center justify-center shrink-0 border border-gray-100 mt-0.5">
+                <div className="w-10 h-10 rounded-full bg-gray-50 text-muted flex items-center justify-center shrink-0 border border-gray-100 mt-0.5">
                   {txn.type === 'VIDEO_CONSULTATION' ? (
                     <Video className="w-4 h-4 text-purple-600" />
                   ) : txn.type === 'HOME_NURSING' ? (
@@ -588,7 +590,7 @@ export function Payouts() {
                 
                 <div className="flex flex-col flex-1 gap-0.5">
                   <div className="flex justify-between items-start">
-                    <span className="text-[14px] font-semibold text-[#172033]">{txn.service}</span>
+                    <span className="text-[14px] font-semibold text-foreground">{txn.service}</span>
                     <div className="flex flex-col items-end">
                       <span className="text-[14px] font-bold text-emerald-600">
                         +{formatCurrency(txn.hospitalPayout ?? Math.round(txn.amount * 0.8))}
@@ -598,7 +600,7 @@ export function Payouts() {
                       </span>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between text-[12px] text-[#667085]">
+                  <div className="flex items-center justify-between text-[12px] text-muted">
                     <span>{txn.patientName || 'Patient'}</span>
                     <span className="text-[11px] text-[#98A2B3]">Ref: {txn.id}</span>
                   </div>
@@ -622,9 +624,9 @@ export function Payouts() {
       {/* Custom Date Range Modal */}
       {isCustomModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200">
-          <div className="bg-white rounded-2xl p-5 w-full max-w-sm shadow-xl flex flex-col gap-4 border border-gray-100">
+          <div className="bg-surface rounded-2xl p-5 w-full max-w-sm shadow-xl flex flex-col gap-4 border border-gray-100">
             <div className="flex items-center justify-between border-b border-gray-100 pb-3">
-              <h3 className="text-[16px] font-semibold text-[#172033]">Select Custom Date Range</h3>
+              <h3 className="text-[16px] font-semibold text-foreground">Select Custom Date Range</h3>
               <button onClick={() => setIsCustomModalOpen(false)} className="text-gray-400 hover:text-gray-600 p-1">
                 <X className="w-5 h-5" />
               </button>
@@ -632,22 +634,22 @@ export function Payouts() {
 
             <div className="flex flex-col gap-3">
               <div className="flex flex-col gap-1">
-                <label className="text-[12px] font-semibold text-[#667085]">Start Date</label>
+                <label className="text-[12px] font-semibold text-muted">Start Date</label>
                 <input 
                   type="date" 
                   value={tempStart} 
                   onChange={(e) => setTempStart(e.target.value)}
-                  className="border border-gray-200 rounded-xl px-3 py-2 text-sm text-[#172033] focus:outline-none focus:border-primary"
+                  className="border border-gray-200 rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary"
                 />
               </div>
 
               <div className="flex flex-col gap-1">
-                <label className="text-[12px] font-semibold text-[#667085]">End Date</label>
+                <label className="text-[12px] font-semibold text-muted">End Date</label>
                 <input 
                   type="date" 
                   value={tempEnd} 
                   onChange={(e) => setTempEnd(e.target.value)}
-                  className="border border-gray-200 rounded-xl px-3 py-2 text-sm text-[#172033] focus:outline-none focus:border-primary"
+                  className="border border-gray-200 rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary"
                 />
               </div>
             </div>
@@ -655,7 +657,7 @@ export function Payouts() {
             <div className="flex gap-2 pt-2 border-t border-gray-100">
               <button 
                 onClick={() => setIsCustomModalOpen(false)}
-                className="flex-1 py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-[#667085] hover:bg-gray-50 transition-colors"
+                className="flex-1 py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-muted hover:bg-gray-50 transition-colors"
               >
                 Cancel
               </button>

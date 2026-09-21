@@ -19,7 +19,7 @@ export function SuccessScreen({ businessType }: SuccessScreenProps) {
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="bg-white p-8 md:p-12 rounded-[32px] shadow-2xl shadow-black/5 flex flex-col items-center text-center max-w-md w-full relative z-10"
+        className="bg-surface p-8 md:p-12 rounded-[32px] shadow-2xl shadow-black/5 flex flex-col items-center text-center max-w-md w-full relative z-10"
       >
         <motion.div 
           initial={{ scale: 0 }}

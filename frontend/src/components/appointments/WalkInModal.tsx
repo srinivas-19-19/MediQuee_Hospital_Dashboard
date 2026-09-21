@@ -109,11 +109,11 @@ export function WalkInModal({ isOpen, onClose, onSuccess }: WalkInModalProps) {
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col"
+            className="relative w-full max-w-lg bg-surface rounded-3xl shadow-2xl overflow-hidden flex flex-col"
           >
-            <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-gray-50/50">
+            <div className="flex items-center justify-between p-6 border-b border-border bg-gray-50/50">
               <h2 className="text-xl font-bold text-[#0A1A3D]">New Walk-In Booking</h2>
-              <button onClick={onClose} className="p-2 bg-white rounded-full text-gray-400 hover:text-gray-600 shadow-sm border border-gray-100">
+              <button onClick={onClose} className="p-2 bg-surface rounded-full text-muted/70 hover:text-gray-600 shadow-sm border border-border">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -126,11 +126,11 @@ export function WalkInModal({ isOpen, onClose, onSuccess }: WalkInModalProps) {
               )}
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-sm font-bold text-gray-700">Department *</label>
+                <label className="text-sm font-bold text-foreground/80">Department *</label>
                 <select
                   value={selectedDept}
                   onChange={(e) => setSelectedDept(e.target.value)}
-                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5 text-[15px] font-medium outline-none focus:border-[#1B5DF1] focus:bg-white transition-colors"
+                  className="w-full bg-gray-50 border border-border rounded-xl px-4 py-3.5 text-[15px] font-medium outline-none focus:border-[#1B5DF1] focus:bg-surface transition-colors"
                   disabled={isLoading}
                 >
                   <option value="">Select Department</option>
@@ -141,11 +141,11 @@ export function WalkInModal({ isOpen, onClose, onSuccess }: WalkInModalProps) {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-sm font-bold text-gray-700">Doctor *</label>
+                <label className="text-sm font-bold text-foreground/80">Doctor *</label>
                 <select
                   value={selectedDoctor}
                   onChange={(e) => setSelectedDoctor(e.target.value)}
-                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5 text-[15px] font-medium outline-none focus:border-[#1B5DF1] focus:bg-white transition-colors disabled:opacity-50"
+                  className="w-full bg-gray-50 border border-border rounded-xl px-4 py-3.5 text-[15px] font-medium outline-none focus:border-[#1B5DF1] focus:bg-surface transition-colors disabled:opacity-50"
                   disabled={!selectedDept || isLoading}
                 >
                   <option value="">Select Doctor</option>
@@ -156,47 +156,47 @@ export function WalkInModal({ isOpen, onClose, onSuccess }: WalkInModalProps) {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-sm font-bold text-gray-700">Patient Name *</label>
+                <label className="text-sm font-bold text-foreground/80">Patient Name *</label>
                 <input
                   type="text"
                   placeholder="Enter full name"
                   value={patientName}
                   onChange={(e) => setPatientName(e.target.value)}
-                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5 text-[15px] font-medium outline-none focus:border-[#1B5DF1] focus:bg-white transition-colors"
+                  className="w-full bg-gray-50 border border-border rounded-xl px-4 py-3.5 text-[15px] font-medium outline-none focus:border-[#1B5DF1] focus:bg-surface transition-colors"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-sm font-bold text-gray-700">Phone (Optional)</label>
+                  <label className="text-sm font-bold text-foreground/80">Phone (Optional)</label>
                   <input
                     type="text"
                     placeholder="Mobile number"
                     value={patientPhone}
                     onChange={(e) => setPatientPhone(e.target.value)}
-                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5 text-[15px] font-medium outline-none focus:border-[#1B5DF1] focus:bg-white transition-colors"
+                    className="w-full bg-gray-50 border border-border rounded-xl px-4 py-3.5 text-[15px] font-medium outline-none focus:border-[#1B5DF1] focus:bg-surface transition-colors"
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-sm font-bold text-gray-700">Consultation Fee</label>
+                  <label className="text-sm font-bold text-foreground/80">Consultation Fee</label>
                   <div className="relative">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">₹</span>
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted/70 font-bold">₹</span>
                     <input
                       type="number"
                       placeholder="0"
                       value={fee}
                       onChange={(e) => setFee(e.target.value)}
-                      className="w-full bg-gray-50 border border-gray-200 rounded-xl pl-8 pr-4 py-3.5 text-[15px] font-medium outline-none focus:border-[#1B5DF1] focus:bg-white transition-colors"
+                      className="w-full bg-gray-50 border border-border rounded-xl pl-8 pr-4 py-3.5 text-[15px] font-medium outline-none focus:border-[#1B5DF1] focus:bg-surface transition-colors"
                     />
                   </div>
                 </div>
               </div>
 
-              <div className="pt-4 mt-2 border-t border-gray-100 flex gap-3">
+              <div className="pt-4 mt-2 border-t border-border flex gap-3">
                 <button
                   type="button"
                   onClick={onClose}
-                  className="flex-1 py-3.5 rounded-xl font-bold text-gray-600 bg-white border border-gray-200 hover:bg-gray-50 transition-colors"
+                  className="flex-1 py-3.5 rounded-xl font-bold text-gray-600 bg-surface border border-border hover:bg-gray-50 transition-colors"
                 >
                   Cancel
                 </button>

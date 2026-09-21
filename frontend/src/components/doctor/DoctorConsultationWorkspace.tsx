@@ -253,10 +253,10 @@ export function DoctorConsultationWorkspace({
           initial={{ scale: 0.95, opacity: 0, y: 20 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.95, opacity: 0, y: 20 }}
-          className="bg-[#F7F8FA] rounded-[28px] w-full max-w-4xl max-h-[92vh] relative z-10 shadow-2xl flex flex-col overflow-hidden border border-gray-100"
+          className="bg-[#F7F8FA] rounded-[28px] w-full max-w-4xl max-h-[92vh] relative z-10 shadow-2xl flex flex-col overflow-hidden border border-border"
         >
           {/* Top Bar / Header */}
-          <div className="bg-white px-6 py-4 flex items-center justify-between border-b border-gray-100 shrink-0">
+          <div className="bg-surface px-6 py-4 flex items-center justify-between border-b border-border shrink-0">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-2xl bg-[#EBF5FF] text-[#1B5DF1] flex items-center justify-center font-bold">
                 <Stethoscope className="w-5 h-5" />
@@ -273,7 +273,7 @@ export function DoctorConsultationWorkspace({
                     {currentStatus.replace('_', ' ')}
                   </span>
                 </div>
-                <p className="text-[12px] font-medium text-gray-500">Record diagnosis, vitals baseline, and prescription</p>
+                <p className="text-[12px] font-medium text-muted">Record diagnosis, vitals baseline, and prescription</p>
               </div>
             </div>
             <button 
@@ -288,28 +288,28 @@ export function DoctorConsultationWorkspace({
           <div className="overflow-y-auto flex-1 p-4 sm:p-6 flex flex-col gap-5">
 
             {/* A. Patient Banner & Chief Complaint */}
-            <div className="bg-white p-5 rounded-[22px] shadow-sm border border-gray-100 flex flex-col gap-3">
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-gray-100 pb-3">
+            <div className="bg-surface p-5 rounded-[22px] shadow-sm border border-border flex flex-col gap-3">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border pb-3">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-[#1B5DF1] to-[#60A5FA] flex items-center justify-center text-white font-black text-lg">
                     {appointment.patientName.charAt(0).toUpperCase()}
                   </div>
                   <div>
                     <h3 className="text-[17px] font-bold text-[#0A1A3D]">{appointment.patientName}</h3>
-                    <div className="flex items-center gap-2 text-[12px] text-gray-500 font-medium">
+                    <div className="flex items-center gap-2 text-[12px] text-muted font-medium">
                       <span>{appointment.patientAge || '--'} yrs</span>
                       <span>•</span>
                       <span>{appointment.patientGender || 'Unknown'}</span>
                       <span>•</span>
                       <span className="flex items-center gap-1">
-                        <Phone className="w-3 h-3 text-gray-400" />
+                        <Phone className="w-3 h-3 text-muted/70" />
                         {appointment.patientPhone || 'No phone'}
                       </span>
                     </div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-[11px] font-bold bg-gray-50 text-gray-600 px-3 py-1.5 rounded-xl border border-gray-200">
+                  <span className="text-[11px] font-bold bg-gray-50 text-gray-600 px-3 py-1.5 rounded-xl border border-border">
                     ID: #{appointment.mqId || appointment.id.slice(0, 8).toUpperCase()}
                   </span>
                   <span className="text-[11px] font-bold bg-[#EBF5FF] text-[#1B5DF1] px-3 py-1.5 rounded-xl">
@@ -320,15 +320,15 @@ export function DoctorConsultationWorkspace({
 
               {/* Immutable Chief Complaint */}
               <div className="flex flex-col gap-1 pt-1">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-gray-400">Chief Complaint (Patient / Reception Reason)</span>
-                <p className="text-[14px] font-semibold text-[#0A1A3D] bg-gray-50 p-3.5 rounded-xl border border-gray-100 leading-relaxed">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-muted/70">Chief Complaint (Patient / Reception Reason)</span>
+                <p className="text-[14px] font-semibold text-[#0A1A3D] bg-gray-50 p-3.5 rounded-xl border border-border leading-relaxed">
                   "{appointment.reason || appointment.type || 'General Consultation'}"
                 </p>
               </div>
             </div>
 
             {/* B. Patient Vitals Input Card */}
-            <div className="bg-white rounded-[22px] shadow-sm border border-gray-100 overflow-hidden">
+            <div className="bg-surface rounded-[22px] shadow-sm border border-border overflow-hidden">
               <button
                 type="button"
                 onClick={() => setIsVitalsOpen(!isVitalsOpen)}
@@ -341,95 +341,95 @@ export function DoctorConsultationWorkspace({
                   <h4 className="text-[15px] font-bold text-[#0A1A3D]">Patient Vitals Baseline</h4>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-[12px] font-semibold text-gray-400">
+                  <span className="text-[12px] font-semibold text-muted/70">
                     {isVitalsOpen ? "Collapse" : "Expand"}
                   </span>
-                  {isVitalsOpen ? <ChevronUp className="w-4 h-4 text-gray-400" /> : <ChevronDown className="w-4 h-4 text-gray-400" />}
+                  {isVitalsOpen ? <ChevronUp className="w-4 h-4 text-muted/70" /> : <ChevronDown className="w-4 h-4 text-muted/70" />}
                 </div>
               </button>
 
               {isVitalsOpen && (
-                <div className="p-5 pt-1 border-t border-gray-100 grid grid-cols-2 sm:grid-cols-4 gap-3 bg-gray-50/30">
+                <div className="p-5 pt-1 border-t border-border grid grid-cols-2 sm:grid-cols-4 gap-3 bg-gray-50/30">
                   <div className="flex flex-col gap-1">
-                    <label className="text-[11px] font-bold text-gray-500">BP Systolic (mmHg)</label>
+                    <label className="text-[11px] font-bold text-muted">BP Systolic (mmHg)</label>
                     <input
                       type="number"
                       placeholder="e.g. 120"
                       value={systolicBp}
                       onChange={e => setSystolicBp(e.target.value)}
-                      className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-[14px] font-bold text-[#0A1A3D] outline-none focus:border-[#1B5DF1]"
+                      className="w-full px-3 py-2 bg-surface border border-border rounded-xl text-[14px] font-bold text-[#0A1A3D] outline-none focus:border-[#1B5DF1]"
                     />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label className="text-[11px] font-bold text-gray-500">BP Diastolic (mmHg)</label>
+                    <label className="text-[11px] font-bold text-muted">BP Diastolic (mmHg)</label>
                     <input
                       type="number"
                       placeholder="e.g. 80"
                       value={diastolicBp}
                       onChange={e => setDiastolicBp(e.target.value)}
-                      className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-[14px] font-bold text-[#0A1A3D] outline-none focus:border-[#1B5DF1]"
+                      className="w-full px-3 py-2 bg-surface border border-border rounded-xl text-[14px] font-bold text-[#0A1A3D] outline-none focus:border-[#1B5DF1]"
                     />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label className="text-[11px] font-bold text-gray-500">Pulse (bpm)</label>
+                    <label className="text-[11px] font-bold text-muted">Pulse (bpm)</label>
                     <input
                       type="number"
                       placeholder="e.g. 74"
                       value={pulseRate}
                       onChange={e => setPulseRate(e.target.value)}
-                      className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-[14px] font-bold text-[#0A1A3D] outline-none focus:border-[#1B5DF1]"
+                      className="w-full px-3 py-2 bg-surface border border-border rounded-xl text-[14px] font-bold text-[#0A1A3D] outline-none focus:border-[#1B5DF1]"
                     />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label className="text-[11px] font-bold text-gray-500">Temp (°F)</label>
+                    <label className="text-[11px] font-bold text-muted">Temp (°F)</label>
                     <input
                       type="number"
                       step="0.1"
                       placeholder="e.g. 98.6"
                       value={bodyTemperature}
                       onChange={e => setBodyTemperature(e.target.value)}
-                      className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-[14px] font-bold text-[#0A1A3D] outline-none focus:border-[#1B5DF1]"
+                      className="w-full px-3 py-2 bg-surface border border-border rounded-xl text-[14px] font-bold text-[#0A1A3D] outline-none focus:border-[#1B5DF1]"
                     />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label className="text-[11px] font-bold text-gray-500">SpO2 (%)</label>
+                    <label className="text-[11px] font-bold text-muted">SpO2 (%)</label>
                     <input
                       type="number"
                       placeholder="e.g. 98"
                       value={spo2}
                       onChange={e => setSpo2(e.target.value)}
-                      className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-[14px] font-bold text-[#0A1A3D] outline-none focus:border-[#1B5DF1]"
+                      className="w-full px-3 py-2 bg-surface border border-border rounded-xl text-[14px] font-bold text-[#0A1A3D] outline-none focus:border-[#1B5DF1]"
                     />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label className="text-[11px] font-bold text-gray-500">Resp Rate (/min)</label>
+                    <label className="text-[11px] font-bold text-muted">Resp Rate (/min)</label>
                     <input
                       type="number"
                       placeholder="e.g. 18"
                       value={respiratoryRate}
                       onChange={e => setRespiratoryRate(e.target.value)}
-                      className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-[14px] font-bold text-[#0A1A3D] outline-none focus:border-[#1B5DF1]"
+                      className="w-full px-3 py-2 bg-surface border border-border rounded-xl text-[14px] font-bold text-[#0A1A3D] outline-none focus:border-[#1B5DF1]"
                     />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label className="text-[11px] font-bold text-gray-500">Weight (kg)</label>
+                    <label className="text-[11px] font-bold text-muted">Weight (kg)</label>
                     <input
                       type="number"
                       step="0.5"
                       placeholder="e.g. 68.0"
                       value={weightKg}
                       onChange={e => setWeightKg(e.target.value)}
-                      className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-[14px] font-bold text-[#0A1A3D] outline-none focus:border-[#1B5DF1]"
+                      className="w-full px-3 py-2 bg-surface border border-border rounded-xl text-[14px] font-bold text-[#0A1A3D] outline-none focus:border-[#1B5DF1]"
                     />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label className="text-[11px] font-bold text-gray-500">Height (cm)</label>
+                    <label className="text-[11px] font-bold text-muted">Height (cm)</label>
                     <input
                       type="number"
                       placeholder="e.g. 170"
                       value={heightCm}
                       onChange={e => setHeightCm(e.target.value)}
-                      className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-[14px] font-bold text-[#0A1A3D] outline-none focus:border-[#1B5DF1]"
+                      className="w-full px-3 py-2 bg-surface border border-border rounded-xl text-[14px] font-bold text-[#0A1A3D] outline-none focus:border-[#1B5DF1]"
                     />
                   </div>
                 </div>
@@ -437,8 +437,8 @@ export function DoctorConsultationWorkspace({
             </div>
 
             {/* C. Clinical Diagnosis & Examination Notes */}
-            <div className="bg-white p-5 rounded-[22px] shadow-sm border border-gray-100 flex flex-col gap-4">
-              <div className="flex items-center gap-2.5 border-b border-gray-100 pb-3">
+            <div className="bg-surface p-5 rounded-[22px] shadow-sm border border-border flex flex-col gap-4">
+              <div className="flex items-center gap-2.5 border-b border-border pb-3">
                 <div className="w-8 h-8 rounded-xl bg-blue-50 text-[#1B5DF1] flex items-center justify-center">
                   <FileText className="w-4 h-4" />
                 </div>
@@ -454,55 +454,55 @@ export function DoctorConsultationWorkspace({
                   placeholder="e.g. Acute Viral Bronchitis, Type 2 Diabetes Mellitus"
                   value={diagnosis}
                   onChange={e => setDiagnosis(e.target.value)}
-                  className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-[14px] font-semibold text-[#0A1A3D] outline-none focus:border-[#1B5DF1] focus:bg-white transition-all"
+                  className="w-full px-3.5 py-2.5 bg-gray-50 border border-border rounded-xl text-[14px] font-semibold text-[#0A1A3D] outline-none focus:border-[#1B5DF1] focus:bg-surface transition-all"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="flex flex-col gap-1">
-                  <label className="text-[12px] font-bold text-gray-700">Clinical Examination & Symptoms</label>
+                  <label className="text-[12px] font-bold text-foreground/80">Clinical Examination & Symptoms</label>
                   <textarea
                     rows={3}
                     placeholder="Findings on auscultation, throat inspection, symptom duration..."
                     value={clinicalNotes}
                     onChange={e => setClinicalNotes(e.target.value)}
-                    className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-[13px] text-gray-800 outline-none focus:border-[#1B5DF1] focus:bg-white resize-none"
+                    className="w-full p-3 bg-gray-50 border border-border rounded-xl text-[13px] text-foreground outline-none focus:border-[#1B5DF1] focus:bg-surface resize-none"
                   />
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <label className="text-[12px] font-bold text-gray-700">General Advice & Lifestyle</label>
+                  <label className="text-[12px] font-bold text-foreground/80">General Advice & Lifestyle</label>
                   <textarea
                     rows={3}
                     placeholder="Dietary precautions, steam inhalation, rest instructions..."
                     value={generalAdvice}
                     onChange={e => setGeneralAdvice(e.target.value)}
-                    className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-[13px] text-gray-800 outline-none focus:border-[#1B5DF1] focus:bg-white resize-none"
+                    className="w-full p-3 bg-gray-50 border border-border rounded-xl text-[13px] text-foreground outline-none focus:border-[#1B5DF1] focus:bg-surface resize-none"
                   />
                 </div>
               </div>
 
               <div className="flex flex-col sm:flex-row sm:items-center gap-3 pt-1">
-                <label className="text-[12px] font-bold text-gray-700 sm:w-36">Recommended Follow-up</label>
+                <label className="text-[12px] font-bold text-foreground/80 sm:w-36">Recommended Follow-up</label>
                 <input
                   type="date"
                   value={followUpDate}
                   onChange={e => setFollowUpDate(e.target.value)}
-                  className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-[13px] font-semibold text-[#0A1A3D] outline-none focus:border-[#1B5DF1]"
+                  className="px-3 py-2 bg-gray-50 border border-border rounded-xl text-[13px] font-semibold text-[#0A1A3D] outline-none focus:border-[#1B5DF1]"
                 />
               </div>
             </div>
 
             {/* D. Electronic Prescription (Rx) Dynamic Builder */}
-            <div className="bg-white p-5 rounded-[22px] shadow-sm border border-gray-100 flex flex-col gap-4">
-              <div className="flex items-center justify-between border-b border-gray-100 pb-3">
+            <div className="bg-surface p-5 rounded-[22px] shadow-sm border border-border flex flex-col gap-4">
+              <div className="flex items-center justify-between border-b border-border pb-3">
                 <div className="flex items-center gap-2.5">
                   <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-black text-sm">
                     Rx
                   </div>
                   <div>
                     <h4 className="text-[15px] font-bold text-[#0A1A3D]">Medications & E-Prescription</h4>
-                    <p className="text-[11px] text-gray-400 font-medium">Add medications with discrete dosage and frequency</p>
+                    <p className="text-[11px] text-muted/70 font-medium">Add medications with discrete dosage and frequency</p>
                   </div>
                 </div>
                 <button
@@ -515,7 +515,7 @@ export function DoctorConsultationWorkspace({
               </div>
 
               {prescriptions.map((rx, idx) => (
-                <div key={idx} className="p-4 bg-gray-50/60 rounded-2xl border border-gray-200/60 flex flex-col gap-3 relative">
+                <div key={idx} className="p-4 bg-gray-50/60 rounded-2xl border border-border/60 flex flex-col gap-3 relative">
                   <div className="flex items-center justify-between">
                     <span className="text-[11px] font-black uppercase text-[#1B5DF1] tracking-wider">
                       Medicine #{idx + 1}
@@ -524,7 +524,7 @@ export function DoctorConsultationWorkspace({
                       <button
                         type="button"
                         onClick={() => handleRemoveMedication(idx)}
-                        className="p-1 text-gray-400 hover:text-red-500 transition-colors"
+                        className="p-1 text-muted/70 hover:text-red-500 transition-colors"
                         title="Remove medicine"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -534,21 +534,21 @@ export function DoctorConsultationWorkspace({
 
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div className="flex flex-col gap-1 sm:col-span-2">
-                      <label className="text-[11px] font-bold text-gray-500">Medicine / Brand Name</label>
+                      <label className="text-[11px] font-bold text-muted">Medicine / Brand Name</label>
                       <input
                         type="text"
                         placeholder="e.g. Augmentin 625 Duo, Pan-D, Allegra"
                         value={rx.medicineName}
                         onChange={e => handleMedicationChange(idx, 'medicineName', e.target.value)}
-                        className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-[13px] font-bold text-[#0A1A3D] outline-none focus:border-[#1B5DF1]"
+                        className="w-full px-3 py-2 bg-surface border border-border rounded-xl text-[13px] font-bold text-[#0A1A3D] outline-none focus:border-[#1B5DF1]"
                       />
                     </div>
                     <div className="flex flex-col gap-1">
-                      <label className="text-[11px] font-bold text-gray-500">Dosage Form</label>
+                      <label className="text-[11px] font-bold text-muted">Dosage Form</label>
                       <select
                         value={rx.dosageForm}
                         onChange={e => handleMedicationChange(idx, 'dosageForm', e.target.value)}
-                        className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-[13px] font-bold text-[#0A1A3D] outline-none focus:border-[#1B5DF1]"
+                        className="w-full px-3 py-2 bg-surface border border-border rounded-xl text-[13px] font-bold text-[#0A1A3D] outline-none focus:border-[#1B5DF1]"
                       >
                         {DOSAGE_FORMS.map(df => (
                           <option key={df} value={df}>{df}</option>
@@ -559,22 +559,22 @@ export function DoctorConsultationWorkspace({
 
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     <div className="flex flex-col gap-1">
-                      <label className="text-[11px] font-bold text-gray-500">Strength</label>
+                      <label className="text-[11px] font-bold text-muted">Strength</label>
                       <input
                         type="text"
                         placeholder="e.g. 500mg, 10ml"
                         value={rx.strength || ''}
                         onChange={e => handleMedicationChange(idx, 'strength', e.target.value)}
-                        className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-[13px] font-semibold text-[#0A1A3D] outline-none focus:border-[#1B5DF1]"
+                        className="w-full px-3 py-2 bg-surface border border-border rounded-xl text-[13px] font-semibold text-[#0A1A3D] outline-none focus:border-[#1B5DF1]"
                       />
                     </div>
 
                     <div className="flex flex-col gap-1">
-                      <label className="text-[11px] font-bold text-gray-500">Frequency</label>
+                      <label className="text-[11px] font-bold text-muted">Frequency</label>
                       <select
                         value={rx.frequency}
                         onChange={e => handleMedicationChange(idx, 'frequency', e.target.value)}
-                        className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-[13px] font-bold text-[#0A1A3D] outline-none focus:border-[#1B5DF1]"
+                        className="w-full px-3 py-2 bg-surface border border-border rounded-xl text-[13px] font-bold text-[#0A1A3D] outline-none focus:border-[#1B5DF1]"
                       >
                         {FREQUENCY_OPTIONS.map(f => (
                           <option key={f} value={f}>{f}</option>
@@ -583,22 +583,22 @@ export function DoctorConsultationWorkspace({
                     </div>
 
                     <div className="flex flex-col gap-1">
-                      <label className="text-[11px] font-bold text-gray-500">Duration (Days)</label>
+                      <label className="text-[11px] font-bold text-muted">Duration (Days)</label>
                       <input
                         type="number"
                         min={1}
                         value={rx.durationDays}
                         onChange={e => handleMedicationChange(idx, 'durationDays', e.target.value)}
-                        className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-[13px] font-bold text-[#0A1A3D] outline-none focus:border-[#1B5DF1]"
+                        className="w-full px-3 py-2 bg-surface border border-border rounded-xl text-[13px] font-bold text-[#0A1A3D] outline-none focus:border-[#1B5DF1]"
                       />
                     </div>
 
                     <div className="flex flex-col gap-1">
-                      <label className="text-[11px] font-bold text-gray-500">Timing</label>
+                      <label className="text-[11px] font-bold text-muted">Timing</label>
                       <select
                         value={rx.timing}
                         onChange={e => handleMedicationChange(idx, 'timing', e.target.value as DosageTiming)}
-                        className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-[13px] font-bold text-[#0A1A3D] outline-none focus:border-[#1B5DF1]"
+                        className="w-full px-3 py-2 bg-surface border border-border rounded-xl text-[13px] font-bold text-[#0A1A3D] outline-none focus:border-[#1B5DF1]"
                       >
                         {TIMING_OPTIONS.map(t => (
                           <option key={t.value} value={t.value}>{t.label}</option>
@@ -608,13 +608,13 @@ export function DoctorConsultationWorkspace({
                   </div>
 
                   <div className="flex flex-col gap-1">
-                    <label className="text-[11px] font-bold text-gray-500">Special Instructions</label>
+                    <label className="text-[11px] font-bold text-muted">Special Instructions</label>
                     <input
                       type="text"
                       placeholder="e.g. Take with warm water at bedtime, do not skip doses"
                       value={rx.instructions || ''}
                       onChange={e => handleMedicationChange(idx, 'instructions', e.target.value)}
-                      className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-[12px] font-medium text-gray-700 outline-none focus:border-[#1B5DF1]"
+                      className="w-full px-3 py-2 bg-surface border border-border rounded-xl text-[12px] font-medium text-foreground/80 outline-none focus:border-[#1B5DF1]"
                     />
                   </div>
                 </div>
@@ -622,15 +622,15 @@ export function DoctorConsultationWorkspace({
             </div>
 
             {/* E. Diagnostic Lab Orders Selector */}
-            <div className="bg-white p-5 rounded-[22px] shadow-sm border border-gray-100 flex flex-col gap-3">
-              <div className="flex items-center justify-between border-b border-gray-100 pb-3">
+            <div className="bg-surface p-5 rounded-[22px] shadow-sm border border-border flex flex-col gap-3">
+              <div className="flex items-center justify-between border-b border-border pb-3">
                 <div className="flex items-center gap-2.5">
                   <div className="w-8 h-8 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
                     <FlaskConical className="w-4 h-4" />
                   </div>
                   <div>
                     <h4 className="text-[15px] font-bold text-[#0A1A3D]">Prescribe Diagnostic Lab Tests</h4>
-                    <p className="text-[11px] text-gray-400 font-medium">Order blood work or investigations directly for this patient</p>
+                    <p className="text-[11px] text-muted/70 font-medium">Order blood work or investigations directly for this patient</p>
                   </div>
                 </div>
                 <span className="text-[12px] font-bold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-lg">
@@ -650,12 +650,12 @@ export function DoctorConsultationWorkspace({
                           "p-3 rounded-xl border flex items-center justify-between cursor-pointer transition-all select-none",
                           isSelected
                             ? "bg-purple-50/70 border-purple-300 text-purple-900"
-                            : "bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100"
+                            : "bg-gray-50 border-border text-foreground/80 hover:bg-gray-100"
                         )}
                       >
                         <div className="flex flex-col">
                           <span className="text-[13px] font-bold">{test.name}</span>
-                          <span className="text-[11px] text-gray-400">{test.category} • ₹{test.price}</span>
+                          <span className="text-[11px] text-muted/70">{test.category} • ₹{test.price}</span>
                         </div>
                         <input
                           type="checkbox"
@@ -668,7 +668,7 @@ export function DoctorConsultationWorkspace({
                   })}
                 </div>
               ) : (
-                <p className="text-[13px] text-gray-400 italic">No hospital lab tests configured.</p>
+                <p className="text-[13px] text-muted/70 italic">No hospital lab tests configured.</p>
               )}
             </div>
 
@@ -682,7 +682,7 @@ export function DoctorConsultationWorkspace({
           </div>
 
           {/* Sticky Action Footer */}
-          <div className="bg-white px-6 py-4 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
+          <div className="bg-surface px-6 py-4 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
             <div className="flex items-center gap-2 w-full sm:w-auto">
               {currentStatus !== 'IN_CONSULTATION' && currentStatus !== 'COMPLETED' && (
                 <button
@@ -700,7 +700,7 @@ export function DoctorConsultationWorkspace({
                 type="button"
                 onClick={onClose}
                 disabled={isSubmitting}
-                className="flex-1 sm:flex-none px-5 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl font-bold text-[14px] transition-colors"
+                className="flex-1 sm:flex-none px-5 py-3 bg-gray-100 hover:bg-gray-200 text-foreground/80 rounded-xl font-bold text-[14px] transition-colors"
               >
                 Cancel
               </button>

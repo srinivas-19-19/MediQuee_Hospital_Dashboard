@@ -18,14 +18,14 @@ export function Step3Laboratory() {
         <div className="flex flex-col gap-1.5">
           <label className="text-[13px] font-semibold text-[#172033] ml-1">Laboratory Name</label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-gray-400">
+            <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-muted/70">
               <Microscope className="w-5 h-5" />
             </div>
             <input 
               {...register("labInfo.labName")}
               type="text" 
               placeholder="e.g. Accurate Diagnostics" 
-              className={`w-full pl-11 pr-4 py-3.5 bg-white border ${entityErrors?.labName ? 'border-red-500' : 'border-gray-200 focus:border-[#1769E0]'} rounded-2xl outline-none focus:ring-4 transition-all text-[15px] font-medium placeholder:text-gray-400`}
+              className={`w-full pl-11 pr-4 py-3.5 bg-surface border ${entityErrors?.labName ? 'border-red-500' : 'border-border focus:border-[#1769E0]'} rounded-2xl outline-none focus:ring-4 transition-all text-[15px] font-medium placeholder:text-muted/70`}
             />
           </div>
           {entityErrors?.labName && <span className="text-red-500 text-[12px] ml-1 font-medium">{entityErrors.labName.message}</span>}
@@ -35,7 +35,7 @@ export function Step3Laboratory() {
           <label className="text-[13px] font-semibold text-[#172033] ml-1">Laboratory Type</label>
           <select 
             {...register("labInfo.labType")}
-            className={`w-full px-4 py-3.5 bg-white border ${entityErrors?.labType ? 'border-red-500' : 'border-gray-200 focus:border-[#1769E0]'} rounded-2xl outline-none focus:ring-4 transition-all text-[15px] font-medium text-[#172033] appearance-none`}
+            className={`w-full px-4 py-3.5 bg-surface border ${entityErrors?.labType ? 'border-red-500' : 'border-border focus:border-[#1769E0]'} rounded-2xl outline-none focus:ring-4 transition-all text-[15px] font-medium text-[#172033] appearance-none`}
           >
             <option value="">Select Laboratory Type</option>
             <option value="Diagnostic Laboratory">Diagnostic Laboratory</option>
@@ -52,14 +52,14 @@ export function Step3Laboratory() {
         <div className="flex flex-col gap-1.5">
           <label className="text-[13px] font-semibold text-[#172033] ml-1">Registration Number</label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-gray-400">
+            <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-muted/70">
               <FileText className="w-5 h-5" />
             </div>
             <input 
               {...register("labInfo.registrationNumber")}
               type="text" 
               placeholder="Registration No." 
-              className={`w-full pl-11 pr-4 py-3.5 bg-white border ${entityErrors?.registrationNumber ? 'border-red-500' : 'border-gray-200 focus:border-[#1769E0]'} rounded-2xl outline-none focus:ring-4 transition-all text-[15px] font-medium placeholder:text-gray-400`}
+              className={`w-full pl-11 pr-4 py-3.5 bg-surface border ${entityErrors?.registrationNumber ? 'border-red-500' : 'border-border focus:border-[#1769E0]'} rounded-2xl outline-none focus:ring-4 transition-all text-[15px] font-medium placeholder:text-muted/70`}
             />
           </div>
           {entityErrors?.registrationNumber && <span className="text-red-500 text-[12px] ml-1 font-medium">{entityErrors.registrationNumber.message}</span>}
@@ -69,14 +69,14 @@ export function Step3Laboratory() {
           <div className="flex flex-col gap-1.5">
             <label className="text-[13px] font-semibold text-[#172033] ml-1">Phone Number</label>
             <div className="relative">
-              <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-gray-400">
+              <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-muted/70">
                 <Phone className="w-4 h-4" />
               </div>
               <input 
                 {...register("labInfo.labPhone")}
                 type="tel" 
                 placeholder="Phone" 
-                className={`w-full pl-9 pr-3 py-3.5 bg-white border ${entityErrors?.labPhone ? 'border-red-500' : 'border-gray-200 focus:border-[#1769E0]'} rounded-2xl outline-none focus:ring-4 transition-all text-[14px] font-medium placeholder:text-gray-400`}
+                className={`w-full pl-9 pr-3 py-3.5 bg-surface border ${entityErrors?.labPhone ? 'border-red-500' : 'border-border focus:border-[#1769E0]'} rounded-2xl outline-none focus:ring-4 transition-all text-[14px] font-medium placeholder:text-muted/70`}
               />
             </div>
             {entityErrors?.labPhone && <span className="text-red-500 text-[12px] ml-1 font-medium">{entityErrors.labPhone.message}</span>}
@@ -85,14 +85,14 @@ export function Step3Laboratory() {
           <div className="flex flex-col gap-1.5">
             <label className="text-[13px] font-semibold text-[#172033] ml-1">Email Address</label>
             <div className="relative">
-              <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-gray-400">
+              <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-muted/70">
                 <Mail className="w-4 h-4" />
               </div>
               <input 
                 {...register("labInfo.labEmail")}
                 type="email" 
                 placeholder="Email" 
-                className={`w-full pl-9 pr-3 py-3.5 bg-white border ${entityErrors?.labEmail ? 'border-red-500' : 'border-gray-200 focus:border-[#1769E0]'} rounded-2xl outline-none focus:ring-4 transition-all text-[14px] font-medium placeholder:text-gray-400`}
+                className={`w-full pl-9 pr-3 py-3.5 bg-surface border ${entityErrors?.labEmail ? 'border-red-500' : 'border-border focus:border-[#1769E0]'} rounded-2xl outline-none focus:ring-4 transition-all text-[14px] font-medium placeholder:text-muted/70`}
               />
             </div>
             {entityErrors?.labEmail && <span className="text-red-500 text-[12px] ml-1 font-medium">{entityErrors.labEmail.message}</span>}
@@ -102,14 +102,14 @@ export function Step3Laboratory() {
         <div className="flex flex-col gap-1.5">
           <label className="text-[13px] font-semibold text-[#172033] ml-1">Website (Optional)</label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-gray-400">
+            <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-muted/70">
               <Globe className="w-5 h-5" />
             </div>
             <input 
               {...register("labInfo.website")}
               type="url" 
               placeholder="https://example.com" 
-              className="w-full pl-11 pr-4 py-3.5 bg-white border border-gray-200 focus:border-[#1769E0] rounded-2xl outline-none focus:ring-4 transition-all text-[15px] font-medium placeholder:text-gray-400"
+              className="w-full pl-11 pr-4 py-3.5 bg-surface border border-border focus:border-[#1769E0] rounded-2xl outline-none focus:ring-4 transition-all text-[15px] font-medium placeholder:text-muted/70"
             />
           </div>
         </div>
@@ -117,14 +117,14 @@ export function Step3Laboratory() {
         <div className="flex flex-col gap-1.5">
           <label className="text-[13px] font-semibold text-[#172033] ml-1">Established Year (Optional)</label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-gray-400">
+            <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-muted/70">
               <Calendar className="w-5 h-5" />
             </div>
             <input 
               {...register("labInfo.establishedYear")}
               type="number" 
               placeholder="e.g. 1995" 
-              className="w-full pl-11 pr-4 py-3.5 bg-white border border-gray-200 focus:border-[#1769E0] rounded-2xl outline-none focus:ring-4 transition-all text-[15px] font-medium placeholder:text-gray-400"
+              className="w-full pl-11 pr-4 py-3.5 bg-surface border border-border focus:border-[#1769E0] rounded-2xl outline-none focus:ring-4 transition-all text-[15px] font-medium placeholder:text-muted/70"
             />
           </div>
         </div>

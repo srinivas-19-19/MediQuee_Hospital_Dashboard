@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils"
 const summaryStats: { label: string; count: string; color: string; bg: string; border: string }[] = [
   { label: 'Pending Upload', count: '—', color: 'text-amber-600', bg: 'bg-amber-50', border: 'border-amber-200' },
   { label: 'Ready', count: '—', color: 'text-emerald-600', bg: 'bg-emerald-50', border: 'border-emerald-200' },
-  { label: 'Delivered', count: '—', color: 'text-[#667085]', bg: 'bg-gray-50', border: 'border-gray-200' },
+  { label: 'Delivered', count: '—', color: 'text-[#667085]', bg: 'bg-gray-50', border: 'border-border' },
 ]
 
 const filters = ['All', 'Pending', 'Ready', 'Delivered']
@@ -37,7 +37,7 @@ export function LabReports() {
   return (
     <div className="flex flex-col bg-background min-h-full w-full">
       {/* Header */}
-      <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md px-4 md:px-6 pt-5 md:pt-6 pb-3 md:pb-4 border-b border-gray-100/50">
+      <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md px-4 md:px-6 pt-5 md:pt-6 pb-3 md:pb-4 border-b border-border/50">
         <div className="flex items-center justify-between mb-4">
           <h1 className="text-[22px] md:text-[26px] font-bold text-[#172033]">Reports</h1>
           <button
@@ -53,13 +53,13 @@ export function LabReports() {
         <div className="flex bg-gray-100/80 p-1 rounded-xl max-w-md">
           <button 
             onClick={() => setActiveMainSection('In-Person')}
-            className={cn("flex-1 py-2 text-[13px] font-bold rounded-lg transition-all", activeMainSection === 'In-Person' ? "bg-white text-primary shadow-sm" : "text-[#667085] hover:text-[#172033]")}
+            className={cn("flex-1 py-2 text-[13px] font-bold rounded-lg transition-all", activeMainSection === 'In-Person' ? "bg-surface text-primary shadow-sm" : "text-[#667085] hover:text-[#172033]")}
           >
             In-Person
           </button>
           <button 
             onClick={() => setActiveMainSection('Home Collection')}
-            className={cn("flex-1 py-2 text-[13px] font-bold rounded-lg transition-all", activeMainSection === 'Home Collection' ? "bg-white text-primary shadow-sm" : "text-[#667085] hover:text-[#172033]")}
+            className={cn("flex-1 py-2 text-[13px] font-bold rounded-lg transition-all", activeMainSection === 'Home Collection' ? "bg-surface text-primary shadow-sm" : "text-[#667085] hover:text-[#172033]")}
           >
             Home Collection
           </button>
@@ -71,7 +71,7 @@ export function LabReports() {
           {/* Summary Stats */}
           <div className="flex gap-3 w-full md:w-auto md:min-w-[450px]">
             {summaryStats.map(s => (
-              <div key={s.label} className={cn("flex-1 flex flex-col items-center gap-1 py-3 md:py-4 rounded-2xl border bg-white shadow-sm", s.bg, s.border)}>
+              <div key={s.label} className={cn("flex-1 flex flex-col items-center gap-1 py-3 md:py-4 rounded-2xl border bg-surface shadow-sm", s.bg, s.border)}>
                 <span className={cn("text-[22px] md:text-[28px] font-bold", s.color)}>{s.count}</span>
                 <span className={cn("text-[11px] md:text-[13px] font-semibold text-center leading-tight", s.color)}>{s.label}</span>
               </div>
@@ -86,7 +86,7 @@ export function LabReports() {
                 onClick={() => setActiveFilter(f)}
                 className={cn(
                   "flex-shrink-0 px-4 py-2 md:px-5 md:py-2.5 rounded-xl text-[13px] md:text-[14px] font-semibold transition-colors border",
-                  activeFilter === f ? "bg-primary text-white border-primary shadow-sm" : "bg-white text-[#667085] border-gray-200/60 hover:bg-gray-50"
+                  activeFilter === f ? "bg-primary text-white border-primary shadow-sm" : "bg-surface text-[#667085] border-border/60 hover:bg-gray-50"
                 )}
               >
                 {f}
@@ -117,7 +117,7 @@ export function LabReports() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.96 }}
                     transition={{ delay: i * 0.04 }}
-                    className="bg-white rounded-2xl p-4 md:p-5 border border-gray-100 shadow-sm flex items-center gap-3 md:gap-4 hover:border-primary/20 hover:shadow-md transition-all"
+                    className="bg-surface rounded-2xl p-4 md:p-5 border border-border shadow-sm flex items-center gap-3 md:gap-4 hover:border-primary/20 hover:shadow-md transition-all"
                   >
                     <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary/5 border border-primary/10 flex items-center justify-center shrink-0 overflow-hidden">
                       {report.icon ? (

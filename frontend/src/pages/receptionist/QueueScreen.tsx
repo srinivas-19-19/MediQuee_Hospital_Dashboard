@@ -34,14 +34,14 @@ export function QueueScreen() {
     <div className="flex flex-col bg-gray-50/30 min-h-screen pb-[100px]">
       
       {/* Sticky Header */}
-      <div className="sticky top-0 z-30 bg-white/95 backdrop-blur-xl border-b border-gray-100 shadow-[0_4px_24px_rgba(0,0,0,0.02)] pt-6 pb-2 px-4 flex flex-col gap-5">
+      <div className="sticky top-0 z-30 bg-surface/95 backdrop-blur-xl border-b border-border shadow-[0_4px_24px_rgba(0,0,0,0.02)] pt-6 pb-2 px-4 flex flex-col gap-5">
         <div className="flex items-center gap-3">
           <button onClick={() => navigate('/receptionist')} className="p-2 -ml-2 rounded-xl hover:bg-gray-50 transition-colors">
-            <ArrowLeft className="w-5 h-5 text-gray-800" />
+            <ArrowLeft className="w-5 h-5 text-foreground" />
           </button>
           <div className="flex flex-col">
             <h1 className="text-[20px] font-black text-[#0A1A3D] tracking-tight">{selectedDeptId === 'all' ? 'All Depts' : departments.find(d => d.id === selectedDeptId)?.name || 'All Depts'} Queue</h1>
-            <span className="text-[12px] font-bold text-gray-500">OP Department</span>
+            <span className="text-[12px] font-bold text-muted">OP Department</span>
           </div>
         </div>
         {/* Department Tiles */}
@@ -52,7 +52,7 @@ export function QueueScreen() {
               "px-4 py-1.5 rounded-full text-[13px] font-bold whitespace-nowrap transition-colors border",
               selectedDeptId === 'all'
                 ? "bg-[#0A1A3D] text-white border-[#0A1A3D]" 
-                : "bg-white text-gray-500 border-gray-200 hover:bg-gray-50"
+                : "bg-surface text-muted border-border hover:bg-gray-50"
             )}
           >
             All Depts
@@ -65,7 +65,7 @@ export function QueueScreen() {
                 "px-4 py-1.5 rounded-full text-[13px] font-bold whitespace-nowrap transition-colors border",
                 selectedDeptId === dept.id 
                   ? "bg-[#0A1A3D] text-white border-[#0A1A3D]" 
-                  : "bg-white text-gray-500 border-gray-200 hover:bg-gray-50"
+                  : "bg-surface text-muted border-border hover:bg-gray-50"
               )}
             >
               {dept.name}
@@ -76,19 +76,19 @@ export function QueueScreen() {
         <div className="flex bg-gray-100/80 p-1 rounded-xl">
           <button 
             onClick={() => setActiveTab('WAITING')}
-            className={cn("flex-1 py-2 text-[13px] font-bold rounded-lg transition-all", activeTab === 'WAITING' ? "bg-white text-orange-600 shadow-sm" : "text-[#667085] hover:text-[#172033]")}
+            className={cn("flex-1 py-2 text-[13px] font-bold rounded-lg transition-all", activeTab === 'WAITING' ? "bg-surface text-orange-600 shadow-sm" : "text-[#667085] hover:text-[#172033]")}
           >
             Waiting
           </button>
           <button 
             onClick={() => setActiveTab('IN_CONSULTATION')}
-            className={cn("flex-1 py-2 text-[13px] font-bold rounded-lg transition-all", activeTab === 'IN_CONSULTATION' ? "bg-white text-[#1B5DF1] shadow-sm" : "text-[#667085] hover:text-[#172033]")}
+            className={cn("flex-1 py-2 text-[13px] font-bold rounded-lg transition-all", activeTab === 'IN_CONSULTATION' ? "bg-surface text-[#1B5DF1] shadow-sm" : "text-[#667085] hover:text-[#172033]")}
           >
             In Consult
           </button>
           <button 
             onClick={() => setActiveTab('COMPLETED')}
-            className={cn("flex-1 py-2 text-[13px] font-bold rounded-lg transition-all", activeTab === 'COMPLETED' ? "bg-white text-emerald-600 shadow-sm" : "text-[#667085] hover:text-[#172033]")}
+            className={cn("flex-1 py-2 text-[13px] font-bold rounded-lg transition-all", activeTab === 'COMPLETED' ? "bg-surface text-emerald-600 shadow-sm" : "text-[#667085] hover:text-[#172033]")}
           >
             Completed
           </button>
@@ -106,10 +106,10 @@ export function QueueScreen() {
             }).length} Patients
           </span>
           <div className="flex gap-2">
-            <button className="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-500">
+            <button className="w-8 h-8 rounded-full bg-surface border border-border flex items-center justify-center text-muted">
               <Search className="w-4 h-4" />
             </button>
-            <button className="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-500">
+            <button className="w-8 h-8 rounded-full bg-surface border border-border flex items-center justify-center text-muted">
               <Filter className="w-4 h-4" />
             </button>
           </div>
@@ -131,7 +131,7 @@ export function QueueScreen() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ delay: i * 0.05 }}
-              className="bg-white rounded-[20px] border border-gray-100 shadow-[0_2px_12px_rgba(0,0,0,0.03)] overflow-hidden"
+              className="bg-surface rounded-[20px] border border-border shadow-[0_2px_12px_rgba(0,0,0,0.03)] overflow-hidden"
             >
               <div className="p-4 flex items-center gap-4">
                 <div className={cn(
@@ -146,11 +146,11 @@ export function QueueScreen() {
                 
                 <div className="flex flex-col flex-1">
                   <h3 className="font-bold text-[17px] text-[#0A1A3D]">{item.patientName}</h3>
-                  <p className="text-[13px] font-medium text-gray-500 mt-0.5">{item.doctorName}</p>
+                  <p className="text-[13px] font-medium text-muted mt-0.5">{item.doctorName}</p>
                   <div className="flex items-center gap-2 mt-1 flex-wrap">
                     <div className="flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5 text-gray-400" />
-                      <span className="text-[12px] text-gray-500 font-bold">
+                      <Clock className="w-3.5 h-3.5 text-muted/70" />
+                      <span className="text-[12px] text-muted font-bold">
                         {item.slotTime || item.timeSlot ? `Slot: ${item.slotTime || item.timeSlot}` : `Arr: ${item.arrivalTime}`}
                       </span>
                     </div>
@@ -159,10 +159,10 @@ export function QueueScreen() {
               </div>
               
               {activeTab === 'WAITING' && (
-                <div className="bg-gray-50 px-4 py-3 flex justify-end gap-2 border-t border-gray-100">
+                <div className="bg-gray-50 px-4 py-3 flex justify-end gap-2 border-t border-border">
                   <button 
                     onClick={() => updateStatus(item.id, 'IN_CONSULTATION')}
-                    className="flex-1 bg-white border border-gray-200 text-gray-700 px-4 py-2.5 rounded-xl text-[14px] font-bold flex items-center justify-center gap-2 hover:bg-gray-100 transition-colors"
+                    className="flex-1 bg-surface border border-border text-foreground/80 px-4 py-2.5 rounded-xl text-[14px] font-bold flex items-center justify-center gap-2 hover:bg-gray-100 transition-colors"
                   >
                     Send to Doctor
                   </button>
@@ -189,10 +189,10 @@ export function QueueScreen() {
           )) : (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="py-12 flex flex-col items-center text-center">
               <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                <CheckCircle2 className="w-8 h-8 text-gray-400" />
+                <CheckCircle2 className="w-8 h-8 text-muted/70" />
               </div>
               <h3 className="text-[16px] font-bold text-[#0A1A3D]">Queue is empty</h3>
-              <p className="text-gray-500 text-[13px] font-medium mt-1">No patients in this queue status.</p>
+              <p className="text-muted text-[13px] font-medium mt-1">No patients in this queue status.</p>
             </motion.div>
           );
           })()}

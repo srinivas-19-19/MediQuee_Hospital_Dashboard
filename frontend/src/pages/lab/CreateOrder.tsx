@@ -58,7 +58,7 @@ export function CreateOrder() {
   return (
     <div className="flex flex-col bg-background min-h-screen w-full">
       {/* Header */}
-      <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md pt-4 md:pt-6 pb-3 md:pb-4 px-4 md:px-6 flex items-center gap-4 border-b border-gray-100/50">
+      <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md pt-4 md:pt-6 pb-3 md:pb-4 px-4 md:px-6 flex items-center gap-4 border-b border-border/50">
         <button onClick={step === 1 ? handleBack : prevStep} className="p-2 -ml-2 text-[#172033] rounded-full hover:bg-gray-100 transition-colors">
           <ArrowLeft className="w-5 h-5 md:w-6 md:h-6" />
         </button>
@@ -82,7 +82,7 @@ export function CreateOrder() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               {[
                 { label: 'Patient Name', value: patientName, set: setPatientName, type: 'text', placeholder: 'e.g. Ramesh Kumar', required: true },
-                { label: 'Mobile Number', value: mobile, set: setMobile, type: 'tel', placeholder: 'e.g. 9876543210', required: true },
+                { label: 'Mobile Number', value: mobile, set: setMobile, type: 'tel', placeholder: 'e.g. 8331045500', required: true },
                 { label: 'Email Address', value: email, set: setEmail, type: 'email', placeholder: 'e.g. patient@email.com', required: false },
                 { label: 'Sample Type', value: sampleType, set: setSampleType, type: 'text', placeholder: 'e.g. Blood, Urine', required: false },
               ].map((f, i) => (
@@ -91,7 +91,7 @@ export function CreateOrder() {
                   <input
                     type={f.type} value={f.value} onChange={e => f.set(e.target.value)}
                     placeholder={f.placeholder}
-                    className="px-4 py-3 md:px-5 md:py-3.5 bg-white border border-gray-200/60 rounded-xl md:rounded-2xl outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 text-[15px] md:text-[16px] placeholder:text-[#98A2B3] shadow-sm transition-all"
+                    className="px-4 py-3 md:px-5 md:py-3.5 bg-surface border border-border/60 rounded-xl md:rounded-2xl outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 text-[15px] md:text-[16px] placeholder:text-[#98A2B3] shadow-sm transition-all"
                   />
                 </div>
               ))}
@@ -126,7 +126,7 @@ export function CreateOrder() {
                     onClick={() => toggleTest(t.id)}
                     className={cn(
                       "flex items-center gap-3 md:gap-4 p-4 md:p-5 rounded-2xl border text-left transition-all active:scale-[0.98] hover:shadow-md hover:border-primary/20",
-                      selected ? "bg-primary/5 border-primary shadow-sm" : "bg-white border-gray-200/60 shadow-sm"
+                      selected ? "bg-primary/5 border-primary shadow-sm" : "bg-surface border-border/60 shadow-sm"
                     )}
                   >
                     <div className={cn("w-9 h-9 md:w-12 md:h-12 rounded-xl flex items-center justify-center transition-colors shrink-0 overflow-hidden", selected ? "bg-primary" : "bg-blue-50")}>
@@ -157,7 +157,7 @@ export function CreateOrder() {
           <motion.div key="s3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="flex flex-col gap-4 md:gap-6 px-4 md:px-6 pt-6 md:pt-10 pb-28 max-w-2xl mx-auto w-full">
             <h2 className="text-[16px] md:text-[20px] font-bold text-[#172033]">Review Order</h2>
 
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <div className="bg-surface rounded-2xl border border-border shadow-sm overflow-hidden">
               <div className="px-4 py-3 md:px-6 md:py-4 border-b border-gray-50 bg-gray-50/50">
                 <p className="text-[12px] md:text-[14px] font-bold text-[#667085] uppercase tracking-wide">Patient</p>
               </div>
@@ -171,7 +171,7 @@ export function CreateOrder() {
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <div className="bg-surface rounded-2xl border border-border shadow-sm overflow-hidden">
               <div className="px-4 py-3 md:px-6 md:py-4 border-b border-gray-50 bg-gray-50/50">
                 <p className="text-[12px] md:text-[14px] font-bold text-[#667085] uppercase tracking-wide">Tests ({selectedTestObjs.length})</p>
               </div>
@@ -182,7 +182,7 @@ export function CreateOrder() {
                     <span className="text-[14px] md:text-[16px] text-[#667085]">₹{t.price}</span>
                   </div>
                 ))}
-                <div className="border-t border-gray-100 pt-3 flex justify-between mt-2">
+                <div className="border-t border-border pt-3 flex justify-between mt-2">
                   <span className="text-[14px] md:text-[16px] font-bold text-[#172033]">Total</span>
                   <span className="text-[16px] md:text-[20px] font-bold text-primary">₹{total}</span>
                 </div>
@@ -193,10 +193,10 @@ export function CreateOrder() {
       </AnimatePresence>
 
       {/* Fixed Bottom */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 md:p-6 bg-background/95 backdrop-blur-md border-t border-gray-100/50 pb-safe z-20">
+      <div className="fixed bottom-0 left-0 right-0 p-4 md:p-6 bg-background/95 backdrop-blur-md border-t border-border/50 pb-safe z-20">
         <div className="flex gap-3 md:gap-4 max-w-2xl mx-auto w-full">
           {step > 1 && (
-            <button onClick={prevStep} className="flex-1 bg-white border border-gray-200/60 text-[#172033] font-semibold py-3.5 md:py-4 rounded-xl md:rounded-2xl shadow-sm hover:bg-gray-50 transition-colors">Back</button>
+            <button onClick={prevStep} className="flex-1 bg-surface border border-border/60 text-[#172033] font-semibold py-3.5 md:py-4 rounded-xl md:rounded-2xl shadow-sm hover:bg-gray-50 transition-colors">Back</button>
           )}
           {step < 3 ? (
             <button

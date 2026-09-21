@@ -5,12 +5,10 @@ export function LabHeader() {
   const navigate = useNavigate()
 
   return (
-    <header className="bg-white px-4 pt-10 md:pt-4 pb-3 z-40 flex flex-col md:flex-row md:items-center gap-3 md:gap-6 shrink-0 border-b border-gray-100 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+    <header className="bg-surface px-4 pt-10 md:pt-4 pb-3 z-40 flex flex-col md:flex-row md:items-center gap-3 md:gap-6 shrink-0 border-b border-border shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
       <div className="flex items-center justify-between md:hidden w-full">
         <div className="flex items-center gap-2">
-          <div className="text-primary font-bold text-[20px] flex items-center tracking-tight">
-            MediQuee
-          </div>
+          <img src={import.meta.env.BASE_URL + 'logo.png'} alt="MediQuee" className="h-7 w-auto object-contain" />
           <div className="px-2 py-0.5 bg-emerald-50 text-emerald-700 text-[10px] font-bold rounded-full uppercase tracking-wider border border-emerald-200/60">
             LAB
           </div>
@@ -28,7 +26,7 @@ export function LabHeader() {
 
       {/* Desktop Notification & Profile - Hidden on mobile, shown on desktop right aligned */}
       <div className="hidden md:flex flex-1 justify-end items-center gap-4">
-        <button className="flex items-center justify-between bg-[#F7F8FA] rounded-xl px-3 py-2.5 active:scale-[0.98] transition-transform border border-gray-200/50 min-w-[200px]">
+        <button className="flex items-center justify-between bg-[#F7F8FA] rounded-xl px-3 py-2.5 active:scale-[0.98] transition-transform border border-border/50 min-w-[200px]">
           <div className="flex items-center gap-2">
             <MapPin className="w-[18px] h-[18px] text-[#667085]" />
             <span className="font-semibold text-[14px] text-[#172033]">City Care Diagnostics</span>
@@ -37,7 +35,7 @@ export function LabHeader() {
         </button>
         <button
           onClick={() => navigate('/lab/notifications')}
-          className="relative p-2 text-[#667085] hover:text-[#172033] transition-colors bg-gray-50 rounded-full border border-gray-100"
+          className="relative p-2 text-[#667085] hover:text-[#172033] transition-colors bg-gray-50 rounded-full border border-border"
         >
           <Bell className="w-[20px] h-[20px]" />
           <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#EF4444] rounded-full border border-white" />
@@ -45,7 +43,7 @@ export function LabHeader() {
       </div>
 
       {/* Mobile Location Selector */}
-      <button className="md:hidden flex items-center justify-between w-full bg-[#F7F8FA] rounded-xl px-3 py-2.5 active:scale-[0.98] transition-transform border border-gray-200/50">
+      <button className="md:hidden flex items-center justify-between w-full bg-[#F7F8FA] rounded-xl px-3 py-2.5 active:scale-[0.98] transition-transform border border-border/50">
         <div className="flex items-center gap-2">
           <MapPin className="w-[18px] h-[18px] text-[#667085]" />
           <span className="font-semibold text-[14px] text-[#172033]">City Care Diagnostics</span>

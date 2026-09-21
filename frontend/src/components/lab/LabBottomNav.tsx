@@ -10,7 +10,7 @@ export function LabBottomNav({ onQuickAdd }: { onQuickAdd: () => void }) {
   if (LAB_FORM_ROUTES.some(r => location.pathname.startsWith(r))) return null
 
   return (
-    <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white/85 backdrop-blur-xl border-t border-gray-200/50 pb-[env(safe-area-inset-bottom)] z-50 shadow-[0_-4px_24px_rgba(0,0,0,0.04)]">
+    <div className="md:hidden fixed bottom-0 left-0 right-0 bg-surface/85 backdrop-blur-xl border-t border-border/50 pb-[env(safe-area-inset-bottom)] z-50 shadow-[0_-4px_24px_rgba(0,0,0,0.04)]">
       <div className="flex items-center justify-between px-6 pt-2 pb-2 h-[72px]">
 
         <NavLink

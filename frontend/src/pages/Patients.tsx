@@ -7,6 +7,7 @@ import { Skeleton } from "../components/ui/Skeleton"
 import { useAuth } from "@/context/AuthContext"
 import { doctorApi } from "@/services/doctorApi"
 import { adminApi } from "@/services/adminApi"
+import { useTranslation } from "react-i18next"
 
 interface PatientItem {
   id: string;
@@ -20,6 +21,7 @@ interface PatientItem {
 }
 
 export function Patients() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { role } = useAuth();
 
@@ -101,12 +103,12 @@ export function Patients() {
   }, [patients, searchQuery]);
 
   return (
-    <div className="flex flex-col bg-[#F7F8FA] min-h-[calc(100vh-80px)] pb-24">
+    <div className="flex flex-col bg-background min-h-[calc(100vh-80px)] pb-24 transition-colors">
       {/* Search and Header */}
-      <div className="px-4 pt-3 pb-3 bg-white sticky top-0 z-30 border-b border-gray-100 shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
+      <div className="px-4 pt-3 pb-3 bg-surface sticky top-0 z-30 border-b border-border shadow-sm">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
-            <h1 className="text-[20px] font-black text-[#0A1A3D] tracking-tight">Patients</h1>
+            <h1 className="text-[20px] font-black text-foreground tracking-tight">{t('patients')}</h1>
             <span className="bg-[#EBF5FF] text-[#1B5DF1] text-xs font-bold px-2.5 py-0.5 rounded-full">
               {filteredPatients.length}
             </span>
@@ -114,8 +116,8 @@ export function Patients() {
           <button 
             onClick={loadPatients}
             disabled={isLoading}
-            className="p-2 rounded-xl bg-gray-50 text-gray-500 hover:text-[#1B5DF1] hover:bg-[#EBF5FF] transition-colors"
-            title="Refresh patient list"
+            className="p-2 rounded-xl bg-gray-50 dark:bg-gray-800 text-muted hover:text-primary hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
+            title={t('refresh', 'Refresh')}
           >
             <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin text-[#1B5DF1]' : ''}`} />
           </button>
@@ -130,8 +132,8 @@ export function Patients() {
               type="text" 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search by patient name, phone, or ID..." 
-              className="w-full pl-9 pr-4 py-2.5 bg-gray-50 border border-gray-200/80 rounded-xl outline-none focus:border-[#1B5DF1] focus:ring-2 focus:ring-[#1B5DF1]/20 transition-all text-xs font-medium placeholder:text-gray-400"
+              placeholder={t('search_placeholder', 'Search by patient name, phone, or ID...')} 
+              className="w-full pl-9 pr-4 py-2.5 bg-background border border-border rounded-xl outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-xs font-medium text-foreground placeholder:text-muted"
             />
           </div>
         </div>
@@ -142,7 +144,7 @@ export function Patients() {
         {isLoading ? (
           <div className="flex flex-col gap-3">
             {[1, 2, 3].map((n) => (
-              <div key={n} className="p-4 bg-white rounded-2xl border border-gray-100 flex gap-3">
+              <div key={n} className="p-4 bg-surface rounded-2xl border border-border flex gap-3">
                 <Skeleton className="w-12 h-12 rounded-full" />
                 <div className="flex-1 flex flex-col gap-2">
                   <Skeleton className="w-32 h-5 rounded-md" />
@@ -170,7 +172,7 @@ export function Patients() {
                 key={patient.id}
                 variants={item}
                 onClick={() => navigate(`/patients/${patient.id}`)}
-                className="p-4 bg-white border border-gray-100/90 rounded-[20px] shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-md hover:border-[#1B5DF1]/30 transition-all cursor-pointer group"
+                className="p-4 bg-surface border border-border rounded-[20px] shadow-sm hover:shadow-md hover:border-primary/30 transition-all cursor-pointer group"
               >
                 <div className="flex items-start gap-3.5">
                   <div className="w-11 h-11 rounded-2xl bg-[#EBF5FF] text-[#1B5DF1] flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform font-black text-base">
@@ -179,29 +181,29 @@ export function Patients() {
                   
                   <div className="flex-1 min-w-0">
                     <div className="flex justify-between items-start mb-0.5">
-                      <h3 className="font-bold text-[#0A1A3D] text-[15px] truncate group-hover:text-[#1B5DF1] transition-colors">
+                      <h3 className="font-bold text-foreground text-[15px] truncate group-hover:text-primary transition-colors">
                         {patient.name}
                       </h3>
-                      <span className="text-[10px] font-bold text-gray-500 bg-gray-100 px-2 py-0.5 rounded-md shrink-0">
+                      <span className="text-[10px] font-bold text-muted bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded-md shrink-0">
                         ID: #{patient.displayId}
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-2 text-xs text-gray-500 mb-2">
+                    <div className="flex items-center gap-2 text-xs text-muted mb-2">
                       <span>{patient.age}</span>
-                      <span className="w-1 h-1 rounded-full bg-gray-300" />
+                      <span className="w-1 h-1 rounded-full bg-muted/40" />
                       <span>{patient.gender}</span>
-                      <span className="w-1 h-1 rounded-full bg-gray-300" />
-                      <span className="text-[#1B5DF1] font-semibold truncate max-w-[140px]">{patient.lastCondition}</span>
+                      <span className="w-1 h-1 rounded-full bg-muted/40" />
+                      <span className="text-primary font-semibold truncate max-w-[140px]">{patient.lastCondition}</span>
                     </div>
                     
-                    <div className="flex items-center gap-4 pt-2.5 border-t border-gray-100 text-[11px] text-gray-500">
+                    <div className="flex items-center gap-4 pt-2.5 border-t border-border text-[11px] text-muted">
                       <div className="flex items-center gap-1.5">
-                        <Phone className="w-3.5 h-3.5 text-gray-400" />
+                        <Phone className="w-3.5 h-3.5 text-muted" />
                         <span>{patient.phone}</span>
                       </div>
                       <div className="flex items-center gap-1.5">
-                        <Calendar className="w-3.5 h-3.5 text-gray-400" />
+                        <Calendar className="w-3.5 h-3.5 text-muted" />
                         <span>{patient.lastVisit}</span>
                       </div>
                     </div>

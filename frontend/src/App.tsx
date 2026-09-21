@@ -38,6 +38,8 @@ import { PatientDetail } from "./pages/PatientDetail"
 import { Settings } from "./pages/Settings"
 import { Notifications } from "./pages/Notifications"
 import { Security } from "./pages/Security"
+import { ChangePassword } from "./pages/ChangePassword"
+import { PrivacyPolicy } from "./pages/PrivacyPolicy"
 import { HospitalInfo } from "./pages/profile/HospitalInfo"
 import { StaffManagement } from "./pages/profile/StaffManagement"
 import { StaffList } from "./pages/profile/StaffList"
@@ -86,7 +88,7 @@ function ProtectedRoute({ children }: { children: ReactNode }) {
   
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
       </div>
     );
@@ -191,6 +193,8 @@ function AnimatedRoutes() {
           <Route path="/settings" element={<Settings />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/security" element={<Security />} />
+          <Route path="/security/change-password" element={<ChangePassword />} />
+          <Route path="/security/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/support" element={<HelpSupport />} />
           <Route path="/contact" element={<ContactSupport />} />
         </Route>

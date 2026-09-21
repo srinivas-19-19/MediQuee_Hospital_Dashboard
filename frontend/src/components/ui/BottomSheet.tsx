@@ -50,13 +50,13 @@ export function BottomSheet({ isOpen, onClose, children, className }: BottomShee
               }
             }}
             className={cn(
-              "fixed bottom-0 left-0 right-0 z-[110] bg-white rounded-t-[24px] shadow-2xl flex flex-col max-h-[90vh] pb-safe",
+              "fixed bottom-0 left-0 right-0 z-[110] bg-surface rounded-t-[24px] shadow-2xl flex flex-col max-h-[90vh] pb-safe",
               className
             )}
           >
             {/* Drag Handle */}
             <div className="w-full flex justify-center pt-3 pb-1 cursor-grab active:cursor-grabbing shrink-0">
-              <div className="w-12 h-1.5 bg-gray-200 rounded-full" />
+              <div className="w-12 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full" />
             </div>
             
             {/* Content */}

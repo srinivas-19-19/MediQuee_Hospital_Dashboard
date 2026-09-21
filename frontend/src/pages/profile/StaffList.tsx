@@ -68,13 +68,13 @@ export function StaffList() {
   };
 
   return (
-    <div className="flex flex-col bg-gray-50 min-h-[calc(100vh-80px)]">
-      <div className="sticky top-0 z-30 bg-white pt-4 pb-3 px-4 border-b border-gray-100 flex items-center justify-between">
+    <div className="flex flex-col bg-background min-h-[calc(100vh-80px)]">
+      <div className="sticky top-0 z-30 bg-surface pt-4 pb-3 px-4 border-b border-border flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-gray-500 hover:text-gray-900 transition-colors">
+          <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-muted hover:text-foreground transition-colors">
             <ArrowLeft className="w-5 h-5" />
           </button>
-          <h1 className="text-xl font-bold text-gray-900">{title}</h1>
+          <h1 className="text-xl font-bold text-foreground">{title}</h1>
         </div>
         {hasPermission('staff.create') && (
           <button onClick={handleAddClick} className="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center hover:bg-blue-200 transition-colors">
@@ -86,7 +86,7 @@ export function StaffList() {
       <div className="p-4 flex flex-col gap-4">
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col gap-3">
           {loading ? (
-            <div className="flex justify-center py-10"><span className="text-gray-400">Loading staff...</span></div>
+            <div className="flex justify-center py-10"><span className="text-muted/70">Loading staff...</span></div>
           ) : staff.length === 0 ? (
             <EmptyState
               icon={Users}
@@ -97,17 +97,17 @@ export function StaffList() {
             <div 
               key={member.id} 
               onClick={() => { setSelectedStaff(member); setIsProfileOpen(true); }}
-              className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex items-center gap-4 cursor-pointer interactive-element"
+              className="bg-surface p-4 rounded-xl border border-border shadow-sm flex items-center gap-4 cursor-pointer interactive-element"
             >
               <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center shrink-0 overflow-hidden">
                 {member.avatar
                   ? <img src={member.avatar} alt={member.name} className="w-full h-full object-cover" />
-                  : <Users className="w-5 h-5 text-gray-400" />
+                  : <Users className="w-5 h-5 text-muted/70" />
                 }
               </div>
               <div className="flex flex-col flex-1">
-                <span className="font-bold text-gray-900">{member.name}</span>
-                <span className="text-xs text-gray-500">{member.department?.name || member.designation}</span>
+                <span className="font-bold text-foreground">{member.name}</span>
+                <span className="text-xs text-muted">{member.department?.name || member.designation}</span>
               </div>
             </div>
           ))}
@@ -125,7 +125,7 @@ export function StaffList() {
                 }
               </div>
               <div className="flex flex-col items-center">
-                <h2 className="text-xl font-bold text-gray-900">{selectedStaff.name}</h2>
+                <h2 className="text-xl font-bold text-foreground">{selectedStaff.name}</h2>
                 <span className="text-sm text-primary font-medium">{selectedStaff.department?.name || selectedStaff.designation || selectedStaff.role}</span>
                 {selectedStaff.active && (
                   <div className="flex items-center gap-1 mt-2 text-success text-[12px] font-semibold bg-green-50 px-2 py-0.5 rounded-full">
@@ -137,46 +137,46 @@ export function StaffList() {
             </div>
 
             <div className="flex flex-col gap-4">
-              <div className="bg-gray-50 rounded-2xl p-4 flex flex-col gap-3">
+              <div className="bg-background rounded-2xl p-4 flex flex-col gap-3">
                 <div className="flex items-center gap-3 text-sm">
-                  <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-sm">
-                    <Mail className="w-4 h-4 text-gray-500" />
+                  <div className="w-8 h-8 rounded-full bg-surface flex items-center justify-center shadow-sm">
+                    <Mail className="w-4 h-4 text-muted" />
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-xs text-gray-500 font-medium">Email</span>
-                    <span className="font-semibold text-gray-900 truncate">{selectedStaff.email}</span>
+                    <span className="text-xs text-muted font-medium">Email</span>
+                    <span className="font-semibold text-foreground truncate">{selectedStaff.email}</span>
                   </div>
                 </div>
                 
                 <div className="flex items-center gap-3 text-sm">
-                  <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-sm">
-                    <Phone className="w-4 h-4 text-gray-500" />
+                  <div className="w-8 h-8 rounded-full bg-surface flex items-center justify-center shadow-sm">
+                    <Phone className="w-4 h-4 text-muted" />
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-xs text-gray-500 font-medium">Mobile</span>
-                    <span className="font-semibold text-gray-900">{selectedStaff.phone}</span>
+                    <span className="text-xs text-muted font-medium">Mobile</span>
+                    <span className="font-semibold text-foreground">{selectedStaff.phone}</span>
                   </div>
                 </div>
 
                 {selectedStaff.department && (
                   <div className="flex items-center gap-3 text-sm">
-                    <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-sm">
-                      <Briefcase className="w-4 h-4 text-gray-500" />
+                    <div className="w-8 h-8 rounded-full bg-surface flex items-center justify-center shadow-sm">
+                      <Briefcase className="w-4 h-4 text-muted" />
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-xs text-gray-500 font-medium">Department</span>
-                      <span className="font-semibold text-gray-900">{selectedStaff.department.name}</span>
+                      <span className="text-xs text-muted font-medium">Department</span>
+                      <span className="font-semibold text-foreground">{selectedStaff.department.name}</span>
                     </div>
                   </div>
                 )}
                 
                 <div className="flex items-center gap-3 text-sm">
-                  <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-sm">
-                    <Calendar className="w-4 h-4 text-gray-500" />
+                  <div className="w-8 h-8 rounded-full bg-surface flex items-center justify-center shadow-sm">
+                    <Calendar className="w-4 h-4 text-muted" />
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-xs text-gray-500 font-medium">Joined On</span>
-                    <span className="font-semibold text-gray-900">
+                    <span className="text-xs text-muted font-medium">Joined On</span>
+                    <span className="font-semibold text-foreground">
                       {new Date(selectedStaff.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
                     </span>
                   </div>
@@ -188,7 +188,7 @@ export function StaffList() {
               {hasPermission('staff.update') && (
                 <button 
                   onClick={() => navigate(`/edit-staff/${selectedStaff.id}`)}
-                  className="flex-1 bg-white border border-gray-200 text-gray-900 font-semibold py-3 rounded-xl hover:bg-gray-50 transition-colors shadow-sm"
+                  className="flex-1 bg-surface border border-border text-foreground font-semibold py-3 rounded-xl hover:bg-background transition-colors shadow-sm"
                 >
                   Edit Profile
                 </button>

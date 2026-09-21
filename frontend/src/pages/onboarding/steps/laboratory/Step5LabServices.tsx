@@ -41,7 +41,7 @@ export function Step5LabServices() {
               className={`flex flex-col items-center justify-center gap-2 p-3 rounded-2xl border-2 transition-all relative min-h-[96px] ${
                 isSelected 
                   ? 'border-[#1769E0] bg-[#1769E0]/5 shadow-sm shadow-[#1769E0]/10' 
-                  : 'border-gray-200 bg-white hover:border-gray-300'
+                  : 'border-border bg-surface hover:border-gray-300'
               }`}
             >
               {isSelected && (
@@ -50,7 +50,7 @@ export function Step5LabServices() {
                 </div>
               )}
               <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors ${
-                isSelected ? 'bg-[#1769E0] text-white' : 'bg-gray-100 text-gray-400'
+                isSelected ? 'bg-[#1769E0] text-white' : 'bg-gray-100 text-muted/70'
               }`}>
                 <TestTube className="w-4 h-4" />
               </div>
