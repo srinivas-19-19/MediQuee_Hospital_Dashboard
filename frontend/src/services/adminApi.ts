@@ -234,6 +234,24 @@ export const adminApi = {
   },
 
   /**
+   * POST /api/v1/hospital/inquiries
+   * Submits a platform inquiry / demo request to Admin.
+   */
+  async requestInquiry(payload: { subject: string; message: string; contactPerson?: string; contactPhone?: string; contactEmail?: string }): Promise<any> {
+    const res = await fetch(`${API_URL}/api/v1/hospital/inquiries`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+      const error = await res.json().catch(() => ({}));
+      throw new Error(error.error?.message || error.message || 'Failed to submit inquiry');
+    }
+    const data = await res.json();
+    return data.data;
+  },
+
+  /**
    * GET /api/v1/hospital/requests
    * Retrieves hospital marketing and medical camp request history.
    */
